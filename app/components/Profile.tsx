@@ -5,7 +5,7 @@ import { useState } from "react";
 interface SocialLink {
   platform: string;
   handle: string;
-  followers: string;
+  followers: number;
   icon: string;
 }
 
@@ -20,11 +20,24 @@ export default function LinktreeProfile() {
   const [activeTab, setActiveTab] = useState<"feed" | "reviews" | "shop">("feed");
 
   const socialLinks: SocialLink[] = [
-    { platform: "youtube", handle: "@youtube", followers: "105K", icon: "▶️" },
-    { platform: "tiktok", handle: "@tiktok", followers: "1.5M", icon: "🎵" },
-    { platform: "twitter", handle: "@twitter", followers: "215K", icon: "𝕏" },
-    { platform: "soundcloud", handle: "@soundcloud", followers: "10K", icon: "🎵" },
+    { platform: "youtube", handle: "@youtube", followers: 105000, icon: "▶️" },
+    { platform: "tiktok", handle: "@tiktok", followers: 1500000, icon: "🎵" },
+    { platform: "twitter", handle: "@twitter", followers: 215000, icon: "𝕏" },
+    { platform: "soundcloud", handle: "@soundcloud", followers: 10000, icon: "🎵" },
   ];
+
+  // Sort social links by follower count from highest to lowest
+  const sortedSocialLinks = [...socialLinks].sort((a, b) => b.followers - a.followers);
+
+  // Function to format follower count with K or M
+  const formatFollowers = (followers: number): string => {
+    if (followers >= 1000000) {
+      return (followers / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
+    } else if (followers >= 1000) {
+      return (followers / 1000).toFixed(1).replace(/\.0$/, "") + "K";
+    }
+    return followers.toString();
+  };
 
   const posts: Post[] = [
     { time: "Today 15:35", content: "All about Avalanche Card!", platform: "youtube", icon: "▶️" },
@@ -72,7 +85,7 @@ export default function LinktreeProfile() {
 
             {/* Social Media Links */}
             <div className="space-y-3">
-              {socialLinks.slice(0, 3).map((link, index) => (
+              {sortedSocialLinks.slice(0, 3).map((link, index) => (
                 <div
                   key={index}
                   className="flex justify-between items-center p-3 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-300 cursor-pointer group">
@@ -80,7 +93,7 @@ export default function LinktreeProfile() {
                     <span className="text-lg group-hover:scale-110 transition-transform">{link.icon}</span>
                     <span className="text-gray-900 font-semibold text-sm">{link.handle}</span>
                   </div>
-                  <span className="text-gray-600 font-medium text-sm">{link.followers} followers</span>
+                  <span className="text-gray-600 font-medium text-sm">{formatFollowers(link.followers)} followers</span>
                 </div>
               ))}
               <div className="text-center text-gray-500 text-sm">...</div>
@@ -142,7 +155,7 @@ export default function LinktreeProfile() {
 
             {/* Social Media Links */}
             <div className="space-y-2">
-              {socialLinks.map((link, index) => (
+              {sortedSocialLinks.map((link, index) => (
                 <div
                   key={index}
                   className="flex justify-between items-center p-2 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-300 cursor-pointer group">
@@ -150,7 +163,7 @@ export default function LinktreeProfile() {
                     <span className="text-lg group-hover:scale-110 transition-transform">{link.icon}</span>
                     <span className="text-gray-900 font-semibold text-sm">{link.handle}</span>
                   </div>
-                  <span className="text-gray-600 font-medium text-xs">{link.followers} followers</span>
+                  <span className="text-gray-600 font-medium text-xs">{formatFollowers(link.followers)} followers</span>
                 </div>
               ))}
             </div>

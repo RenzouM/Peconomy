@@ -1,6 +1,6 @@
 "use client";
 
-import LinktreeProfile from "./components/LinktreeProfile";
+import Profile from "./components/Profile";
 import PeconomyOperations from "./components/PeconomyOperations";
 import { useState } from "react";
 
@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {!showOperations ? (
-        <LinktreeProfile />
+        <Profile />
       ) : (
         <div className="relative">
           <button
