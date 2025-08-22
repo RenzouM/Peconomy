@@ -50,7 +50,7 @@ export default function LinktreeProfile() {
   const savedUsers = ["@user5", "@user6", "@user7", "@user8"];
 
   return (
-    <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100flex items-center justify-center">
+    <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
       {/* Screen Container */}
       <div className="w-full h-full  bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200 flex flex-col">
         {/* Mobile Layout */}

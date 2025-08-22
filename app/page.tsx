@@ -13,11 +13,6 @@ export default function Home() {
         <Profile />
       ) : (
         <div className="relative">
-          <button
-            onClick={() => setShowOperations(false)}
-            className="absolute top-6 -left-34 z-10 bg-gradient-to-r from-gray-900 to-gray-800 text-white px-6 py-3 rounded-2xl hover:from-gray-800 hover:to-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer font-semibold text-lg">
-            ← Volver
-          </button>
           <PeconomyOperations />
         </div>
       )}
