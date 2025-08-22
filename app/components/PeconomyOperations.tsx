@@ -99,18 +99,18 @@ export default function PeconomyOperations() {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 flex items-center justify-center">
+    <div className="bg-gradient-to-br from-gray-50 to-gray-100  flex items-center justify-center">
       {/* Screen Container */}
-      <div className="w-full h-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200 flex flex-col">
+      <div className="w-full h-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200 flex flex-col">
         <div className="p-6 flex-1 overflow-y-auto">
           <main className="flex flex-col h-full space-y-4">
-            <div className="flex justify-between items-start mb-8">
+            <div className="flex justify-between items-start mb-4">
               <img
                 src="/logo.png"
                 alt="Peconomy"
-                className="w-16 h-16"
+                className="w-12 h-12"
               />
-              <h1 className="text-5xl my-auto me-auto ms-2 font-bold text-red-600 bg-gradient-to-r from-red-500 to-red-700 bg-clip-text">Peconomy</h1>
+              <h1 className="text-3xl my-auto me-auto ms-2 font-bold text-red-600 bg-gradient-to-r from-red-500 to-red-700 bg-clip-text">Peconomy</h1>
 
               <div className="text-right">
                 {!authenticated ? (
@@ -143,15 +143,15 @@ export default function PeconomyOperations() {
             )}
 
             {/* Form Section - Private Vault */}
-            <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-3xl shadow-2xl border border-gray-200">
-              <h2 className="text-3xl font-bold mb-4 text-center text-gray-900 w-full">Private Vault 🔑</h2>
-              <div className="flex justify-evenly">
-                <div className="grid grid-cols-3 w-1/2 gap-2 p-4 justify-center items-center">
+            <div className="mt-4">
+              <h2 className="text-3xl font-bold mb-4  text-gray-900 w-full">Private Vault 🔑</h2>
+              <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-3xl shadow-2xl border border-gray-200 flex justify-evenly">
+                <div className="grid grid-cols-2 w-1/3 gap-2 px-2 justify-center items-center">
                   <div className="flex gap-2 items-center text-black font-bold text-2xl border border-gray-300 p-2 rounded-xl bg-gray-100">
                     <img
                       src="/nft2.png"
                       alt="eNFT 1"
-                      className="w-14 h-14"
+                      className="w-8 h-8"
                     />{" "}
                     <p>eNFT</p>
                   </div>{" "}
@@ -159,7 +159,7 @@ export default function PeconomyOperations() {
                     <img
                       src="/nft1.png"
                       alt="eNFT 100"
-                      className="w-14 h-14"
+                      className="w-8 h-8"
                     />{" "}
                     <p>eNFT</p>
                   </div>{" "}
@@ -167,7 +167,7 @@ export default function PeconomyOperations() {
                     <img
                       src="/nft.png"
                       alt="eNFT 1000"
-                      className="w-14 h-14"
+                      className="w-8 h-8"
                     />{" "}
                     <p>eNFT</p>
                   </div>{" "}
@@ -175,7 +175,7 @@ export default function PeconomyOperations() {
                     <img
                       src="/usdc.png"
                       alt="eUSDC"
-                      className="w-14 h-14"
+                      className="w-8 h-8"
                     />{" "}
                     <p>eUSDC</p>
                   </div>{" "}
@@ -183,12 +183,57 @@ export default function PeconomyOperations() {
                     <img
                       src="/logo.png"
                       alt="Peconomy"
-                      className="w-14 h-14"
+                      className="w-8 h-8"
                     />{" "}
                     <p>PECO</p>
                   </div>
                 </div>
-                <div className="grid ">
+                <div className="grid w-1/5">
+                  <p className="text-center text-gray-700 font-bold text-2xl">Swap</p>
+                  <div className="w-full ps-2 flex border border-gray-300 rounded-xl bg-gray-300 h-14">
+                    <div className="w-1/4 p-2 flex items-center">
+                      <img
+                        src="/nft2.png"
+                        alt="eNFT"
+                        className="w-8 h-8"
+                      />
+                    </div>
+                    <div className="w-full p-2">
+                      <input
+                        type="text"
+                        value={publicVaultAmount}
+                        onChange={e => handleAmountChange(e, setPublicVaultAmount)}
+                        className="w-full h-full text-black"
+                        placeholder="0"
+                      />
+                    </div>
+                  </div>
+                  <p className="text-center">⬇️</p>
+                  <div className="w-full ps-2 flex border border-gray-300 rounded-xl bg-gray-300 h-14">
+                    <div className="w-1/4 p-2 flex items-center">
+                      <img
+                        src="/logo.png"
+                        alt="eNFT"
+                        className="w-8 h-8"
+                      />
+                    </div>
+                    <div className="w-full p-2">
+                      <input
+                        type="text"
+                        value={publicVaultAmount}
+                        onChange={e => handleAmountChange(e, setPublicVaultAmount)}
+                        className="w-full h-full text-black"
+                        placeholder="0"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    onClick={handlePrivateTransfer}
+                    className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer text-base h-14 mt-auto">
+                    Swap
+                  </button>
+                </div>
+                <div className="grid w-1/3">
                   <div className="flex mb-6 gap-2">
                     <div className="w-full">
                       <label className="block text-sm font-semibold text-gray-800 mb-2 text-center">To</label>
@@ -243,15 +288,15 @@ export default function PeconomyOperations() {
             </div>
 
             {/* Form Section - Public Vault */}
-            <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-3xl shadow-2xl border border-gray-200">
-              <h2 className="text-3xl font-bold mb-4 text-center text-gray-900">Public Vault 🌐</h2>
-              <div className="flex justify-evenly">
-                <div className="grid grid-cols-3 w-1/2 gap-2 p-4 justify-center items-center">
+            <div className="mt-4">
+              <h2 className="text-3xl font-bold mb-4 text-gray-900">Public Vault 🌐</h2>
+              <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-3xl shadow-2xl border border-gray-200 flex justify-evenly">
+                <div className="grid grid-cols-2 w-1/3 gap-2 justify-center items-center">
                   <div className="flex gap-2 items-center text-black font-bold text-2xl border border-gray-300 p-2 rounded-xl bg-gray-100">
                     <img
                       src="/nft2.png"
                       alt="NFT 1"
-                      className="w-14 h-14"
+                      className="w-8 h-8"
                     />{" "}
                     <p>NFT</p>
                   </div>{" "}
@@ -259,7 +304,7 @@ export default function PeconomyOperations() {
                     <img
                       src="/nft1.png"
                       alt="NFT 100"
-                      className="w-14 h-14"
+                      className="w-8 h-8"
                     />{" "}
                     <p>NFT</p>
                   </div>{" "}
@@ -267,7 +312,7 @@ export default function PeconomyOperations() {
                     <img
                       src="/nft.png"
                       alt="NFT 1000"
-                      className="w-14 h-14"
+                      className="w-8 h-8"
                     />{" "}
                     <p>NFT</p>
                   </div>{" "}
@@ -275,12 +320,12 @@ export default function PeconomyOperations() {
                     <img
                       src="/usdc.png"
                       alt="USDC"
-                      className="w-14 h-14"
+                      className="w-8 h-8"
                     />{" "}
                     <p>USDC</p>
                   </div>{" "}
                 </div>
-                <div className="grid">
+                <div className="grid w-1/3">
                   <div className="flex mb-6 gap-2">
                     <div className="w-full">
                       <label className="block text-sm font-semibold text-gray-800 mb-2 text-center">To</label>
