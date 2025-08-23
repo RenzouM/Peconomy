@@ -138,7 +138,7 @@ export default function PeconomyOperations() {
           </div>
         )}
 
-        <div className="space-x-8 flex justify-evenly">
+        <div className="space-x-8 flex overflow-hidden rounded-xl">
           {/* Private Vault Section */}
           <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-3xl shadow-xl border border-blue-200">
             <div className="flex items-center space-x-3 mb-6">
@@ -152,11 +152,11 @@ export default function PeconomyOperations() {
                 <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Available Assets</h3>
                 <div className="grid grid-cols-3 gap-3">
                   {[
-                    { icon: "/nft2.png", name: "eNFT", value: "1" },
+                    { icon: "/nft2.png", name: "eNFT", value: "100" },
                     { icon: "/nft1.png", name: "eNFT", value: "100" },
-                    { icon: "/nft.png", name: "eNFT", value: "1000" },
-                    { icon: "/usdc.png", name: "eUSDC", value: "1" },
-                    { icon: "/logo.png", name: "PECO", value: "1" },
+                    { icon: "/nft.png", name: "eNFT", value: "100" },
+                    { icon: "/usdc.png", name: "eUSDC", value: "100" },
+                    { icon: "/logo.png", name: "PECO", value: "100" },
                   ].map((asset, index) => (
                     <div
                       key={index}
@@ -295,10 +295,10 @@ export default function PeconomyOperations() {
                 <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Available Assets</h3>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { icon: "/nft2.png", name: "NFT", value: "1" },
+                    { icon: "/nft2.png", name: "NFT", value: "100" },
                     { icon: "/nft1.png", name: "NFT", value: "100" },
-                    { icon: "/nft.png", name: "NFT", value: "1000" },
-                    { icon: "/usdc.png", name: "USDC", value: "" },
+                    { icon: "/nft.png", name: "NFT", value: "100" },
+                    { icon: "/usdc.png", name: "USDC", value: "100" },
                   ].map((asset, index) => (
                     <div
                       key={index}
@@ -364,6 +364,24 @@ export default function PeconomyOperations() {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="flex w-[300px] text-black">
+            <div className="flex flex-col w-full space-y-4">
+              <div className="grid w-[300px] rounded-xl bg-blue-200 p-4">
+                <p className="text-lg font-bold">PRIVATE VAULT</p>
+                <p>Your balance and transactions are visible only to you</p>
+              </div>
+              <div className="grid w-[300px] rounded-xl bg-green-200 p-4">
+                <p className="text-lg font-bold">PUBLIC VAULT</p>
+                <p>Your balance and transactions are visible to everyone</p>
+              </div>
+            </div>
+
+            <img
+              src="/logo.png"
+              alt="PECO"
+              className="w-[250px] h-[250px] right-24 relative right-[100px] bottom-[-500px] scale-200"
+            />
           </div>
         </div>
       </div>
