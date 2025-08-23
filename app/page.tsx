@@ -1,7 +1,7 @@
 "use client";
 
 import Profile from "./components/Profile";
-import PeconomyOperations from "./components/PeconomyOperations";
+import PeconomyVaults from "./components/PeconomyVaults";
 import { useState } from "react";
 
 export default function Home() {
@@ -13,7 +13,7 @@ export default function Home() {
         <Profile />
       ) : (
         <div className="relative">
-          <PeconomyOperations />
+          <PeconomyVaults />
         </div>
       )}
 

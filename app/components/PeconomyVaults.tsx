@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { createPublicClient, http } from "viem";
 import { avalancheFuji } from "viem/chains";
 
-export default function PeconomyOperations() {
+export default function PeconomyVaults() {
   const { login, logout, authenticated, user, ready } = usePrivy();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -138,7 +138,7 @@ export default function PeconomyOperations() {
           </div>
         )}
 
-        <div className="space-x-8 flex overflow-hidden rounded-xl">
+        <div className="space-x-8 flex">
           {/* Private Vault Section */}
           <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-3xl shadow-xl border border-blue-200">
             <div className="flex items-center space-x-3 mb-6">
@@ -241,9 +241,21 @@ export default function PeconomyOperations() {
               {/* Operations */}
               <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-200">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Operations</h3>
-                <div className="space-y-4">
-                  <div className="space-y-3">
-                    <label className="block text-sm font-semibold text-gray-700">Amount</label>
+                <div className="space-y-4 grid">
+                  <div className="flex gap-4 w-full">
+                    <label className="text-sm font-semibold text-gray-700 my-auto">To</label>
+                    <div className="flex items-center w-full">
+                      <input
+                        type="text"
+                        value={privateVaultAmount}
+                        onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
+                        className="py-2 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black"
+                        placeholder="0"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-4 justify-center">
+                    <label className="block text-sm font-semibold text-gray-700 my-auto">Amount</label>
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleDecrement(setPrivateVaultAmount)}
@@ -254,7 +266,7 @@ export default function PeconomyOperations() {
                         type="text"
                         value={privateVaultAmount}
                         onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
+                        className="py-2 w-24 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black"
                         placeholder="0"
                       />
                       <button
@@ -321,42 +333,54 @@ export default function PeconomyOperations() {
               <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-200">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Operations</h3>
                 <div className="space-y-4">
-                  <div className="space-y-3">
-                    <label className="block text-sm font-semibold text-gray-700">Amount</label>
+                  <div className="flex gap-4 w-full">
+                    <label className="text-sm font-semibold text-gray-700 my-auto">To</label>
+                    <div className="flex items-center w-full">
+                      <input
+                        type="text"
+                        value={privateVaultAmount}
+                        onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
+                        className="py-2 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black"
+                        placeholder="0"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-4  justify-center">
+                    <label className="block text-sm font-semibold text-gray-700 my-auto">Amount</label>
                     <div className="flex items-center space-x-2">
                       <button
-                        onClick={() => handleDecrement(setPublicVaultAmount)}
+                        onClick={() => handleDecrement(setPrivateVaultAmount)}
                         className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-lg transition-colors">
                         -
                       </button>
                       <input
                         type="text"
-                        value={publicVaultAmount}
-                        onChange={e => handleAmountChange(e, setPublicVaultAmount)}
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center"
+                        value={privateVaultAmount}
+                        onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
+                        className="py-2 border w-24 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black"
                         placeholder="0"
                       />
                       <button
-                        onClick={() => handleIncrement(setPublicVaultAmount)}
+                        onClick={() => handleIncrement(setPrivateVaultAmount)}
                         className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-lg transition-colors">
                         +
                       </button>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 gap-3">
+                  <div className="space-y-3">
                     <button
-                      onClick={handleEncrypt}
+                      onClick={handlePrivateDecrypt}
                       className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white">
                       Encrypt
                     </button>
                     <button
-                      onClick={handleTransfer}
+                      onClick={handlePrivateTransfer}
                       className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white">
                       Transfer
                     </button>
                     <button
-                      onClick={handleBuy}
+                      onClick={handlePrivateTransfer}
                       className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white">
                       Buy
                     </button>
@@ -369,11 +393,12 @@ export default function PeconomyOperations() {
             <div className="flex flex-col w-full space-y-4">
               <div className="grid w-[300px] rounded-xl bg-blue-200 p-4">
                 <p className="text-lg font-bold">PRIVATE VAULT</p>
-                <p>Your balance and transactions are visible only to you</p>
+                <p>Your balance and transactions are totaly private 🔒</p>
+                <p>Only you can see your balance and transactions.</p>
               </div>
               <div className="grid w-[300px] rounded-xl bg-green-200 p-4">
                 <p className="text-lg font-bold">PUBLIC VAULT</p>
-                <p>Your balance and transactions are visible to everyone</p>
+                <p>Your balance and transactions are public 🌐</p>
               </div>
             </div>
 
