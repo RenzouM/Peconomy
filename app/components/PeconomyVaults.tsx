@@ -15,6 +15,9 @@ export default function PeconomyVaults() {
   const [privateVaultAmount, setPrivateVaultAmount] = useState<string>("");
   const [publicVaultAmount, setPublicVaultAmount] = useState<string>("");
 
+  // Tab state
+  const [activeTab, setActiveTab] = useState<"private" | "public">("private");
+
   const publicClient = createPublicClient({
     chain: avalancheFuji,
     transport: http("https://api.avax-test.network/ext/bc/C/rpc"),
@@ -99,7 +102,7 @@ export default function PeconomyVaults() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-50 to-gray-100 w-full mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200">
+    <div className="bg-gradient-to-br from-gray-50 to-gray-100 w-full mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200 font-inter relative h-full flex-1">
       {/* Main Container */}
       {/* Header Section */}
       <div className=" p-4 border-b border-gray-200">
@@ -110,7 +113,7 @@ export default function PeconomyVaults() {
               alt="Peconomy"
               className="w-12 h-12 drop-shadow-lg"
             />
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">Peconomy</h1>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent tracking-tight">Peconomy</h1>
           </div>
 
           <div className="text-right">
@@ -138,37 +141,52 @@ export default function PeconomyVaults() {
           </div>
         )}
 
-        <div className="space-x-8 flex">
+        {/* Tabs */}
+        <div className="mb-6">
+          <div className="flex space-x-1 bg-gray-100 p-1 rounded-xl">
+            <button
+              onClick={() => setActiveTab("private")}
+              className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 ${activeTab === "private" ? "bg-white text-blue-600 shadow-sm" : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"}`}>
+              🔑 Private Vault
+            </button>
+            <button
+              onClick={() => setActiveTab("public")}
+              className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 ${activeTab === "public" ? "bg-white text-blue-600 shadow-sm" : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"}`}>
+              🌐 Public Vault
+            </button>
+          </div>
+        </div>
+
+        <div className="w-full flex">
           {/* Private Vault Section */}
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-3xl shadow-xl border border-blue-200">
-            <div className="flex items-center space-x-3 mb-6">
-              <h2 className="text-3xl font-bold text-gray-900">Private Vault</h2>
-              <span className="text-2xl">🔑</span>
+          <div className={`bg-gradient-to-br from-blue-50 to-indigo-100 p-4 rounded-3xl shadow-xl border border-blue-200 ${activeTab === "private" ? "block" : "hidden"}`}>
+            <div className="flex items-center space-x-3 mb-3">
+              <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Private Vault</h2>
+              <span className="text-xl">🔑</span>
             </div>
 
-            <div className="grid grid-cols-2  gap-6">
+            <div className="grid grid-cols-2 gap-4">
               {/* Asset Display */}
-              <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-200 col-span-2">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Available Assets</h3>
-                <div className="grid grid-cols-3 gap-3">
+              <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200 col-span-2">
+                <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Available Assets</h3>
+                <div className="grid grid-cols-4 gap-2">
                   {[
+                    { icon: "/peconft.png", name: "pNFT", value: "100" },
                     { icon: "/nft2.png", name: "eNFT", value: "100" },
-                    { icon: "/nft1.png", name: "eNFT", value: "100" },
-                    { icon: "/nft.png", name: "eNFT", value: "100" },
                     { icon: "/usdc.png", name: "eUSDC", value: "100" },
                     { icon: "/logo.png", name: "PECO", value: "100" },
                   ].map((asset, index) => (
                     <div
                       key={index}
-                      className="flex items-center space-x-2 p-3 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
+                      className="flex flex-col items-center space-y-1 p-2 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
                       <img
                         src={asset.icon}
                         alt={asset.name}
-                        className="w-8 h-8"
+                        className="w-6 h-6"
                       />
-                      <div className="flex-1">
-                        <p className="font-semibold text-gray-800">{asset.name}</p>
-                        {asset.value && <p className="text-sm text-gray-600">{asset.value}</p>}
+                      <div className="text-center">
+                        <p className="text-xs font-semibold text-gray-800">{asset.name}</p>
+                        {asset.value && <p className="text-xs text-gray-600">{asset.value}</p>}
                       </div>
                     </div>
                   ))}
@@ -176,30 +194,30 @@ export default function PeconomyVaults() {
               </div>
 
               {/* Swap Interface */}
-              <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Swap Interface</h3>
-                <div className="space-y-4">
-                  <div className="bg-gray-50 px-4 py-2 rounded-xl border border-gray-200">
-                    <div className="flex items-center space-x-3">
+              <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Swap Interface</h3>
+                <div className="space-y-2">
+                  <div className="bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200">
+                    <div className="flex items-center space-x-2">
                       <img
                         src="/nft2.png"
                         alt="From"
-                        className="w-10 h-10"
+                        className="w-8 h-8"
                       />
                       <input
                         type="text"
                         value={privateVaultAmount}
                         onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
-                        className="flex-1 px-3 py-2 text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="flex-1 px-2 py-1 text-black text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="0"
                       />
                     </div>
                   </div>
 
                   <div className="flex justify-center">
-                    <div className="bg-blue-500 text-white p-2 rounded-full">
+                    <div className="bg-blue-500 text-white p-1.5 rounded-full">
                       <svg
-                        className="w-4 h-4"
+                        className="w-3 h-3"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24">
@@ -213,18 +231,18 @@ export default function PeconomyVaults() {
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 px-4 py-2 rounded-xl border border-gray-200">
-                    <div className="flex items-center space-x-3">
+                  <div className="bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200">
+                    <div className="flex items-center space-x-2">
                       <img
                         src="/logo.png"
                         alt="To"
-                        className="w-10 h-10"
+                        className="w-8 h-8"
                       />
                       <input
                         type="text"
                         value={privateVaultAmount}
                         onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
-                        className="flex-1 px-3 py-2 text-black  rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="flex-1 px-2 py-1 text-black text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="0"
                       />
                     </div>
@@ -232,60 +250,60 @@ export default function PeconomyVaults() {
 
                   <button
                     onClick={handlePrivateTransfer}
-                    className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white">
+                    className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
                     Execute Swap
                   </button>
                 </div>
               </div>
 
               {/* Operations */}
-              <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Operations</h3>
-                <div className="space-y-4 grid">
-                  <div className="flex gap-4 w-full">
-                    <label className="text-sm font-semibold text-gray-700 my-auto">To</label>
+              <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Operations</h3>
+                <div className="space-y-2">
+                  <div className="flex gap-2 w-full">
+                    <label className="text-xs font-semibold text-gray-700 my-auto">To</label>
                     <div className="flex items-center w-full">
                       <input
                         type="text"
                         value={privateVaultAmount}
                         onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
-                        className="py-2 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black"
+                        className="py-1 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
                         placeholder="0"
                       />
                     </div>
                   </div>
-                  <div className="flex gap-4 justify-center">
-                    <label className="block text-sm font-semibold text-gray-700 my-auto">Amount</label>
-                    <div className="flex items-center space-x-2">
+                  <div className="flex gap-2 justify-center">
+                    <label className="block text-xs font-semibold text-gray-700 my-auto">Amount</label>
+                    <div className="flex items-center space-x-1">
                       <button
                         onClick={() => handleDecrement(setPrivateVaultAmount)}
-                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-lg transition-colors">
+                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
                         -
                       </button>
                       <input
                         type="text"
                         value={privateVaultAmount}
                         onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
-                        className="py-2 w-24 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black"
+                        className="py-1 w-20 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
                         placeholder="0"
                       />
                       <button
                         onClick={() => handleIncrement(setPrivateVaultAmount)}
-                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-lg transition-colors">
+                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
                         +
                       </button>
                     </div>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <button
                       onClick={handlePrivateDecrypt}
-                      className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white">
+                      className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
                       Decrypt
                     </button>
                     <button
                       onClick={handlePrivateTransfer}
-                      className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white">
+                      className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
                       Transfer
                     </button>
                   </div>
@@ -295,34 +313,32 @@ export default function PeconomyVaults() {
           </div>
 
           {/* Public Vault Section */}
-          <div className="bg-gradient-to-br from-green-50 to-emerald-100 p-6 rounded-3xl shadow-xl border border-green-200">
-            <div className="flex items-center space-x-3 mb-6">
-              <h2 className="text-3xl font-bold text-gray-900">Public Vault</h2>
-              <span className="text-2xl">🌐</span>
+          <div className={`bg-gradient-to-br from-green-50 to-emerald-100 p-4 rounded-3xl shadow-xl border border-green-200 ${activeTab === "public" ? "block" : "hidden"}`}>
+            <div className="flex items-center space-x-3 mb-3">
+              <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Public Vault</h2>
+              <span className="text-xl">🌐</span>
             </div>
 
-            <div className="grid gap-6">
+            <div className="grid gap-4">
               {/* Asset Display */}
-              <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Available Assets</h3>
-                <div className="grid grid-cols-2 gap-3">
+              <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Available Assets</h3>
+                <div className="grid grid-cols-2 gap-2">
                   {[
                     { icon: "/nft2.png", name: "NFT", value: "100" },
-                    { icon: "/nft1.png", name: "NFT", value: "100" },
-                    { icon: "/nft.png", name: "NFT", value: "100" },
                     { icon: "/usdc.png", name: "USDC", value: "100" },
                   ].map((asset, index) => (
                     <div
                       key={index}
-                      className="flex items-center space-x-2 p-3 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
+                      className="flex flex-col items-center space-y-1 p-2 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
                       <img
                         src={asset.icon}
                         alt={asset.name}
-                        className="w-8 h-8"
+                        className="w-6 h-6"
                       />
-                      <div className="flex-1">
-                        <p className="font-semibold text-gray-800">{asset.name}</p>
-                        {asset.value && <p className="text-sm text-gray-600">{asset.value}</p>}
+                      <div className="text-center">
+                        <p className="text-xs font-semibold text-gray-800">{asset.name}</p>
+                        {asset.value && <p className="text-xs text-gray-600">{asset.value}</p>}
                       </div>
                     </div>
                   ))}
@@ -330,58 +346,58 @@ export default function PeconomyVaults() {
               </div>
 
               {/* Operations */}
-              <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Operations</h3>
-                <div className="space-y-4">
-                  <div className="flex gap-4 w-full">
-                    <label className="text-sm font-semibold text-gray-700 my-auto">To</label>
+              <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Operations</h3>
+                <div className="space-y-2">
+                  <div className="flex gap-2 w-full">
+                    <label className="text-xs font-semibold text-gray-700 my-auto">To</label>
                     <div className="flex items-center w-full">
                       <input
                         type="text"
-                        value={privateVaultAmount}
-                        onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
-                        className="py-2 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black"
+                        value={publicVaultAmount}
+                        onChange={e => handleAmountChange(e, setPublicVaultAmount)}
+                        className="py-1 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
                         placeholder="0"
                       />
                     </div>
                   </div>
-                  <div className="flex gap-4  justify-center">
-                    <label className="block text-sm font-semibold text-gray-700 my-auto">Amount</label>
-                    <div className="flex items-center space-x-2">
+                  <div className="flex gap-2 justify-center">
+                    <label className="block text-xs font-semibold text-gray-700 my-auto">Amount</label>
+                    <div className="flex items-center space-x-1">
                       <button
-                        onClick={() => handleDecrement(setPrivateVaultAmount)}
-                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-lg transition-colors">
+                        onClick={() => handleDecrement(setPublicVaultAmount)}
+                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
                         -
                       </button>
                       <input
                         type="text"
-                        value={privateVaultAmount}
-                        onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
-                        className="py-2 border w-24 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black"
+                        value={publicVaultAmount}
+                        onChange={e => handleAmountChange(e, setPublicVaultAmount)}
+                        className="py-1 border w-20 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
                         placeholder="0"
                       />
                       <button
-                        onClick={() => handleIncrement(setPrivateVaultAmount)}
-                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded-lg transition-colors">
+                        onClick={() => handleIncrement(setPublicVaultAmount)}
+                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
                         +
                       </button>
                     </div>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <button
-                      onClick={handlePrivateDecrypt}
-                      className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white">
+                      onClick={handleEncrypt}
+                      className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
                       Encrypt
                     </button>
                     <button
-                      onClick={handlePrivateTransfer}
-                      className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white">
+                      onClick={handleTransfer}
+                      className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
                       Transfer
                     </button>
                     <button
-                      onClick={handlePrivateTransfer}
-                      className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white">
+                      onClick={handleBuy}
+                      className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
                       Buy
                     </button>
                   </div>

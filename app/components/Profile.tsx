@@ -55,17 +55,16 @@ export default function LinktreeProfile() {
       <div className="w-full h-full  bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200 flex flex-col">
         {/* Mobile Layout */}
         <div className="block md:hidden flex-1 overflow-y-auto">
-          <div className="p-6 space-y-6">
+          <div className="px-6 py-4 space-y-4 h-full grid justify-center items-center">
             {/* Profile Header */}
-            <div className="text-center space-y-4">
-              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-gray-800 to-gray-900 rounded-full flex items-center justify-center shadow-lg">
-                <div className="w-14 h-14 bg-gradient-to-br from-gray-600 to-gray-700 rounded-full flex items-center justify-center">
-                  <span className="text-xl text-white">👤</span>
+            <div className="text-center space-y-1">
+              <div className="w-42 h-42 mx-auto bg-gradient-to-br from-gray-800 to-gray-900 rounded-full flex items-center justify-center shadow-lg">
+                <div className="w-42 h-42 bg-gradient-to-br from-gray-600 to-gray-700 rounded-full flex items-center justify-center">
+                  <span className="text-7xl text-white">👤</span>
                 </div>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900">creator&apos;s name</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Creator&apos;s name</h1>
               <div className="flex items-center justify-center space-x-2">
-                <span className="text-gray-500">?</span>
                 <p className="text-gray-700 text-sm">short description of creator profile</p>
               </div>
             </div>
@@ -73,13 +72,54 @@ export default function LinktreeProfile() {
             {/* Interaction Icons */}
             <div className="flex justify-center space-x-6">
               <button className="p-3 text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-300 cursor-pointer group">
-                <span className="text-lg group-hover:scale-110 transition-transform">🔔</span>
+                <span className="text-lg group-hover:scale-110 transition-transform">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="#000000">
+                    <path
+                      fill="#000000"
+                      d="M4 8a8 8 0 1 1 16 0v4.697l2 3V20h-5.611a4.502 4.502 0 0 1-8.777 0H2v-4.303l2-3V8Zm5.708 12a2.5 2.5 0 0 0 4.584 0H9.708ZM12 2a6 6 0 0 0-6 6v5.303l-2 3V18h16v-1.697l-2-3V8a6 6 0 0 0-6-6Z"></path>
+                  </svg>
+                </span>
               </button>
               <button className="p-3 text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-300 cursor-pointer group">
-                <span className="text-lg group-hover:scale-110 transition-transform">📤</span>
+                <span className="text-lg group-hover:scale-110 transition-transform">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="#000000">
+                    <path
+                      fill="#000000"
+                      d="M15.991 1.035a4 4 0 1 1-.855 6.267l-6.28 3.626a4.007 4.007 0 0 1 0 2.144l6.28 3.626a4.002 4.002 0 0 1 6.32 4.803a4 4 0 0 1-7.32-3.07l-6.28-3.627a4.002 4.002 0 1 1 0-5.608l6.28-3.626a4.002 4.002 0 0 1 1.855-4.535ZM19.723 3.5a2 2 0 1 0-3.464 2a2 2 0 0 0 3.464-2ZM3.071 12.527a2.002 2.002 0 0 0 2.93 1.204a2 2 0 1 0-2.93-1.204Zm15.92 5.242a2 2 0 1 0-2 3.464a2 2 0 0 0 2-3.464Z"></path>
+                  </svg>
+                </span>
               </button>
               <button className="p-3 text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-300 cursor-pointer group">
-                <span className="text-lg group-hover:scale-110 transition-transform">🔖</span>
+                <span className="text-lg group-hover:scale-110 transition-transform">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="#000000">
+                    <path
+                      fill="#000000"
+                      stroke="#000000"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M6 6.2c0-1.12 0-1.68.218-2.108a2 2 0 0 1 .874-.874C7.52 3 8.08 3 9.2 3h5.6c1.12 0 1.68 0 2.108.218a2 2 0 0 1 .874.874C18 4.52 18 5.08 18 6.2v13.305c0 .486 0 .729-.101.862a.5.5 0 0 1-.37.198c-.167.01-.369-.125-.773-.394L12 17l-4.756 3.17c-.404.27-.606.405-.774.395a.5.5 0 0 1-.369-.198C6 20.234 6 19.991 6 19.505z"></path>
+                    <path
+                      fill="#000000"
+                      d="M6 6.2c0-1.12 0-1.68.218-2.108a2 2 0 0 1 .874-.874C7.52 3 8.08 3 9.2 3h5.6c1.12 0 1.68 0 2.108.218a2 2 0 0 1 .874.874C18 4.52 18 5.08 18 6.2v13.305c0 .486 0 .729-.101.862a.5.5 0 0 1-.37.198c-.167.01-.369-.125-.773-.394L12 17l-4.756 3.17c-.404.27-.606.405-.774.395a.5.5 0 0 1-.369-.198C6 20.234 6 19.991 6 19.505z"
+                      opacity=".5"></path>
+                  </svg>
+                </span>
               </button>
             </div>
 
@@ -126,13 +166,30 @@ export default function LinktreeProfile() {
                 />
               </button>
             </div>
+
+            {/* <div className="flex">
+              <button className="w-full bg-gradient-to-r from-gray-100 to-gray-200 text-gray-900 py-3 px-6 rounded-xl font-semibold text-sm flex items-center justify-center  hover:from-gray-200 hover:to-gray-300 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg cursor-pointer z-1">
+                <p>Sponsor</p>
+              </button>{" "}
+              <div className="relative z-50">
+                <div className="min-w-24 min-h-24 w-24 h-24 bg-white absolute -left-5 -top-4  rounded-full -z-10"></div>
+
+                <button
+                  className="min-w-16 bg-gradient-to-r from-red-700 to-red-600 text-white w-16 h-16 rounded-full flex items-center  justify-center shadow-md hover:shadow-3xl transition-all duration-300 transform hover:scale-110 z-10 group cursor-pointer"
+                  title="Ver Operaciones">
+                  <span className="group-hover:scale-110 transition-transform">
+                    <p className="text-4xl font-bold italic">P</p>
+                  </span>
+                </button>
+              </div>
+            </div> */}
           </div>
         </div>
 
         {/* Desktop Layout */}
         <div className="hidden md:flex flex-1 overflow-hidden">
           {/* Left Sidebar */}
-          <div className="w-80 bg-gradient-to-b from-white to-gray-50 border-r border-gray-200 p-6 space-y-4 overflow-y-auto grid">
+          <div className="w-80 bg-gradient-to-b from-white to-gray-50 border-r border-gray-200 p-6 space-y-4 overflow-y-auto grid justify-center items-center">
             {/* Profile Header */}
             <div className="text-center space-y-2">
               <div className="w-52 h-52 mx-auto ">
@@ -149,13 +206,57 @@ export default function LinktreeProfile() {
             {/* Interaction Icons */}
             <div className="flex justify-evenly max-h-12">
               <button className="p-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all duration-300 cursor-pointer group">
-                <span className="text-xl group-hover:scale-110 transition-transform">🔔</span>
+                <span className="text-xl group-hover:scale-110 transition-transform">
+                  {" "}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="#000000">
+                    <path
+                      fill="#000000"
+                      d="M4 8a8 8 0 1 1 16 0v4.697l2 3V20h-5.611a4.502 4.502 0 0 1-8.777 0H2v-4.303l2-3V8Zm5.708 12a2.5 2.5 0 0 0 4.584 0H9.708ZM12 2a6 6 0 0 0-6 6v5.303l-2 3V18h16v-1.697l-2-3V8a6 6 0 0 0-6-6Z"></path>
+                  </svg>
+                </span>
               </button>
               <button className="p-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all duration-300 cursor-pointer group">
-                <span className="text-xl group-hover:scale-110 transition-transform">📤</span>
+                <span className="text-xl group-hover:scale-110 transition-transform">
+                  {" "}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="#000000">
+                    <path
+                      fill="#000000"
+                      d="M15.991 1.035a4 4 0 1 1-.855 6.267l-6.28 3.626a4.007 4.007 0 0 1 0 2.144l6.28 3.626a4.002 4.002 0 0 1 6.32 4.803a4 4 0 0 1-7.32-3.07l-6.28-3.627a4.002 4.002 0 1 1 0-5.608l6.28-3.626a4.002 4.002 0 0 1 1.855-4.535ZM19.723 3.5a2 2 0 1 0-3.464 2a2 2 0 0 0 3.464-2ZM3.071 12.527a2.002 2.002 0 0 0 2.93 1.204a2 2 0 1 0-2.93-1.204Zm15.92 5.242a2 2 0 1 0-2 3.464a2 2 0 0 0 2-3.464Z"></path>
+                  </svg>
+                </span>
               </button>
               <button className="p-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all duration-300 cursor-pointer group">
-                <span className="text-xl group-hover:scale-110 transition-transform">🔖</span>
+                <span className="text-xl group-hover:scale-110 transition-transform">
+                  {" "}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="#000000">
+                    <path
+                      fill="#000000"
+                      stroke="#000000"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M6 6.2c0-1.12 0-1.68.218-2.108a2 2 0 0 1 .874-.874C7.52 3 8.08 3 9.2 3h5.6c1.12 0 1.68 0 2.108.218a2 2 0 0 1 .874.874C18 4.52 18 5.08 18 6.2v13.305c0 .486 0 .729-.101.862a.5.5 0 0 1-.37.198c-.167.01-.369-.125-.773-.394L12 17l-4.756 3.17c-.404.27-.606.405-.774.395a.5.5 0 0 1-.369-.198C6 20.234 6 19.991 6 19.505z"></path>
+                    <path
+                      fill="#000000"
+                      d="M6 6.2c0-1.12 0-1.68.218-2.108a2 2 0 0 1 .874-.874C7.52 3 8.08 3 9.2 3h5.6c1.12 0 1.68 0 2.108.218a2 2 0 0 1 .874.874C18 4.52 18 5.08 18 6.2v13.305c0 .486 0 .729-.101.862a.5.5 0 0 1-.37.198c-.167.01-.369-.125-.773-.394L12 17l-4.756 3.17c-.404.27-.606.405-.774.395a.5.5 0 0 1-.369-.198C6 20.234 6 19.991 6 19.505z"
+                      opacity=".5"></path>
+                  </svg>
+                </span>
               </button>
             </div>
 
@@ -219,7 +320,7 @@ export default function LinktreeProfile() {
             </div>
 
             {/* Main Content and Right Sidebar */}
-            <div className="flex gap-4">
+            <div className="grid xl:flex gap-4">
               {/* Feed Content with Timeline */}
               <div className="flex-1 ">
                 <div className="relative">
@@ -251,7 +352,7 @@ export default function LinktreeProfile() {
                     ))}
 
                     {/* More Posts Indicator */}
-                    <div className="relative ">
+                    <div className="relative hidden xl:block">
                       <div className="absolute left-6 w-4 h-4 bg-white border-4 border-gray-400 rounded-full z-10"></div>
                       <div className="text-center text-gray-500 text-sm py-2">...</div>
                     </div>
@@ -260,7 +361,7 @@ export default function LinktreeProfile() {
               </div>
 
               {/* Right Sidebar */}
-              <div className="w-64 space-y-3">
+              <div className="w-full xl:w-64 space-y-3 flex-1">
                 {/* Suggested Section */}
                 <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 border border-gray-200 hover:shadow-lg transition-all duration-300">
                   <div className="flex items-center justify-between mb-3">
