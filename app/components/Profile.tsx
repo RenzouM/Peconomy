@@ -277,6 +277,13 @@ export default function LinktreeProfile() {
 
             {/* Action Buttons */}
             <div className="space-y-3">
+              <button className="w-full bg-gradient-to-r from-green-800 to-green-700 text-white py-3 px-6 rounded-xl font-semibold text-sm flex items-center justify-center space-x-2 hover:from-green-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer">
+                <span>Touch</span>
+                <span>👆</span>
+              </button>
+              <button className="w-full bg-gradient-to-r from-purple-800 to-purple-700 text-white-900 py-3 px-6 rounded-xl font-semibold text-sm flex items-center justify-center space-x-2 hover:from-purple-700 hover:to-purple-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg cursor-pointer">
+                <span>Collab 👥</span>
+              </button>{" "}
               <button className="w-full bg-gradient-to-r from-gray-900 to-gray-800 text-white py-3 px-6 rounded-xl font-semibold text-sm flex items-center justify-center space-x-2 hover:from-gray-800 hover:to-gray-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer">
                 <span>Sponsor</span>
                 <span>🗣️</span>
