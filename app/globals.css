@@ -29,3 +29,35 @@ body {
 .font-inter {
   font-family: var(--font-inter), system-ui, sans-serif;
 }
+
+/* Custom scrollbar styles */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+  width: 0px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: transparent;
+  width: 0px;
+}
+
+.scrollbar-transparent::-webkit-scrollbar-thumb {
+  background: transparent;
+  width: 0px;
+}
+
+/* Firefox scrollbar */
+.scrollbar-thin {
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+}
+
+/* Hide scrollbar completely */
+.scrollbar-thin::-webkit-scrollbar {
+  display: none;
+}

@@ -293,7 +293,7 @@ export default function LinktreeProfile() {
           </div>
 
           {/* Main Content Area */}
-          <div className="flex-1 p-6 bg-white overflow-y-auto">
+          <div className="flex-1 p-6 bg-white overflow-y-auto scrollbar-thin scrollbar-transparent">
             {/* Top Section */}
             <div className="mb-6">
               <div className="h-[250px] bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl  overflow-hidden flex items-center justify-center text-center border border-blue-200 hover:shadow-lg transition-all duration-300 cursor-pointer group">
@@ -321,81 +321,265 @@ export default function LinktreeProfile() {
 
             {/* Main Content and Right Sidebar */}
             <div className="grid xl:flex gap-4">
-              {/* Feed Content with Timeline */}
-              <div className="flex-1 ">
-                <div className="relative">
-                  {/* Timeline Line */}
-                  <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-400 via-purple-400 to-pink-400"></div>
+              {activeTab === "FEED" && (
+                <>
+                  {/* Feed Content with Timeline */}
+                  <div className="flex-1 ">
+                    <div className="relative">
+                      {/* Timeline Line */}
+                      <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-400 via-purple-400 to-pink-400"></div>
 
-                  {/* Feed Posts */}
-                  <div className="space-y-6">
-                    {posts.slice(0, 3).map((post, index) => (
-                      <div
-                        className="relative"
-                        key={index}>
-                        {/* Timeline Dot */}
-                        <div className="absolute left-6 w-4 h-4 top-2 bg-white border-4 border-blue-500 rounded-full z-10 shadow-lg"></div>
-                        {/* Time Badge */}
-                        <div className="absolute -left-2 top-5 w-20 text-center">
-                          <div className="bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-lg shadow-md">{post.time}</div>
-                        </div>
-                        {/* Post Content */}
-                        <div className="ml-20 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-300 cursor-pointer group">
-                          <div className="flex items-start space-x-3">
-                            <span className="text-lg group-hover:scale-110 transition-transform">{post.icon}</span>
-                            <div className="flex-1">
-                              <div className="text-gray-900 text-sm leading-relaxed">{post.content}</div>
+                      {/* Feed Posts */}
+                      <div className="space-y-6">
+                        {posts.slice(0, 3).map((post, index) => (
+                          <div
+                            className="relative"
+                            key={index}>
+                            {/* Timeline Dot */}
+                            <div className="absolute left-6 w-4 h-4 top-2 bg-white border-4 border-blue-500 rounded-full z-10 shadow-lg"></div>
+                            {/* Time Badge */}
+                            <div className="absolute -left-2 top-5 w-20 text-center">
+                              <div className="bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-lg shadow-md">{post.time}</div>
                             </div>
+                            {/* Post Content */}
+                            <div className="ml-20 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-300 cursor-pointer group">
+                              <div className="flex items-start space-x-3">
+                                <span className="text-lg group-hover:scale-110 transition-transform">{post.icon}</span>
+                                <div className="flex-1">
+                                  <div className="text-gray-900 text-sm leading-relaxed">{post.content}</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+
+                        {/* More Posts Indicator */}
+                        <div className="relative hidden xl:block">
+                          <div className="absolute left-6 w-4 h-4 bg-white border-4 border-gray-400 rounded-full z-10"></div>
+                          <div className="text-center text-gray-500 text-sm py-2">...</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Sidebar */}
+                  <div className="w-full xl:w-64 space-y-3 flex-1">
+                    {/* Filter Section */}
+                    <div className="bg-gradient-to-br from-gray-50/5 to-gray-100/5 rounded-2xl p-4 border border-gray-200 hover:shadow-lg transition-all duration-300 gap-2 grid">
+                      <h3 className="font-bold text-gray-900 text-sm">SUGGESTIONS BY</h3>
+                      <hr className="border-gray-200" />
+                      <div className="space-x-2 flex text-black">
+                        <button className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-2 cursor-pointer border border-gray-200 hover:shadow-md transition-all duration-300">Last post</button>
+                        <button className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-2 cursor-pointer border border-gray-200 hover:shadow-md transition-all duration-300">General interest</button>
+                        <button className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-2 cursor-pointer border border-gray-200 hover:shadow-md transition-all duration-300">Same this</button>
+                      </div>
+                    </div>
+
+                    {/* Suggested Section */}
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 border border-gray-200 hover:shadow-lg transition-all duration-300">
+                      <div className="space-y-2">
+                        {suggestedUsers.map((user, index) => (
+                          <div
+                            key={index}
+                            className="text-gray-700 hover:text-gray-900 transition-colors cursor-pointer font-medium text-sm">
+                            {user}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Saved Section */}
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 border border-gray-200 hover:shadow-lg transition-all duration-300">
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="font-bold text-gray-900 text-sm">SAVED</h3>
+                        <span className="text-gray-500 text-lg cursor-pointer hover:text-gray-700 transition-colors">▼</span>
+                      </div>
+                      <div className="space-y-2">
+                        {savedUsers.map((user, index) => (
+                          <div
+                            key={index}
+                            className="text-gray-700 hover:text-gray-900 transition-colors cursor-pointer font-medium text-sm">
+                            {user}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {activeTab === "REVIEWS" && (
+                <div>
+                  {/* Reviews Tab Content - Mobile */}
+                  {activeTab === "REVIEWS" && (
+                    <div className="space-y-4">
+                      {/* Filter Bar */}
+                      <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                        <div className="flex justify-between">
+                          <div className="flex space-x-2 overflow-x-auto">
+                            <button className="px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium whitespace-nowrap">All Reviews</button>
+                            <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Gaming</button>
+                            <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Tech</button>
+                            <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Lifestyle</button>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm text-gray-600">Sort by:</span>
+                            <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                              <option>Latest</option>
+                              <option>Most Popular</option>
+                              <option>Highest Rated</option>
+                            </select>
                           </div>
                         </div>
                       </div>
-                    ))}
 
-                    {/* More Posts Indicator */}
-                    <div className="relative hidden xl:block">
-                      <div className="absolute left-6 w-4 h-4 bg-white border-4 border-gray-400 rounded-full z-10"></div>
-                      <div className="text-center text-gray-500 text-sm py-2">...</div>
+                      {/* Reviews Feed */}
+                      <div className="space-y-4">
+                        {/* Review Card 1 */}
+                        <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                          <div className="flex items-start space-x-3">
+                            <img
+                              src="/luisito.png"
+                              alt="Luisito Rey"
+                              className="w-10 h-10 rounded-full"
+                            />
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-2">
+                                <div>
+                                  <h3 className="font-semibold text-gray-800 text-sm">Luisito Rey</h3>
+                                  <p className="text-xs text-gray-600">Gaming Creator • 2M subscribers</p>
+                                </div>
+                                <div className="flex items-center space-x-1">
+                                  <span className="text-yellow-500 text-sm">★★★★★</span>
+                                  <span className="text-xs text-gray-600">5.0</span>
+                                </div>
+                              </div>
+                              <div className="bg-gray-50 p-2 rounded-xl mb-3">
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <img
+                                    src="/nft.png"
+                                    alt="Product"
+                                    className="w-6 h-6"
+                                  />
+                                  <div>
+                                    <h4 className="font-medium text-gray-800 text-sm">Peconomy NFT Collection</h4>
+                                    <p className="text-xs text-gray-600">Sponsored Review</p>
+                                  </div>
+                                </div>
+                                <p className="text-gray-700 text-xs">&ldquo;Increíble colección de NFTs que revoluciona el gaming. La integración con blockchain es perfecta y los beneficios para los creadores son reales. ¡100% recomendado!&rdquo;</p>
+                              </div>
+                              <div className="flex flex-col space-y-2">
+                                <div className="flex items-center space-x-4 text-xs text-gray-600">
+                                  <span>📺 15K views</span>
+                                  <span>👍 2.3K likes</span>
+                                  <span>💬 156 comments</span>
+                                </div>
+                                <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Review Card 2 */}
+                        <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                          <div className="flex items-start space-x-3">
+                            <img
+                              src="/luisitoland.png"
+                              alt="Tech Reviewer"
+                              className="w-10 h-10 rounded-full"
+                            />
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-2">
+                                <div>
+                                  <h3 className="font-semibold text-gray-800 text-sm">TechMaster Pro</h3>
+                                  <p className="text-xs text-gray-600">Tech Creator • 850K subscribers</p>
+                                </div>
+                                <div className="flex items-center space-x-1">
+                                  <span className="text-yellow-500 text-sm">★★★★☆</span>
+                                  <span className="text-xs text-gray-600">4.5</span>
+                                </div>
+                              </div>
+                              <div className="bg-gray-50 p-2 rounded-xl mb-3">
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <img
+                                    src="/vault.png"
+                                    alt="Product"
+                                    className="w-6 h-6"
+                                  />
+                                  <div>
+                                    <h4 className="font-medium text-gray-800 text-sm">Peconomy Vault System</h4>
+                                    <p className="text-xs text-gray-600">Sponsored Review</p>
+                                  </div>
+                                </div>
+                                <p className="text-gray-700 text-xs">&ldquo;El sistema de vaults de Peconomy es innovador. La privacidad y transparencia que ofrece es única en el mercado. Perfecto para inversores serios.&rdquo;</p>
+                              </div>
+                              <div className="flex flex-col space-y-2">
+                                <div className="flex items-center space-x-4 text-xs text-gray-600">
+                                  <span>📺 8.2K views</span>
+                                  <span>👍 1.1K likes</span>
+                                  <span>💬 89 comments</span>
+                                </div>
+                                <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Review Card 3 */}
+                        <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                          <div className="flex items-start space-x-3">
+                            <img
+                              src="/logo.png"
+                              alt="Crypto Expert"
+                              className="w-10 h-10 rounded-full"
+                            />
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-2">
+                                <div>
+                                  <h3 className="font-semibold text-gray-800 text-sm">CryptoExpert</h3>
+                                  <p className="text-xs text-gray-600">Crypto Creator • 1.2M subscribers</p>
+                                </div>
+                                <div className="flex items-center space-x-1">
+                                  <span className="text-yellow-500 text-sm">★★★★★</span>
+                                  <span className="text-xs text-gray-600">5.0</span>
+                                </div>
+                              </div>
+                              <div className="bg-gray-50 p-2 rounded-xl mb-3">
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <img
+                                    src="/usdc.png"
+                                    alt="Product"
+                                    className="w-6 h-6"
+                                  />
+                                  <div>
+                                    <h4 className="font-medium text-gray-800 text-sm">Peconomy USDC Integration</h4>
+                                    <p className="text-xs text-gray-600">Sponsored Review</p>
+                                  </div>
+                                </div>
+                                <p className="text-gray-700 text-xs">&ldquo;La integración con USDC es perfecta. Transacciones rápidas, fees bajos y total transparencia. Peconomy está cambiando el juego del DeFi.&rdquo;</p>
+                              </div>
+                              <div className="flex flex-col space-y-2">
+                                <div className="flex items-center space-x-4 text-xs text-gray-600">
+                                  <span>📺 12.7K views</span>
+                                  <span>👍 1.8K likes</span>
+                                  <span>💬 203 comments</span>
+                                </div>
+                                <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Load More Button */}
+                        <div className="text-center">
+                          <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors">Load More Reviews</button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
-              </div>
-
-              {/* Right Sidebar */}
-              <div className="w-full xl:w-64 space-y-3 flex-1">
-                {/* Suggested Section */}
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 border border-gray-200 hover:shadow-lg transition-all duration-300">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-bold text-gray-900 text-sm">SUGGESTED</h3>
-                    <span className="text-gray-500 text-lg cursor-pointer hover:text-gray-700 transition-colors">▼</span>
-                  </div>
-                  <div className="space-y-2">
-                    {suggestedUsers.map((user, index) => (
-                      <div
-                        key={index}
-                        className="text-gray-700 hover:text-gray-900 transition-colors cursor-pointer font-medium text-sm">
-                        {user}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Saved Section */}
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 border border-gray-200 hover:shadow-lg transition-all duration-300">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-bold text-gray-900 text-sm">SAVED</h3>
-                    <span className="text-gray-500 text-lg cursor-pointer hover:text-gray-700 transition-colors">▼</span>
-                  </div>
-                  <div className="space-y-2">
-                    {savedUsers.map((user, index) => (
-                      <div
-                        key={index}
-                        className="text-gray-700 hover:text-gray-900 transition-colors cursor-pointer font-medium text-sm">
-                        {user}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              )}
+              {/* acaaaaa */}
             </div>
           </div>
         </div>
