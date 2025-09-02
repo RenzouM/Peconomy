@@ -14,6 +14,7 @@ import { WalletClient } from "viem";
  */
 export function i0(signature: string): bigint {
   if (typeof signature !== "string" || signature.length < 132) throw new Error("Invalid signature hex string");
+  console.log("signatureeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", signature);
 
   const hash = keccak256(signature as `0x${string}`);
   const cleanSig = hash.startsWith("0x") ? hash.slice(2) : hash;
@@ -45,9 +46,7 @@ export async function deriveKeysFromUser(signature: string): Promise<{
 }> {
   // Create deterministic message for signing
 
-  console.log("SIGNATURE", signature);
-
-  if (!signature || signature.length < 65) {
+  if (!signature || signature.length < 64) {
     throw new Error("Invalid signature received from user");
   }
 
@@ -93,10 +92,10 @@ export function decryptEGCTBalance(privateKey: bigint, c1: [bigint, bigint], c2:
     }
 
     console.log("⚠️  Could not find discrete log for decrypted point:", decryptedPoint);
-    return BigInt(0);
+    return 0n;
   } catch (error) {
     console.log("⚠️  Error decrypting EGCT:", error);
-    return BigInt(0);
+    return 0n;
   }
 }
 
@@ -162,11 +161,11 @@ function findDiscreteLogOptimized(targetPoint: [bigint, bigint]): bigint | null 
   if (cached !== undefined) {
     return cached;
   }
-  const maxValue = BigInt(100000); // Up to 1000 PRIV with 2 decimals
+  const maxValue = 100000n; // Up to 1000 PRIV with 2 decimals
 
   // Strategy 1: Check common small values first (0-1000)
   // Most balances are likely to be small
-  for (let i = BigInt(0); i <= BigInt(1000); i++) {
+  for (let i = 0n; i <= 1000n; i++) {
     const testPoint = mulPointEscalar(Base8, i);
     if (testPoint[0] === targetPoint[0] && testPoint[1] === targetPoint[1]) {
       // Cache the result (with size limit)
@@ -177,7 +176,7 @@ function findDiscreteLogOptimized(targetPoint: [bigint, bigint]): bigint | null 
 
   // Strategy 2: Check round numbers (multiples of 100, 1000, etc.)
   // Many transactions are likely to be round amounts
-  const roundNumbers = [BigInt(100), BigInt(500), BigInt(1000), BigInt(1500), BigInt(2000), BigInt(2500), BigInt(3000), BigInt(5000), BigInt(10000), BigInt(15000), BigInt(20000), BigInt(25000), BigInt(30000), BigInt(40000), BigInt(50000), BigInt(75000), BigInt(100000)];
+  const roundNumbers = [100n, 500n, 1000n, 1500n, 2000n, 2500n, 3000n, 5000n, 10000n, 15000n, 20000n, 25000n, 30000n, 40000n, 50000n, 75000n, 100000n];
 
   for (const value of roundNumbers) {
     if (value <= maxValue) {
@@ -192,12 +191,12 @@ function findDiscreteLogOptimized(targetPoint: [bigint, bigint]): bigint | null 
 
   // Strategy 3: Binary search-like approach for remaining values
   // Divide the remaining space into chunks and search efficiently
-  const chunkSize = BigInt(1000);
-  for (let chunk = BigInt(1000); chunk < maxValue; chunk += chunkSize) {
+  const chunkSize = 1000n;
+  for (let chunk = 1000n; chunk < maxValue; chunk += chunkSize) {
     const chunkEnd = chunk + chunkSize > maxValue ? maxValue : chunk + chunkSize;
 
     // Check chunk boundaries first
-    for (let i = chunk; i < chunkEnd; i += BigInt(100)) {
+    for (let i = chunk; i < chunkEnd; i += 100n) {
       const testPoint = mulPointEscalar(Base8, i);
       if (testPoint[0] === targetPoint[0] && testPoint[1] === targetPoint[1]) {
         // Cache the result (with size limit)
@@ -212,9 +211,9 @@ function findDiscreteLogOptimized(targetPoint: [bigint, bigint]): bigint | null 
 
   // Strategy 4: Fallback to linear search in remaining space (with early termination)
   // Only search areas we haven't covered yet, with periodic checks
-  for (let i = BigInt(1001); i <= maxValue; i++) {
+  for (let i = 1001n; i <= maxValue; i++) {
     // Skip values we already checked in previous strategies
-    if (i % BigInt(100) === BigInt(0)) continue; // Already checked multiples of 100
+    if (i % 100n === 0n) continue; // Already checked multiples of 100
 
     const testPoint = mulPointEscalar(Base8, i);
     if (testPoint[0] === targetPoint[0] && testPoint[1] === targetPoint[1]) {
@@ -224,7 +223,7 @@ function findDiscreteLogOptimized(targetPoint: [bigint, bigint]): bigint | null 
     }
 
     // Early termination: if we've been searching too long, give up
-    if (i > BigInt(50000) && i % BigInt(10000) === BigInt(0)) {
+    if (i > 50000n && i % 10000n === 0n) {
       console.log(`🔍 Discrete log search progress: ${i}/${maxValue}...`);
     }
   }
@@ -246,7 +245,7 @@ export async function getDecryptedBalance(privateKey: bigint, amountPCTs: { pct:
   const c2: [bigint, bigint] = [encryptedBalance[1][0], encryptedBalance[1][1]];
 
   // Check if EGCT is empty (all zeros)
-  const isEGCTEmpty = c1[0] === BigInt(0) && c1[1] === BigInt(0) && c2[0] === BigInt(0) && c2[1] === BigInt(0);
+  const isEGCTEmpty = c1[0] === 0n && c1[1] === 0n && c2[0] === 0n && c2[1] === 0n;
 
   if (!isEGCTEmpty) {
     // Decrypt EGCT - this is the primary balance
@@ -256,10 +255,10 @@ export async function getDecryptedBalance(privateKey: bigint, amountPCTs: { pct:
   }
 
   // If EGCT is empty, fall back to PCT decryption
-  let totalBalance = BigInt(0);
+  let totalBalance = 0n;
 
   // Decrypt the balance PCT if it exists
-  if (balancePCT.some(e => e !== BigInt(0))) {
+  if (balancePCT.some(e => e !== 0n)) {
     try {
       const decryptedBalancePCT = await decryptPCT(privateKey, balancePCT);
       totalBalance += BigInt(decryptedBalancePCT[0]);
@@ -270,7 +269,7 @@ export async function getDecryptedBalance(privateKey: bigint, amountPCTs: { pct:
 
   // Decrypt all the amount PCTs and add them to the total balance
   for (const amountPCT of amountPCTs) {
-    if (amountPCT.pct && amountPCT.pct.some((e: bigint) => e !== BigInt(0))) {
+    if (amountPCT.pct && amountPCT.pct.some((e: bigint) => e !== 0n)) {
       try {
         const decryptedAmountPCT = await decryptPCT(privateKey, amountPCT.pct);
         totalBalance += BigInt(decryptedAmountPCT[0]);

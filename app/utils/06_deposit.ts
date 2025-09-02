@@ -83,7 +83,6 @@ export const deposit = async (depositAmount: string, signaturee: string, userAdd
     })) as [bigint, bigint];
 
     console.log("privateKey", userPrivateKey);
-    console.log("publicKey", derivedPublicKey);
     console.log("userPublicKey", userPublicKey);
     console.log("derivedPublicKey", derivedPublicKey);
 
@@ -108,10 +107,19 @@ export const deposit = async (depositAmount: string, signaturee: string, userAdd
     console.log("🔍 Checking current encrypted balance...");
     try {
       // Get token ID for testERC20 (0 if not registered, or actual ID if registered)
-      let tokenId = BigInt(0);
+      let tokenId = 0n;
+
       try {
-        tokenId = (await encryptedERC.read.tokenIds([testERC20Address])) as bigint;
-        if (tokenId === BigInt(0)) {
+        // tokenId = (await encryptedERC.read.tokenIds([testERC20Address])) as bigint;
+        tokenId = (await publicClient.readContract({
+          address: encryptedERCAddress as `0x${string}`,
+          abi: EncryptedERCABI.abi,
+          functionName: "tokenIds",
+          args: [testERC20Address],
+        })) as bigint;
+        console.log("JEJEJEJJEJEEJE", tokenId);
+
+        if (tokenId === 0n) {
           console.log("📋 Token not yet registered in EncryptedERC (will be registered on first deposit)");
         }
       } catch {

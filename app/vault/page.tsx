@@ -76,16 +76,32 @@ export default function PeconomyVaults() {
     }
 
     const uiOptions = {
-      title: "You are voting for foobar project",
+      title: "Sign message for deposit operation",
     };
+    const message = `eERC Registering with Address:${wallets[0].address}`;
 
-    const { signature } = await signMessage(
-      { message: "I hereby vote for foobar" },
-      {
-        uiOptions,
-        address: wallets[0].address,
-      }
-    );
+    // Fallback: Si el mensaje complejo falla, usar uno simple
+    // const message = "eERC Registration";
+    console.log("Message to sign:", message);
+    console.log("Message length:", message.length);
+    console.log("Message bytes:", new TextEncoder().encode(message));
+
+    let signature;
+    try {
+      const result = await signMessage(
+        {
+          message: message,
+        },
+        {
+          uiOptions,
+          address: wallets[0].address,
+        }
+      );
+      signature = result.signature;
+    } catch (signError) {
+      console.error("Error signing message:", signError);
+      throw new Error(`Failed to sign message: ${signError instanceof Error ? signError.message : "Unknown error"}`);
+    }
     console.log("SIGNATURE", signature);
 
     if (!privateVaultAmount || parseFloat(privateVaultAmount) <= 0) {
@@ -99,7 +115,12 @@ export default function PeconomyVaults() {
       console.log("Starting deposit process...");
 
       if (!window.ethereum) {
-        throw new Error("No ethereum provider found. Instala MetaMask o similar.");
+        throw new Error("No ethereum provider found. Please install MetaMask or Core Wallet.");
+      }
+
+      // Verificar que el provider esté disponible
+      if (typeof window.ethereum.request === "undefined") {
+        throw new Error("Ethereum provider is not properly initialized.");
       }
       const userAddress = wallets[0].address;
 
@@ -192,7 +213,7 @@ export default function PeconomyVaults() {
               <path
                 stroke={activeTab === "public" ? "blue" : "gray"}
                 fill={activeTab === "public" ? "blue" : "gray"}
-                stroke-width="0"
+                strokeWidth="0"
                 d="M6 18a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM2 9.528V4a4 4 0 1 1 8 0v1a1 1 0 1 1-2 0V4a2 2 0 1 0-4 0v4.341a6 6 0 1 1-2 1.186zM6 16a2 2 0 1 1 0-4a2 2 0 0 1 0 4z"></path>
             </svg>
             <span>Public Vault</span>
@@ -239,9 +260,9 @@ export default function PeconomyVaults() {
               <path
                 fill="none"
                 stroke="#000000"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M2 5a2 2 0 0 1 2-2h6v18H4a2 2 0 0 1-2-2V5Zm12-2h6a2 2 0 0 1 2 2v5h-8V3Zm0 11h8v5a2 2 0 0 1-2 2h-6v-7Z"></path>
             </svg>
             <span className="ms-1">Dashboard</span>
@@ -503,7 +524,7 @@ export default function PeconomyVaults() {
                   <path
                     stroke={activeTab === "public" ? "blue" : "gray"}
                     fill={activeTab === "public" ? "blue" : "gray"}
-                    stroke-width="0"
+                    strokeWidth="0"
                     d="M6 18a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM2 9.528V4a4 4 0 1 1 8 0v1a1 1 0 1 1-2 0V4a2 2 0 1 0-4 0v4.341a6 6 0 1 1-2 1.186zM6 16a2 2 0 1 1 0-4a2 2 0 0 1 0 4z"></path>
                 </svg>
                 <h2 className="text-2xl font-semibold text-blue-500 tracking-tight">Public Vault</h2>
