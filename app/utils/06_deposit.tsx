@@ -1,18 +1,22 @@
-import { processPoseidonEncryption } from "../utils/poseidon";
-import { deriveKeysFromUser, getDecryptedBalance } from "../utils/utils";
-import { getContract, formatUnits, parseUnits, decodeEventLog, createPublicClient, createWalletClient, http, custom, type EIP1193Provider } from "viem";
+"use client";
+
+import { processPoseidonEncryption } from "./poseidon";
+import { deriveKeysFromUser, getDecryptedBalance } from "./utils";
+import { getContract, formatUnits, parseUnits, decodeEventLog, createPublicClient, http, WalletClient } from "viem";
 import { avalancheFuji } from "viem/chains";
 import SimpleERC20ABI from "../abis/SimpleERC20.json";
 import EncryptedERCABI from "../abis/EncryptedERC.json";
 import RegistrarABI from "../abis/Registrar.json";
+import { ApproveTransaction } from "./approveTransaction";
+import { DepositTransaction } from "./depositTransaction";
 
-// Definir tipos al inicio del archivo
-type Point = { x: bigint; y: bigint };
-type EGCT = { c1: Point; c2: Point };
-type AmountPCT = { pct: [bigint, bigint, bigint, bigint, bigint, bigint, bigint]; index: bigint };
-type BalancePCT = [bigint, bigint, bigint, bigint, bigint, bigint, bigint];
+export const deposit = async (depositAmount: string, signaturee: string, userAddress: string, walletClient: WalletClient) => {
+  // Definir tipos al inicio del archivo
+  type Point = { x: bigint; y: bigint };
+  type EGCT = { c1: Point; c2: Point };
+  type AmountPCT = { pct: [bigint, bigint, bigint, bigint, bigint, bigint, bigint]; index: bigint };
+  type BalancePCT = [bigint, bigint, bigint, bigint, bigint, bigint, bigint];
 
-export const deposit = async (depositAmount: string, signaturee: string, userAddress: string) => {
   // Configure which wallet to use: 1 for first signer, 2 for second signer
   const depositAmountStr = depositAmount; // Amount to Deposit
 
@@ -23,11 +27,6 @@ export const deposit = async (depositAmount: string, signaturee: string, userAdd
   const publicClient = createPublicClient({
     chain: avalancheFuji,
     transport: http(),
-  });
-
-  const walletClient = createWalletClient({
-    chain: avalancheFuji,
-    transport: custom(window.ethereum as unknown as EIP1193Provider),
   });
 
   console.log(`🔧 Depositing ${depositAmount} TEST token into EncryptedERC...`);
@@ -169,18 +168,7 @@ export const deposit = async (depositAmount: string, signaturee: string, userAdd
     if ((currentAllowance as bigint) < depositAmount) {
       console.log(`🔓 Approving ${tokenSymbol} spending for EncryptedERC...`);
 
-      if (!walletClient.account) {
-        throw new Error("Wallet account is not available for approval");
-      }
-
-      const approveTx = await walletClient.writeContract({
-        address: testERC20Address as `0x${string}`, // Dirección del contrato
-        abi: SimpleERC20ABI.abi, // ABI del contrato
-        functionName: "approve",
-        args: [encryptedERCAddress as `0x${string}`, depositAmount],
-        chain: avalancheFuji,
-        account: walletClient.account,
-      });
+      const approveTx = await ApproveTransaction(walletClient);
 
       console.log("📝 Approval transaction sent:", approveTx);
       console.log("✅ Approval confirmed");
@@ -203,20 +191,10 @@ export const deposit = async (depositAmount: string, signaturee: string, userAdd
     // 6. Perform the deposit
     console.log(`💾 Depositing 1 ${tokenSymbol} into EncryptedERC...`);
 
-    if (!walletClient.account) {
-      throw new Error("Wallet account is not available");
-    }
+    const depositTx = await DepositTransaction(amountPCT, walletClient);
 
-    const depositTx = await walletClient.writeContract({
-      address: encryptedERCAddress as `0x${string}`, // Dirección del contrato
-      abi: EncryptedERCABI.abi, // ABI del contrato
-      functionName: "deposit",
-      args: [depositAmount, testERC20Address, amountPCT],
-      chain: avalancheFuji,
-      account: walletClient.account,
-    });
     console.log("📝 Deposit transaction sent:", depositTx);
-
+    console.log("Deposit transaction hash:", depositTx);
     const receipt = await publicClient.waitForTransactionReceipt({ hash: depositTx });
     console.log("✅ Deposit transaction confirmed in block:", receipt);
 
@@ -228,6 +206,7 @@ export const deposit = async (depositAmount: string, signaturee: string, userAdd
       functionName: "balanceOf",
       args: [userAddress as `0x${string}`],
     });
+    console.log("NEW TOKEN BALANCE:", newTokenBalance);
     const deposited = (tokenBalance as bigint) - (newTokenBalance as bigint);
 
     console.log("🎉 Deposit successful!");

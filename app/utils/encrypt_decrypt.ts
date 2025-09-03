@@ -1,3 +1,5 @@
+"use client";
+
 import { Base8, mulPointEscalar, subOrder, addPoint, Fr, type Point } from "@zk-kit/baby-jubjub";
 import { poseidon2 } from "poseidon-lite";
 import { WalletClient } from "viem";

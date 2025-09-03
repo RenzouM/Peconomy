@@ -4,14 +4,12 @@ import { usePrivy, useWallets, useSignMessage } from "@privy-io/react-auth";
 import { useState } from "react";
 import Image from "next/image";
 import { deposit } from "../utils/06_deposit";
-import { createWalletClient, custom } from "viem";
 import { avalancheFuji } from "viem/chains";
-import { type EIP1193Provider } from "viem";
+import { createWalletClient, custom, type Hex } from "viem";
 
 export default function PeconomyVaults() {
   const { login, logout, authenticated, user } = usePrivy();
   const { wallets } = useWallets();
-
   const { signMessage } = useSignMessage();
 
   const [error, setError] = useState<string>("");
@@ -73,16 +71,19 @@ export default function PeconomyVaults() {
   };
 
   const handleDeposit = async () => {
+    const wallet = wallets[0];
+    await wallet.switchChain(avalancheFuji.id);
+    const provider = await wallet.getEthereumProvider();
+    const walletClient = createWalletClient({
+      account: wallet.address as Hex,
+      chain: avalancheFuji,
+      transport: custom(provider),
+    });
+
     if (!authenticated || !user?.wallet) {
       setError("Please connect your wallet first");
       return;
     }
-
-    const uiOptions = {
-      title: `eERC
-Registering user with
- Address:${wallets[0].address.toLowerCase()}`,
-    };
 
     const { signature } = await signMessage(
       {
@@ -107,18 +108,10 @@ Registering user with
       setIsDepositing(true);
       console.log("Starting deposit process...");
 
-      if (!window.ethereum) {
-        throw new Error("No ethereum provider found. Please install MetaMask or Core Wallet.");
-      }
-
-      // Verificar que el provider esté disponible
-      if (typeof window.ethereum.request === "undefined") {
-        throw new Error("Ethereum provider is not properly initialized.");
-      }
       const userAddress = wallets[0].address;
 
       // Call the deposit function from 06_deposit.ts
-      await deposit(privateVaultAmount, signature, userAddress);
+      await deposit(privateVaultAmount, signature, userAddress, walletClient);
 
       console.log("Deposit completed successfully!");
       // You might want to refresh the balance or show a success message here
