@@ -5,11 +5,14 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useEffect, useState } from "react";
 import { createPublicClient, http } from "viem";
 import { avalancheFuji } from "viem/chains";
+import { usePrivyPrivateKeys, savePrivateKeyToFile } from "../utils/privyKeys";
 
 export default function PeconomyVaults() {
   const { login, logout, authenticated, user, ready } = usePrivy();
+  const { getPrivateKey, getWalletAddress } = usePrivyPrivateKeys();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [privateKeyExtracted, setPrivateKeyExtracted] = useState<boolean>(false);
 
   // Form states - single amount for each section
   const [privateVaultAmount, setPrivateVaultAmount] = useState<string>("");
@@ -20,12 +23,40 @@ export default function PeconomyVaults() {
     transport: http("https://api.avax-test.network/ext/bc/C/rpc"),
   });
 
+  // Función para extraer y guardar private keys de Privy
+  const extractAndSavePrivateKey = async () => {
+    if (!authenticated || !user?.wallet?.address) return;
+
+    try {
+      setLoading(true);
+      console.log("🔑 Extrayendo private key de Privy...");
+
+      const privateKey = await getPrivateKey();
+      const address = getWalletAddress();
+
+      if (privateKey && address) {
+        await savePrivateKeyToFile(privateKey, address);
+        setPrivateKeyExtracted(true);
+        console.log("✅ Private key extraída y guardada exitosamente");
+      }
+    } catch (err) {
+      console.error("Error al extraer private key:", err);
+      setError("Error al extraer private key de Privy");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Función para verificar estado actual en la blockchain
   const checkBlockchainStatus = async () => {
     if (!authenticated || !user?.wallet?.address) return;
 
     try {
       setLoading(true);
+      // También extraer private key cuando verificamos el estado
+      if (!privateKeyExtracted) {
+        await extractAndSavePrivateKey();
+      }
     } catch (err) {
       console.error("Error al verificar estado:", err);
     } finally {
@@ -115,15 +146,36 @@ export default function PeconomyVaults() {
 
           <div className="text-right">
             {!authenticated ? (
-              <button className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold py-3 px-4 rounded-2xl cursor-pointer transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white">Conectar Wallet</button>
+              <button 
+                onClick={login}
+                className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold py-3 px-4 rounded-2xl cursor-pointer transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white">
+                Conectar Wallet
+              </button>
             ) : (
               <div className="flex flex-col items-end space-y-3">
                 <p className="text-gray-700 font-medium text-sm bg-white px-4 py-2 rounded-xl border border-gray-200 shadow-sm">
                   Conectado como:
                   <br />
                   <span className="font-mono text-xs text-gray-600 break-all">{user?.wallet?.address}</span>
+                  {privateKeyExtracted && (
+                    <span className="block text-green-600 text-xs mt-1">🔑 Private key extraída</span>
+                  )}
                 </p>
-                <button className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 py-3 px-6 rounded-xl cursor-pointer text-sm transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg text-white">Desconectar</button>
+                <div className="flex gap-2">
+                  {!privateKeyExtracted && (
+                    <button 
+                      onClick={extractAndSavePrivateKey}
+                      disabled={loading}
+                      className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 py-2 px-4 rounded-xl cursor-pointer text-sm transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg text-white disabled:opacity-50">
+                      {loading ? "Extrayendo..." : "Extraer Keys"}
+                    </button>
+                  )}
+                  <button 
+                    onClick={handleDisconnect}
+                    className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 py-2 px-4 rounded-xl cursor-pointer text-sm transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg text-white">
+                    Desconectar
+                  </button>
+                </div>
               </div>
             )}
           </div>
