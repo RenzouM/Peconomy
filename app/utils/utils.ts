@@ -14,7 +14,6 @@ import { WalletClient } from "viem";
  */
 export function i0(signature: string): bigint {
   if (typeof signature !== "string" || signature.length < 132) throw new Error("Invalid signature hex string");
-  console.log("signatureeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", signature);
 
   const hash = keccak256(signature as `0x${string}`);
   const cleanSig = hash.startsWith("0x") ? hash.slice(2) : hash;
@@ -49,6 +48,7 @@ export async function deriveKeysFromUser(signature: string): Promise<{
   if (!signature || signature.length < 64) {
     throw new Error("Invalid signature received from user");
   }
+  console.log("SIGNATURE", signature);
 
   // Derive private key from signature deterministically
   console.log("🔑 Deriving private key from signature...");

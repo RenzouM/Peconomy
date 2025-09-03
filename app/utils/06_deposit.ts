@@ -117,7 +117,6 @@ export const deposit = async (depositAmount: string, signaturee: string, userAdd
           functionName: "tokenIds",
           args: [testERC20Address],
         })) as bigint;
-        console.log("JEJEJEJJEJEEJE", tokenId);
 
         if (tokenId === 0n) {
           console.log("📋 Token not yet registered in EncryptedERC (will be registered on first deposit)");

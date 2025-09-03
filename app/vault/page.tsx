@@ -4,6 +4,9 @@ import { usePrivy, useWallets, useSignMessage } from "@privy-io/react-auth";
 import { useState } from "react";
 import Image from "next/image";
 import { deposit } from "../utils/06_deposit";
+import { createWalletClient, custom } from "viem";
+import { avalancheFuji } from "viem/chains";
+import { type EIP1193Provider } from "viem";
 
 export default function PeconomyVaults() {
   const { login, logout, authenticated, user } = usePrivy();
@@ -76,32 +79,22 @@ export default function PeconomyVaults() {
     }
 
     const uiOptions = {
-      title: "Sign message for deposit operation",
+      title: `eERC
+Registering user with
+ Address:${wallets[0].address.toLowerCase()}`,
     };
-    const message = `eERC Registering with Address:${wallets[0].address}`;
 
-    // Fallback: Si el mensaje complejo falla, usar uno simple
-    // const message = "eERC Registration";
-    console.log("Message to sign:", message);
-    console.log("Message length:", message.length);
-    console.log("Message bytes:", new TextEncoder().encode(message));
+    const { signature } = await signMessage(
+      {
+        message: `eERC
+Registering user with
+ Address:${wallets[0].address.toLowerCase()}`,
+      },
+      {
+        address: wallets[0].address, // Optional: Specify the wallet to use for signing. If not provided, the first wallet will be used.
+      }
+    );
 
-    let signature;
-    try {
-      const result = await signMessage(
-        {
-          message: message,
-        },
-        {
-          uiOptions,
-          address: wallets[0].address,
-        }
-      );
-      signature = result.signature;
-    } catch (signError) {
-      console.error("Error signing message:", signError);
-      throw new Error(`Failed to sign message: ${signError instanceof Error ? signError.message : "Unknown error"}`);
-    }
     console.log("SIGNATURE", signature);
 
     if (!privateVaultAmount || parseFloat(privateVaultAmount) <= 0) {
