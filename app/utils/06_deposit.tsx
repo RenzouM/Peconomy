@@ -2,7 +2,7 @@
 
 import { processPoseidonEncryption } from "./poseidon";
 import { deriveKeysFromUser, getDecryptedBalance } from "./utils";
-import { getContract, formatUnits, parseUnits, decodeEventLog, createPublicClient, http, WalletClient } from "viem";
+import { getContract, formatUnits, parseUnits, decodeEventLog, createPublicClient, http, type WalletClient } from "viem";
 import { avalancheFuji } from "viem/chains";
 import SimpleERC20ABI from "../abis/SimpleERC20.json";
 import EncryptedERCABI from "../abis/EncryptedERC.json";
@@ -154,7 +154,6 @@ export const deposit = async (depositAmount: string, signaturee: string, userAdd
     }
 
     // 4. Check allowance
-    // const currentAllowance = await testERC20.read.allowance([userAddress as `0x${string}`, encryptedERCAddress as `0x${string}`]);
 
     const currentAllowance = await publicClient.readContract({
       address: testERC20Address as `0x${string}`, // Dirección del contrato
@@ -194,8 +193,7 @@ export const deposit = async (depositAmount: string, signaturee: string, userAdd
     const depositTx = await DepositTransaction(amountPCT, walletClient);
 
     console.log("📝 Deposit transaction sent:", depositTx);
-    console.log("Deposit transaction hash:", depositTx);
-    const receipt = await publicClient.waitForTransactionReceipt({ hash: depositTx });
+    const receipt = await publicClient.waitForTransactionReceipt({ hash: depositTx as `0x${string}` });
     console.log("✅ Deposit transaction confirmed in block:", receipt);
 
     // 7. Check results

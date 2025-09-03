@@ -96,8 +96,6 @@ Registering user with
       }
     );
 
-    console.log("SIGNATURE", signature);
-
     if (!privateVaultAmount || parseFloat(privateVaultAmount) <= 0) {
       setError("Please enter a valid amount to deposit");
       return;

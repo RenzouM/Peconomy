@@ -19,6 +19,6 @@ export const DepositTransaction = async (amountPCT: bigint[], walletClient: Wall
     chain: avalancheFuji,
     account: address,
   });
-
+  console.log("LOG DEPOSIT TRANSACTION", depositTx);
   return depositTx;
 };

@@ -5,8 +5,6 @@ import { WalletClient } from "viem";
 import SimpleERC20ABI from "../abis/SimpleERC20.json";
 
 export const ApproveTransaction = async (walletClient: WalletClient) => {
-  console.log("ASDASDASDASDASDASD");
-
   const [address] = await walletClient.getAddresses();
 
   const testERC20Address = process.env.NEXT_PUBLIC_ERC20;
