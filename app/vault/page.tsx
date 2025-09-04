@@ -5,15 +5,16 @@ import { useState } from "react";
 import Image from "next/image";
 import { deposit } from "../utils/06_deposit";
 import { avalancheFuji } from "viem/chains";
-import { createWalletClient, custom, type Hex } from "viem";
+import { createWalletClient, custom, type Hex, type WalletClient } from "viem";
+import { useEffect } from "react";
+import { checkBalance } from "../utils/08_check_balance";
 
 export default function PeconomyVaults() {
   const { login, logout, authenticated, user } = usePrivy();
   const { wallets } = useWallets();
   const { signMessage } = useSignMessage();
-
   const [error, setError] = useState<string>("");
-  const [isDepositing, setIsDepositing] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Form states - single amount for each section
   const [privateVaultAmount, setPrivateVaultAmount] = useState<string>("");
@@ -71,20 +72,10 @@ export default function PeconomyVaults() {
   };
 
   const handleDeposit = async () => {
-    const wallet = wallets[0];
-    await wallet.switchChain(avalancheFuji.id);
-    const provider = await wallet.getEthereumProvider();
-    const walletClient = createWalletClient({
-      account: wallet.address as Hex,
-      chain: avalancheFuji,
-      transport: custom(provider),
-    });
-
-    if (!authenticated || !user?.wallet) {
+    if (!authenticated || !wallets) {
       setError("Please connect your wallet first");
       return;
     }
-
     const { signature } = await signMessage(
       {
         message: `eERC
@@ -103,13 +94,14 @@ Registering user with
 
     try {
       setError("");
-      setIsDepositing(true);
+      setIsLoading(true);
       console.log("Starting deposit process...");
 
       const userAddress = wallets[0].address;
+      const walletClient = await getWalletClient();
 
       // Call the deposit function from 06_deposit.ts
-      await deposit(privateVaultAmount, signature, userAddress, walletClient);
+      await deposit(privateVaultAmount, signature, userAddress, walletClient as WalletClient);
 
       console.log("Deposit completed successfully!");
       // You might want to refresh the balance or show a success message here
@@ -117,13 +109,63 @@ Registering user with
       console.error("Deposit failed:", error);
       setError(error instanceof Error ? error.message : "Deposit failed. Please try again.");
     } finally {
-      setIsDepositing(false);
+      setIsLoading(false);
+    }
+  };
+  const handleCheckBalance = async () => {
+    if (!authenticated || !wallets) {
+      setError("Please connect your wallet first");
+      return;
+    }
+    try {
+      const { signature } = await signMessage(
+        {
+          message: `eERC
+Registering user with
+ Address:${wallets[0].address.toLowerCase()}`,
+        },
+        {
+          address: wallets[0].address, // Optional: Specify the wallet to use for signing. If not provided, the first wallet will be used.
+        }
+      );
+      const walletClient = await getWalletClient();
+      const userAddress = wallets[0].address;
+      await checkBalance(userAddress, walletClient as WalletClient, signature);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Check balance failed. Please try again.");
+    } finally {
     }
   };
 
   const handleDisconnect = async () => {
     await logout();
   };
+
+  const getWalletClient = async () => {
+    if (wallets.length > 0 && authenticated) {
+      try {
+        const wallet = wallets[0];
+        await wallet.switchChain(avalancheFuji.id);
+        const provider = await wallet.getEthereumProvider();
+
+        const walletClient = createWalletClient({
+          account: wallet.address as Hex,
+          chain: avalancheFuji,
+          transport: custom(provider),
+        });
+        return walletClient;
+      } catch (err) {
+        console.error("Error initializing wallet:", err);
+        setError(err instanceof Error ? err.message : "Error initializing wallet");
+      }
+    }
+  };
+
+  useEffect(() => {
+    const initializeWallet = async () => {};
+
+    initializeWallet();
+  }, [wallets, authenticated, user]);
 
   return (
     <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 px-8">
@@ -485,9 +527,15 @@ Registering user with
                         </button>
                         <button
                           onClick={handleDeposit}
-                          disabled={isDepositing}
-                          className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isDepositing ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
-                          {isDepositing ? "Depositing..." : "Deposit"}
+                          disabled={isLoading}
+                          className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                          {isLoading ? "Depositing..." : "Deposit"}
+                        </button>{" "}
+                        <button
+                          onClick={handleCheckBalance}
+                          disabled={isLoading}
+                          className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                          {isLoading ? "Checking balance..." : "Check balance"}
                         </button>
                       </div>
                     </div>

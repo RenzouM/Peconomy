@@ -12,6 +12,7 @@
     "@privy-io/react-auth": "^2.21.4",
     "@zk-kit/baby-jubjub": "^1.0.3",
     "maci-crypto": "^2.5.0",
+    "nanostores": "^1.0.1",
     "next": "15.5.0",
     "poseidon-lite": "^0.3.0",
     "react": "19.1.0",

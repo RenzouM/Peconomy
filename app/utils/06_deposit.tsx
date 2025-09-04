@@ -4,11 +4,11 @@ import { processPoseidonEncryption } from "./poseidon";
 import { deriveKeysFromUser, getDecryptedBalance } from "./utils";
 import { getContract, formatUnits, parseUnits, decodeEventLog, createPublicClient, http, type WalletClient } from "viem";
 import { avalancheFuji } from "viem/chains";
+import { ApproveTransaction } from "./approveTransaction";
+import { DepositTransaction } from "./depositTransaction";
 import SimpleERC20ABI from "../abis/SimpleERC20.json";
 import EncryptedERCABI from "../abis/EncryptedERC.json";
 import RegistrarABI from "../abis/Registrar.json";
-import { ApproveTransaction } from "./approveTransaction";
-import { DepositTransaction } from "./depositTransaction";
 
 export const deposit = async (depositAmount: string, signaturee: string, userAddress: string, walletClient: WalletClient) => {
   // Definir tipos al inicio del archivo
