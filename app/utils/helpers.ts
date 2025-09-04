@@ -1,6 +1,5 @@
 import { Base8, mulPointEscalar } from "@zk-kit/baby-jubjub";
 import { poseidon } from "maci-crypto/build/ts/hashing";
-
 import { processPoseidonDecryption, processPoseidonEncryption } from "./poseidon";
 import { decryptPoint, encryptMessage } from "./jub/jub";
 import type { AmountPCTStructOutput } from "../typechain-types/contracts/EncryptedERC";
@@ -8,6 +7,8 @@ import { BabyJubJub__factory } from "../typechain-types/factories/contracts/libr
 import { MintVerifier__factory, RegistrationVerifier__factory, TransferVerifier__factory, WithdrawVerifier__factory, BurnVerifier__factory } from "../typechain-types/factories/contracts/prod";
 import { BurnCircuitGroth16Verifier__factory, MintCircuitGroth16Verifier__factory, RegistrationCircuitGroth16Verifier__factory, TransferCircuitGroth16Verifier__factory, WithdrawCircuitGroth16Verifier__factory } from "../typechain-types/factories/contracts/verifiers";
 import type { User } from "./user";
+import type { BurnCircuit, CalldataBurnCircuitGroth16, CalldataMintCircuitGroth16, CalldataTransferCircuitGroth16, CalldataWithdrawCircuitGroth16, MintCircuit, TransferCircuit, WithdrawCircuit } from "../zkit";
+import { groth16 } from "snarkjs";
 
 /**
  * Function for deploying verifier contracts for eERC

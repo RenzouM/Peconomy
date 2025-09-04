@@ -5,10 +5,10 @@ import { formatPrivKeyForBabyJub } from "maci-crypto";
 import SimpleERC20ABI from "../abis/SimpleERC20.json";
 import EncryptedERCABI from "../abis/EncryptedERC.json";
 import RegistrarABI from "../abis/Registrar.json";
-import { getContract, formatUnits, createPublicClient, http, type WalletClient } from "viem";
+import { getContract, formatUnits, createPublicClient, http } from "viem";
 import { avalancheFuji } from "viem/chains";
 
-export const checkBalance = async (userAddress: string, walletClient: WalletClient, signature: string) => {
+export const checkBalance = async (userAddress: string, signature: string) => {
   const encryptedERCAddress = process.env.NEXT_PUBLIC_ENCRYPTED_ERC20;
   const testERC20Address = process.env.NEXT_PUBLIC_ERC20;
   const registrarAddress = process.env.NEXT_PUBLIC_REGISTRAR;
@@ -161,14 +161,6 @@ export const checkBalance = async (userAddress: string, walletClient: WalletClie
     type AmountPCT = {
       pct: [bigint, bigint, bigint, bigint, bigint, bigint, bigint];
       index: bigint;
-    };
-
-    type BalanceOfResult = {
-      eGCT: EGCT;
-      nonce: bigint;
-      amountPCTs: AmountPCT[];
-      balancePCT: [bigint, bigint, bigint, bigint, bigint, bigint, bigint];
-      transactionIndex: bigint;
     };
 
     // Get encrypted balance components using balanceOf function

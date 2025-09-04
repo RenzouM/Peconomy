@@ -45,11 +45,6 @@ export const deposit = async (depositAmount: string, signaturee: string, userAdd
     abi: EncryptedERCABI.abi,
     client: publicClient,
   });
-  const registrar = await getContract({
-    address: registrarAddress as `0x${string}`,
-    abi: RegistrarABI.abi,
-    client: publicClient,
-  });
 
   try {
     // 1. Check if user is registered

@@ -48,11 +48,11 @@ export const SoundCloudIcon = () => (
       y2="98.004%">
       <stop
         offset="0"
-        stop-color="#f80"
+        stopColor="#f80"
       />
       <stop
         offset="1"
-        stop-color="#f30"
+        stopColor="#f30"
       />
     </linearGradient>
     <path

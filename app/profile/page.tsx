@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { createSocialLinks, mockPosts, mockSuggestedUsers, mockSavedUsers } from "../data/mockData";
 import { sortSocialLinksByFollowers } from "../utils/formatters";
@@ -16,7 +15,6 @@ export default function LinktreeProfile() {
   const posts = mockPosts;
   const suggestedUsers = mockSuggestedUsers;
   const savedUsers = mockSavedUsers;
-
   return (
     <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 px-8">
       <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center ">
@@ -79,9 +77,9 @@ export default function LinktreeProfile() {
                       <path
                         fill="#000000"
                         stroke="#000000"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
                         d="M6 6.2c0-1.12 0-1.68.218-2.108a2 2 0 0 1 .874-.874C7.52 3 8.08 3 9.2 3h5.6c1.12 0 1.68 0 2.108.218a2 2 0 0 1 .874.874C18 4.52 18 5.08 18 6.2v13.305c0 .486 0 .729-.101.862a.5.5 0 0 1-.37.198c-.167.01-.369-.125-.773-.394L12 17l-4.756 3.17c-.404.27-.606.405-.774.395a.5.5 0 0 1-.369-.198C6 20.234 6 19.991 6 19.505z"></path>
                       <path
                         fill="#000000"
@@ -226,9 +224,9 @@ export default function LinktreeProfile() {
                       <path
                         fill="#000000"
                         stroke="#000000"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
                         d="M6 6.2c0-1.12 0-1.68.218-2.108a2 2 0 0 1 .874-.874C7.52 3 8.08 3 9.2 3h5.6c1.12 0 1.68 0 2.108.218a2 2 0 0 1 .874.874C18 4.52 18 5.08 18 6.2v13.305c0 .486 0 .729-.101.862a.5.5 0 0 1-.37.198c-.167.01-.369-.125-.773-.394L12 17l-4.756 3.17c-.404.27-.606.405-.774.395a.5.5 0 0 1-.369-.198C6 20.234 6 19.991 6 19.505z"></path>
                       <path
                         fill="#000000"

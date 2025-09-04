@@ -1,5 +1,3 @@
-"use client";
-
 import { avalancheFuji } from "viem/chains";
 import { WalletClient } from "viem";
 import SimpleERC20ABI from "../abis/SimpleERC20.json";

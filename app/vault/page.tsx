@@ -8,6 +8,7 @@ import { avalancheFuji } from "viem/chains";
 import { createWalletClient, custom, type Hex, type WalletClient } from "viem";
 import { useEffect } from "react";
 import { checkBalance } from "../utils/08_check_balance";
+import { transfer } from "../utils/07_transfer";
 
 export default function PeconomyVaults() {
   const { login, logout, authenticated, user } = usePrivy();
@@ -66,9 +67,48 @@ export default function PeconomyVaults() {
     // Add private decrypt logic here
   };
 
-  const handlePrivateTransfer = () => {
-    console.log("Private transferring data:", privateVaultAmount);
-    // Add private transfer logic here
+  const handlePrivateTransfer = async () => {
+    if (!authenticated || !wallets) {
+      setError("Please connect your wallet first");
+      return;
+    }
+    const { signature } = await signMessage(
+      {
+        message: `eERC
+Registering user with
+ Address:${wallets[0].address.toLowerCase()}`,
+      },
+      {
+        address: wallets[0].address, // Optional: Specify the wallet to use for signing. If not provided, the first wallet will be used.
+      }
+    );
+
+    if (!privateVaultAmount || parseFloat(privateVaultAmount) <= 0) {
+      setError("Please enter a valid amount to deposit");
+      return;
+    }
+
+    try {
+      setError("");
+      setIsLoading(true);
+      console.log("Starting transfer process...");
+
+      const userAddress = wallets[0].address;
+      const walletClient = await getWalletClient();
+
+      const receiverAddress = "0x8e444972A854260e3b37032bEE47945f646B96Aa";
+
+      // Call the deposit function from 06_deposit.ts
+      await transfer(userAddress as `0x${string}`, receiverAddress, parseFloat(privateVaultAmount), walletClient as WalletClient, signature);
+
+      console.log("Transfer completed successfully!");
+      // You might want to refresh the balance or show a success message here
+    } catch (error) {
+      console.error("Transfer failed:", error);
+      setError(error instanceof Error ? error.message : "Transfer failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDeposit = async () => {
@@ -128,9 +168,8 @@ Registering user with
           address: wallets[0].address, // Optional: Specify the wallet to use for signing. If not provided, the first wallet will be used.
         }
       );
-      const walletClient = await getWalletClient();
       const userAddress = wallets[0].address;
-      await checkBalance(userAddress, walletClient as WalletClient, signature);
+      await checkBalance(userAddress, signature);
     } catch (error) {
       setError(error instanceof Error ? error.message : "Check balance failed. Please try again.");
     } finally {
@@ -536,6 +575,12 @@ Registering user with
                           disabled={isLoading}
                           className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
                           {isLoading ? "Checking balance..." : "Check balance"}
+                        </button>
+                        <button
+                          onClick={handlePrivateTransfer}
+                          disabled={isLoading}
+                          className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                          {isLoading ? "Transferring..." : "Transfer"}
                         </button>
                       </div>
                     </div>
