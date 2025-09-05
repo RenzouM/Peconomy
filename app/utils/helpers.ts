@@ -7,7 +7,7 @@ import { BabyJubJub__factory } from "../typechain-types/factories/contracts/libr
 import { MintVerifier__factory, RegistrationVerifier__factory, TransferVerifier__factory, WithdrawVerifier__factory, BurnVerifier__factory } from "../typechain-types/factories/contracts/prod";
 import { BurnCircuitGroth16Verifier__factory, MintCircuitGroth16Verifier__factory, RegistrationCircuitGroth16Verifier__factory, TransferCircuitGroth16Verifier__factory, WithdrawCircuitGroth16Verifier__factory } from "../typechain-types/factories/contracts/verifiers";
 import type { User } from "./user";
-import type { BurnCircuit, CalldataBurnCircuitGroth16, CalldataMintCircuitGroth16, CalldataTransferCircuitGroth16, CalldataWithdrawCircuitGroth16, MintCircuit, TransferCircuit, WithdrawCircuit } from "../zkit";
+import type { BurnCircuit, CalldataBurnCircuitGroth16, CalldataMintCircuitGroth16, CalldataTransferCircuitGroth16, CalldataWithdrawCircuitGroth16, MintCircuit, WithdrawCircuit } from "./zkit";
 import { groth16 } from "snarkjs";
 
 /**
@@ -234,9 +234,6 @@ export const privateTransfer = async (
   // 5. create pct for the sender with the newly calculated balance
   const { ciphertext: senderCiphertext, nonce: senderNonce, authKey: senderAuthKey } = processPoseidonEncryption([senderNewBalance], sender.publicKey);
 
-  const circuit = await zkit.getCircuit("TransferCircuit");
-  const transferCircuit = circuit as unknown as TransferCircuit;
-
   const input = {
     ValueToTransfer: transferAmount,
     SenderPrivateKey: sender.formattedPrivateKey,
@@ -254,7 +251,6 @@ export const privateTransfer = async (
     ReceiverPCTAuthKey: receiverAuthKey,
     ReceiverPCTNonce: receiverNonce,
     ReceiverPCTRandom: receiverEncRandom,
-
     AuditorPublicKey: auditorPublicKey,
     AuditorPCT: auditorCiphertext,
     AuditorPCTAuthKey: auditorAuthKey,
@@ -262,11 +258,31 @@ export const privateTransfer = async (
     AuditorPCTRandom: auditorEncRandom,
   };
 
-  const proof = await transferCircuit.generateProof(input);
-  const calldata = await transferCircuit.generateCalldata(proof);
+  const wasmPath = "../../../circuits/TransferCircuit.wasm";
+  const zkeyPath = "../../../circuits/TransferCircuit.groth16.zkey";
+
+  const { proof: calldata, publicSignals } = await groth16.fullProve(input, wasmPath, zkeyPath);
+
+  const formattedProof = {
+    proofPoints: {
+      a: [BigInt(calldata.pi_a[0]), BigInt(calldata.pi_a[1])] as readonly [bigint, bigint],
+      b: [
+        [BigInt(calldata.pi_b[0][1]), BigInt(calldata.pi_b[0][0])],
+        [BigInt(calldata.pi_b[1][1]), BigInt(calldata.pi_b[1][0])],
+      ] as readonly [readonly [bigint, bigint], readonly [bigint, bigint]],
+      c: [BigInt(calldata.pi_c[0]), BigInt(calldata.pi_c[1])] as readonly [bigint, bigint],
+    },
+    publicSignals: (() => {
+      const signals = publicSignals.map((signal: string) => BigInt(signal));
+      if (signals.length !== 32) {
+        throw new Error(`Expected 5 public signals, got ${signals.length}`);
+      }
+      return [signals[0], signals[1], signals[2], signals[3], signals[4], signals[5], signals[6], signals[7], signals[8], signals[9], signals[10], signals[11], signals[12], signals[13], signals[14], signals[15], signals[16], signals[17], signals[18], signals[19], signals[20], signals[21], signals[22], signals[23], signals[24], signals[25], signals[26], signals[27], signals[28], signals[29], signals[30], signals[31]] as const;
+    })(),
+  };
 
   return {
-    proof: calldata,
+    proof: formattedProof,
     senderBalancePCT: [...senderCiphertext, ...senderAuthKey, senderNonce],
   };
 };
@@ -332,11 +348,10 @@ export const withdraw = async (
     AuditorPCTRandom: auditorEncRandom,
   };
 
-  const circuit = await zkit.getCircuit("WithdrawCircuit");
-  const withdrawCircuit = circuit as unknown as WithdrawCircuit;
+  const wasmPath = "../../../circuits/WithdrawCircuit.wasm";
+  const zkeyPath = "../../../circuits/WithdrawCircuit.groth16.zkey";
 
-  const proof = await withdrawCircuit.generateProof(input);
-  const calldata = await withdrawCircuit.generateCalldata(proof);
+  const { proof: calldata } = await groth16.fullProve(input, wasmPath, zkeyPath);
 
   return {
     proof: calldata,

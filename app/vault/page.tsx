@@ -766,9 +766,8 @@ Registering user with
               </div>
             )}
             <div className="flex flex-col justify-center max-w-64 text-center bg-gradient-to-br from-gray-700 to-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700">
-              <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <svg
-                  className="w-24 h-24 text-gray-900"
                   viewBox="0 0 256 256"
                   fill="currentColor">
                   <path

@@ -1,10 +1,9 @@
-"use client";
-
 import { avalancheFuji } from "viem/chains";
 import { WalletClient } from "viem";
 import EncryptedERCABI from "../abis/EncryptedERC.json";
 
 export const TransferTransaction = async (receiverAddress: string, tokenId: bigint, transferProof: bigint[], senderBalancePCT: bigint[], walletClient: WalletClient) => {
+  console.log("transferProof", receiverAddress, tokenId, transferProof, senderBalancePCT);
   const [address] = await walletClient.getAddresses();
 
   const encryptedERCAddress = process.env.NEXT_PUBLIC_ENCRYPTED_ERC20;

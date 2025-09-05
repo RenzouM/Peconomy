@@ -6,7 +6,6 @@ import RegistrarABI from "../abis/Registrar.json";
 import { getContract, formatUnits, createPublicClient, http, type WalletClient } from "viem";
 import { avalancheFuji } from "viem/chains";
 import { TransferTransaction } from "./transferTransaction";
-import { CalldataTransferCircuitGroth16 } from "../zkit";
 
 export const transfer = async (senderAddress: `0x${string}`, receiverAddress: `0x${string}`, transferAmountStr: number, walletClient: WalletClient, signaturee: string) => {
   // Definir tipos al inicio del archivo
@@ -222,6 +221,12 @@ export const transfer = async (senderAddress: `0x${string}`, receiverAddress: `0
     const transferProof = proof as unknown as bigint[];
 
     console.log("📝 Submitting transfer to contract...");
+
+    console.log("receiverAddress", receiverAddress);
+    console.log("tokenId", tokenId);
+    console.log("transferProof", transferProof);
+    console.log("senderBalancePCT", senderBalancePCT);
+    console.log("walletClient", walletClient);
 
     // Call the contract's transfer function
     const transferTx = await TransferTransaction(receiverAddress, tokenId, transferProof as bigint[], senderBalancePCT, walletClient);

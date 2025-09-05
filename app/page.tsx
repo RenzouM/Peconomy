@@ -237,8 +237,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight ">
-              The Future of
-              <span className="block bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent">Creator Economy</span>
+              The Future Economy
+              <span className="block bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent">Creator&apos;s Coin</span>
             </h1>
 
             <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">Unify your content, monetize with privacy, and grow with AI. Peconomy is the all-in-one platform that transforms how creators build, earn, and thrive in the digital age.</p>
@@ -313,18 +313,12 @@ export default function Home() {
       </section>
 
       {/* Platform Overview */}
-      <section className="py-24 bg-gradient-to-br from-gray-50/30 to-white/60 rounded-3xl mt-8 mx-6">
+      <section className="py-24 bg-gradient-to-br from-gray-50/30 to-white/60 rounded-3xl mt-8 mx-6 overflow-hidden">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 relative">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 tracking-tight">Three Powerful Modules, One Platform</h2>
           </div>
-          <Image
-            src="/entrada.png"
-            alt="Peconomy Logo"
-            width={480}
-            height={480}
-            className="absolute -top-48 -right-[450px] transition-all duration-300 ease-out"
-          />
+
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Feed Module */}
             <div className="group relative bg-white/70 backdrop-blur-xl rounded-3xl p-10 shadow-sm border border-white/20 hover:shadow-xl hover:shadow-blue-200/30 transition-all duration-500 hover:-translate-y-1">
@@ -461,6 +455,106 @@ export default function Home() {
                     <span className="text-base">Multi-tier affiliate system</span>
                   </li>
                 </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Top Seller Section */}
+      <section className="py-24 bg-gradient-to-br from-gray-50/40 to-white/60 rounded-3xl mt-8 mx-6">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 tracking-tight">Top Seller of the Month</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">Meet our most successful creator who&apos;s dominating the platform this month</p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Content */}
+            <div className="space-y-8">
+              <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-10 shadow-sm border border-white/20">
+                <div className="flex items-center mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl mr-4">👑</div>
+                  <div>
+                    <h3 className="text-3xl font-bold text-gray-900 mb-2">@GameMaster</h3>
+                    <p className="text-gray-600 text-lg">Off The Grid Gaming Expert</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-6 mb-8">
+                  <div className="text-center p-4 bg-gradient-to-br from-red-50 to-red-100 rounded-2xl">
+                    <div className="text-3xl font-bold text-green-600 mb-2">+$12,450</div>
+                    <div className="text-gray-600 font-medium">This Month</div>
+                  </div>
+                  <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl">
+                    <div className="text-3xl font-bold text-green-600 mb-2">156</div>
+                    <div className="text-gray-600 font-medium">Streams</div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center text-gray-600">
+                    <svg
+                      className="w-5 h-5 text-green-500 mr-3 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 24 24">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg>
+                    <span className="text-base">Top Off The Grid gameplay content</span>
+                  </div>
+                  <div className="flex items-center text-gray-600">
+                    <svg
+                      className="w-5 h-5 text-green-500 mr-3 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 24 24">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg>
+                    <span className="text-base">Avalanche blockchain integration</span>
+                  </div>
+                  <div className="flex items-center text-gray-600">
+                    <svg
+                      className="w-5 h-5 text-green-500 mr-3 flex-shrink-0"
+                      fill="currentColor"
+                      viewBox="0 0 24 24">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg>
+                    <span className="text-base">Gaming NFT collections & streams</span>
+                  </div>
+                </div>
+
+                <div className="mt-8 p-6 bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-200/50">
+                  <p className="text-gray-700 italic text-lg leading-relaxed">&ldquo;Peconomy revolutionized my gaming content! Streaming Off The Grid on Avalanche with AI-powered features and private economy tokens helped me build an amazing community and increase my earnings by 300% this month!&rdquo;</p>
+                  <div className="mt-4 text-sm text-gray-600 font-medium">- @GameMaster, Top Gaming Creator</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Image */}
+            <div className="relative">
+              <div className="relative group">
+                <Image
+                  src="/offthegrid.webp"
+                  alt="Top Seller - Off The Grid Gaming Creator"
+                  width={500}
+                  height={500}
+                  className="rounded-3xl shadow-2xl transform group-hover:scale-105 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-3xl"></div>
+
+                {/* Floating stats */}
+                <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-red-600">#1</div>
+                    <div className="text-sm text-gray-600 font-medium">This Month</div>
+                  </div>
+                </div>
+
+                <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
+                  <div className="flex items-center">
+                    <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                    <span className="text-sm font-medium text-gray-700">Live Now</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -171,8 +171,8 @@ export default function LinktreeProfile() {
                   <Image
                     src="/luisito.png"
                     alt="Luisito Comunica"
-                    width={208}
-                    height={208}
+                    width={400}
+                    height={400}
                     className="w-full h-full rounded-full shadow-lg"
                   />
                 </div>
@@ -304,8 +304,8 @@ export default function LinktreeProfile() {
                     <Image
                       src="/luisitoland.png"
                       alt="Luisito Comunica"
-                      width={400}
-                      height={250}
+                      width={1707}
+                      height={282}
                       className="w-full h-full shadow-lg object-cover"
                     />
                   </div>
