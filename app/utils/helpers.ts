@@ -9,6 +9,7 @@ import { BurnCircuitGroth16Verifier__factory, MintCircuitGroth16Verifier__factor
 import type { User } from "./user";
 import type { BurnCircuit, CalldataBurnCircuitGroth16, CalldataMintCircuitGroth16, CalldataTransferCircuitGroth16, CalldataWithdrawCircuitGroth16, MintCircuit, WithdrawCircuit } from "./zkit";
 import { groth16 } from "snarkjs";
+import { log } from "console";
 
 /**
  * Function for deploying verifier contracts for eERC
@@ -351,10 +352,27 @@ export const withdraw = async (
   const wasmPath = "../../../circuits/WithdrawCircuit.wasm";
   const zkeyPath = "../../../circuits/WithdrawCircuit.groth16.zkey";
 
-  const { proof: calldata } = await groth16.fullProve(input, wasmPath, zkeyPath);
+  const { proof: calldata, publicSignals } = await groth16.fullProve(input, wasmPath, zkeyPath);
 
+  const formattedProof = {
+    proofPoints: {
+      a: [BigInt(calldata.pi_a[0]), BigInt(calldata.pi_a[1])] as readonly [bigint, bigint],
+      b: [
+        [BigInt(calldata.pi_b[0][1]), BigInt(calldata.pi_b[0][0])],
+        [BigInt(calldata.pi_b[1][1]), BigInt(calldata.pi_b[1][0])],
+      ] as readonly [readonly [bigint, bigint], readonly [bigint, bigint]],
+      c: [BigInt(calldata.pi_c[0]), BigInt(calldata.pi_c[1])] as readonly [bigint, bigint],
+    },
+    publicSignals: (() => {
+      const signals = publicSignals.map((signal: string) => BigInt(signal));
+      if (signals.length !== 16) {
+        throw new Error(`Expected 16 public signals, got ${signals.length}`);
+      }
+      return [signals[0], signals[1], signals[2], signals[3], signals[4], signals[5], signals[6], signals[7], signals[8], signals[9], signals[10], signals[11], signals[12], signals[13], signals[14], signals[15]] as const;
+    })(),
+  };
   return {
-    proof: calldata,
+    proof: formattedProof,
     userBalancePCT: [...userCiphertext, ...userAuthKey, userNonce],
   };
 };

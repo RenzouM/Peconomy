@@ -39,24 +39,6 @@ export const transfer = async (senderAddress: `0x${string}`, receiverAddress: `0
   console.log("Amount:", transferAmountStr);
   console.log("EncryptedERC:", encryptedERCAddress);
 
-  // Connect to contracts
-  // Connect to contracts using the clients
-  const testERC20 = await getContract({
-    address: testERC20Address as `0x${string}`,
-    abi: SimpleERC20ABI.abi,
-    client: publicClient,
-  });
-  const encryptedERC = await getContract({
-    address: encryptedERCAddress as `0x${string}`,
-    abi: EncryptedERCABI.abi,
-    client: publicClient,
-  });
-  const registrar = await getContract({
-    address: registrarAddress as `0x${string}`,
-    abi: RegistrarABI.abi,
-    client: publicClient,
-  });
-
   try {
     // Check if both sender and receiver are registered
     const isSenderRegistered = await publicClient.readContract({
@@ -102,16 +84,19 @@ export const transfer = async (senderAddress: `0x${string}`, receiverAddress: `0
           console.log("⚠️  Saved keys mismatch, generating new signature...");
           signature = signaturee;
           senderPrivateKey = i0(signature);
+          localStorage.setItem(keysStorageKey, JSON.stringify(senderPrivateKey));
         }
-      } catch (error) {
+      } catch {
         console.log("⚠️  Error parsing saved keys, generating new signature...");
         signature = signaturee;
         senderPrivateKey = i0(signature);
+        localStorage.setItem(keysStorageKey, JSON.stringify(senderPrivateKey));
       }
     } else {
       console.log("🔐 Generating signature for sender...");
       signature = signaturee;
       senderPrivateKey = i0(signature);
+      localStorage.setItem(keysStorageKey, JSON.stringify(senderPrivateKey));
     }
 
     // Create sender User object
@@ -186,11 +171,6 @@ export const transfer = async (senderAddress: `0x${string}`, receiverAddress: `0
 
     const senderCurrentBalance = decryptEGCTBalance(senderPrivateKey, c1, c2);
     const encryptedSystemDecimals = 2;
-    const tokenDecimals = await publicClient.readContract({
-      address: testERC20Address as `0x${string}`,
-      abi: SimpleERC20ABI.abi,
-      functionName: "decimals",
-    });
 
     console.log(`💰 Sender's current balance: ${formatUnits(senderCurrentBalance, encryptedSystemDecimals)} encrypted units`);
 

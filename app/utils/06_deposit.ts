@@ -1,5 +1,3 @@
-"use client";
-
 import { processPoseidonEncryption } from "./poseidon";
 import { deriveKeysFromUser, getDecryptedBalance } from "./utils";
 import { getContract, formatUnits, parseUnits, decodeEventLog, createPublicClient, http, type WalletClient } from "viem";
@@ -185,7 +183,7 @@ export const deposit = async (depositAmount: string, signaturee: string, userAdd
     // 6. Perform the deposit
     console.log(`💾 Depositing 1 ${tokenSymbol} into EncryptedERC...`);
 
-    const depositTx = await DepositTransaction(amountPCT, walletClient);
+    const depositTx = await DepositTransaction(amountPCT, walletClient, depositAmountBigInt);
 
     console.log("📝 Deposit transaction sent:", depositTx);
     const receipt = await publicClient.waitForTransactionReceipt({ hash: depositTx as `0x${string}` });

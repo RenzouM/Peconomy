@@ -68,3 +68,150 @@ export const mockSavedUsers: SavedUser[] = [
   { handle: "@user7", lastSeen: "3 days ago" },
   { handle: "@user8", lastSeen: "1 week ago" },
 ];
+
+// Product types for marketplace
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  originalPrice?: number;
+  currency: string;
+  image: string;
+  category: string;
+  rating: number;
+  reviewCount: number;
+  isNew?: boolean;
+  isFeatured?: boolean;
+  isOnSale?: boolean;
+  stock: number;
+  tags: string[];
+  creator: {
+    name: string;
+    avatar: string;
+    verified: boolean;
+  };
+}
+
+export const mockProducts: Product[] = [
+  {
+    id: "1",
+    name: "Peconomy NFT Collection #1",
+    description: "Exclusive digital art collection featuring unique blockchain-based artwork",
+    price: 0.5,
+    originalPrice: 0.8,
+    currency: "ETH",
+    image: "/nft.png",
+    category: "NFTs",
+    rating: 4.9,
+    reviewCount: 127,
+    isNew: true,
+    isFeatured: true,
+    isOnSale: true,
+    stock: 5,
+    tags: ["Digital Art", "Blockchain", "Exclusive"],
+    creator: {
+      name: "Luisito Comunica",
+      avatar: "/luisito.png",
+      verified: true,
+    },
+  },
+  {
+    id: "2",
+    name: "Peconomy Vault Access",
+    description: "Premium access to the Peconomy vault system with advanced features",
+    price: 99,
+    currency: "USDC",
+    image: "/vault.png",
+    category: "Services",
+    rating: 4.8,
+    reviewCount: 89,
+    isFeatured: true,
+    stock: 50,
+    tags: ["Premium", "Vault", "Access"],
+    creator: {
+      name: "Peconomy Team",
+      avatar: "/logo.png",
+      verified: true,
+    },
+  },
+  {
+    id: "3",
+    name: "Avalanche Card Premium",
+    description: "Exclusive Avalanche card with special benefits and rewards",
+    price: 25,
+    originalPrice: 35,
+    currency: "USDC",
+    image: "/card.png",
+    category: "Cards",
+    rating: 4.7,
+    reviewCount: 203,
+    isOnSale: true,
+    stock: 12,
+    tags: ["Card", "Avalanche", "Premium"],
+    creator: {
+      name: "Avalanche Team",
+      avatar: "/logo1.png",
+      verified: true,
+    },
+  },
+  {
+    id: "4",
+    name: "Crypto Trading Course",
+    description: "Complete course on cryptocurrency trading and DeFi strategies",
+    price: 149,
+    currency: "USDC",
+    image: "/entrada.png",
+    category: "Education",
+    rating: 4.9,
+    reviewCount: 156,
+    isNew: true,
+    stock: 100,
+    tags: ["Education", "Trading", "Crypto"],
+    creator: {
+      name: "Crypto Expert",
+      avatar: "/logo.png",
+      verified: true,
+    },
+  },
+  {
+    id: "5",
+    name: "Off The Grid Experience",
+    description: "Exclusive access to off-the-grid digital experiences and content",
+    price: 75,
+    currency: "USDC",
+    image: "/offthegrid.webp",
+    category: "Experiences",
+    rating: 4.6,
+    reviewCount: 78,
+    stock: 25,
+    tags: ["Experience", "Exclusive", "Digital"],
+    creator: {
+      name: "Off The Grid",
+      avatar: "/logo.png",
+      verified: false,
+    },
+  },
+  {
+    id: "6",
+    name: "Peconomy Merch Pack",
+    description: "Exclusive merchandise pack with Peconomy branded items",
+    price: 45,
+    originalPrice: 60,
+    currency: "USDC",
+    image: "/peconft.png",
+    category: "Merchandise",
+    rating: 4.8,
+    reviewCount: 94,
+    isOnSale: true,
+    stock: 30,
+    tags: ["Merchandise", "Branded", "Pack"],
+    creator: {
+      name: "Peconomy Store",
+      avatar: "/logo.png",
+      verified: true,
+    },
+  },
+];
+
+export const productCategories = ["All", "NFTs", "Services", "Cards", "Education", "Experiences", "Merchandise"];

@@ -617,6 +617,154 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Referral Incentive Section */}
+      <section className="py-20 my-12 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-green-50/80 via-emerald-50/80 to-teal-50/80"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-green-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-400/10 rounded-full blur-3xl"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold">
+                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                  Earn Money Instantly!
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                  Start <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Generating Income</span> Right Now
+                </h2>
+                <p className="text-xl text-gray-600 leading-relaxed">
+                  Join our referral system and earn <strong className="text-green-600">up to $1 USD per referral</strong> instantly. No waiting, no complications. Money goes straight to your account!
+                </p>
+              </div>
+
+              {/* Features */}
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 24 24">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg>
+                  </div>
+                  <span className="text-lg text-gray-700">Instant payment in USDC</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 24 24">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg>
+                  </div>
+                  <span className="text-lg text-gray-700">No referral limits</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 24 24">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg>
+                  </div>
+                  <span className="text-lg text-gray-700">Custom referral code</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="currentColor"
+                      viewBox="0 0 24 24">
+                      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                    </svg>
+                  </div>
+                  <span className="text-lg text-gray-700">Real-time earnings dashboard</span>
+                </div>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button className="group bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-2xl text-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                  <span className="flex items-center justify-center">
+                    Start Referring
+                    <svg
+                      className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </span>
+                </button>
+                <button className="group border-2 border-green-600 text-green-600 px-8 py-4 rounded-2xl text-lg font-semibold hover:bg-green-600 hover:text-white transition-all duration-300 transform hover:scale-105">
+                  <span className="flex items-center justify-center">
+                    See How It Works
+                    <svg
+                      className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {/* Right Content - USDC Image */}
+            <div className="relative">
+              <div className="relative z-10">
+                <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-white/20">
+                  <div className="text-center space-y-6">
+                    <div className="w-32 h-32 mx-auto bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center shadow-lg">
+                      <Image
+                        src="/usdc.png"
+                        alt="USDC"
+                        width={100}
+                        height={100}
+                        className="w-24 h-24"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-2xl font-bold text-gray-900">Instant Payments</h3>
+                      <p className="text-gray-600">Receive your earnings directly in USDC</p>
+                    </div>
+                    <div className="bg-green-50 rounded-2xl p-6 border border-green-200">
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-green-600 mb-2">$1 USD</div>
+                        <div className="text-sm text-green-700 font-medium">per referral</div>
+                        <div className="text-xs text-green-600 mt-1">Instant payment</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Elements */}
+              <div className="absolute -top-4 -right-4 w-20 h-20 bg-green-400/20 rounded-full blur-xl animate-pulse"></div>
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-emerald-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-32 relative overflow-hidden rounded-t-4xl">
         <Image

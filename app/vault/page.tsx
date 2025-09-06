@@ -6,9 +6,10 @@ import Image from "next/image";
 import { deposit } from "../utils/06_deposit";
 import { avalancheFuji } from "viem/chains";
 import { createWalletClient, custom, type Hex, type WalletClient } from "viem";
-import { useEffect } from "react";
 import { checkBalance } from "../utils/08_check_balance";
 import { transfer } from "../utils/07_transfer";
+import { withdraw } from "../utils/09_withdraw";
+import { register } from "../utils/03_register-user";
 
 export default function PeconomyVaults() {
   const { login, logout, authenticated, user } = usePrivy();
@@ -18,7 +19,7 @@ export default function PeconomyVaults() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Form states - single amount for each section
-  const [privateVaultAmount, setPrivateVaultAmount] = useState<string>("");
+  const [amount, setAmount] = useState<string>("");
   const [publicVaultAmount, setPublicVaultAmount] = useState<string>("");
 
   // Tab state
@@ -47,24 +48,46 @@ export default function PeconomyVaults() {
     });
   };
 
-  const handleEncrypt = () => {
-    console.log("Encrypting data:", publicVaultAmount);
-    // Add encryption logic here
-  };
+  const handleRegister = async () => {
+    if (!authenticated || !wallets) {
+      setError("Please connect your wallet first");
+      return;
+    }
+    const { signature } = await signMessage(
+      {
+        message: `eERC
+Registering user with
+ Address:${wallets[0].address.toLowerCase()}`,
+      },
+      {
+        address: wallets[0].address, // Optional: Specify the wallet to use for signing. If not provided, the first wallet will be used.
+      }
+    );
 
-  const handleTransfer = () => {
-    console.log("Transferring data:", publicVaultAmount);
-    // Add transfer logic here
-  };
+    if (!amount || parseFloat(amount) <= 0) {
+      setError("Please enter a valid amount to withdraw");
+      return;
+    }
 
-  const handleBuy = () => {
-    console.log("Buying with data:", publicVaultAmount);
-    // Add buy logic here
-  };
+    try {
+      setError("");
+      setIsLoading(true);
+      console.log("Starting withdraw process...");
 
-  const handlePrivateDecrypt = () => {
-    console.log("Private decrypting data:", privateVaultAmount);
-    // Add private decrypt logic here
+      const userAddress = wallets[0].address;
+      const walletClient = await getWalletClient();
+
+      // Call the deposit function from 06_deposit.ts
+      await register(signature, userAddress, walletClient as WalletClient);
+
+      console.log("User registered successfully!");
+      // You might want to refresh the balance or show a success message here
+    } catch (error) {
+      console.error("Registration failed:", error);
+      setError(error instanceof Error ? error.message : "Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handlePrivateTransfer = async () => {
@@ -83,7 +106,7 @@ Registering user with
       }
     );
 
-    if (!privateVaultAmount || parseFloat(privateVaultAmount) <= 0) {
+    if (!amount || parseFloat(amount) <= 0) {
       setError("Please enter a valid amount to deposit");
       return;
     }
@@ -99,7 +122,7 @@ Registering user with
       const receiverAddress = "0x8e444972A854260e3b37032bEE47945f646B96Aa";
 
       // Call the deposit function from 06_deposit.ts
-      await transfer(userAddress as `0x${string}`, receiverAddress, parseFloat(privateVaultAmount), walletClient as WalletClient, signature);
+      await transfer(userAddress as `0x${string}`, receiverAddress, parseFloat(amount), walletClient as WalletClient, signature);
 
       console.log("Transfer completed successfully!");
       // You might want to refresh the balance or show a success message here
@@ -111,7 +134,7 @@ Registering user with
     }
   };
 
-  const handleDeposit = async () => {
+  const handleDecrypt = async () => {
     if (!authenticated || !wallets) {
       setError("Please connect your wallet first");
       return;
@@ -127,7 +150,49 @@ Registering user with
       }
     );
 
-    if (!privateVaultAmount || parseFloat(privateVaultAmount) <= 0) {
+    if (!amount || parseFloat(amount) <= 0) {
+      setError("Please enter a valid amount to withdraw");
+      return;
+    }
+
+    try {
+      setError("");
+      setIsLoading(true);
+      console.log("Starting withdraw process...");
+
+      const userAddress = wallets[0].address;
+      const walletClient = await getWalletClient();
+
+      // Call the deposit function from 06_deposit.ts
+      await withdraw(amount, signature, userAddress, walletClient as WalletClient);
+
+      console.log("Withdraw completed successfully!");
+      // You might want to refresh the balance or show a success message here
+    } catch (error) {
+      console.error("Withdraw failed:", error);
+      setError(error instanceof Error ? error.message : "Withdraw failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleEncrypt = async () => {
+    if (!authenticated || !wallets) {
+      setError("Please connect your wallet first");
+      return;
+    }
+    const { signature } = await signMessage(
+      {
+        message: `eERC
+Registering user with
+ Address:${wallets[0].address.toLowerCase()}`,
+      },
+      {
+        address: wallets[0].address, // Optional: Specify the wallet to use for signing. If not provided, the first wallet will be used.
+      }
+    );
+
+    if (!amount || parseFloat(amount) <= 0) {
       setError("Please enter a valid amount to deposit");
       return;
     }
@@ -141,7 +206,7 @@ Registering user with
       const walletClient = await getWalletClient();
 
       // Call the deposit function from 06_deposit.ts
-      await deposit(privateVaultAmount, signature, userAddress, walletClient as WalletClient);
+      await deposit(amount, signature, userAddress, walletClient as WalletClient);
 
       console.log("Deposit completed successfully!");
       // You might want to refresh the balance or show a success message here
@@ -152,7 +217,7 @@ Registering user with
       setIsLoading(false);
     }
   };
-  const handleCheckBalance = async () => {
+  const handleCheckEncryptedBalance = async () => {
     if (!authenticated || !wallets) {
       setError("Please connect your wallet first");
       return;
@@ -199,12 +264,6 @@ Registering user with
       }
     }
   };
-
-  useEffect(() => {
-    const initializeWallet = async () => {};
-
-    initializeWallet();
-  }, [wallets, authenticated, user]);
 
   return (
     <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 px-8">
@@ -463,14 +522,13 @@ Registering user with
                             />
                             <input
                               type="text"
-                              value={privateVaultAmount}
-                              onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
+                              value={amount}
+                              onChange={e => handleAmountChange(e, setAmount)}
                               className="flex-1 px-2 py-1 text-black text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                               placeholder="0"
                             />
                           </div>
                         </div>
-
                         <div className="flex justify-center">
                           <div className="bg-blue-500 text-white p-1.5 rounded-full">
                             <svg
@@ -487,7 +545,6 @@ Registering user with
                             </svg>
                           </div>
                         </div>
-
                         <div className="bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200">
                           <div className="flex items-center space-x-2">
                             <Image
@@ -498,19 +555,18 @@ Registering user with
                             />
                             <input
                               type="text"
-                              value={privateVaultAmount}
-                              onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
+                              value={amount}
+                              onChange={e => handleAmountChange(e, setAmount)}
                               className="flex-1 px-2 py-1 text-black text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                               placeholder="0"
                             />
                           </div>
                         </div>
-
                         <button
                           onClick={handlePrivateTransfer}
                           className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
                           Execute Swap
-                        </button>
+                        </button>{" "}
                       </div>
                     </div>
                   )}
@@ -523,8 +579,8 @@ Registering user with
                         <div className="flex items-center w-full">
                           <input
                             type="text"
-                            value={privateVaultAmount}
-                            onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
+                            value={amount}
+                            onChange={e => handleAmountChange(e, setAmount)}
                             className="py-1 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
                             placeholder="0"
                           />
@@ -534,19 +590,19 @@ Registering user with
                         <label className="block text-xs font-semibold text-gray-700 my-auto">Amount</label>
                         <div className="flex items-center space-x-1">
                           <button
-                            onClick={() => handleDecrement(setPrivateVaultAmount)}
+                            onClick={() => handleDecrement(setAmount)}
                             className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
                             -
                           </button>
                           <input
                             type="text"
-                            value={privateVaultAmount}
-                            onChange={e => handleAmountChange(e, setPrivateVaultAmount)}
+                            value={amount}
+                            onChange={e => handleAmountChange(e, setAmount)}
                             className="py-1 w-20 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
                             placeholder="0"
                           />
                           <button
-                            onClick={() => handleIncrement(setPrivateVaultAmount)}
+                            onClick={() => handleIncrement(setAmount)}
                             className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
                             +
                           </button>
@@ -555,23 +611,19 @@ Registering user with
 
                       <div className="space-y-2">
                         <button
-                          onClick={handlePrivateDecrypt}
-                          className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
-                          Decrypt
-                        </button>
+                          onClick={handleRegister}
+                          disabled={isLoading}
+                          className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                          {isLoading ? "Registering..." : "Register"}
+                        </button>{" "}
                         <button
-                          onClick={handlePrivateTransfer}
-                          className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
-                          Transfer
-                        </button>
-                        <button
-                          onClick={handleDeposit}
+                          onClick={handleEncrypt}
                           disabled={isLoading}
                           className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
                           {isLoading ? "Depositing..." : "Deposit"}
                         </button>{" "}
                         <button
-                          onClick={handleCheckBalance}
+                          onClick={handleCheckEncryptedBalance}
                           disabled={isLoading}
                           className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
                           {isLoading ? "Checking balance..." : "Check balance"}
@@ -581,6 +633,12 @@ Registering user with
                           disabled={isLoading}
                           className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
                           {isLoading ? "Transferring..." : "Transfer"}
+                        </button>
+                        <button
+                          onClick={handleDecrypt}
+                          disabled={isLoading}
+                          className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                          {isLoading ? "Withdrawing..." : "Withdraw"}
                         </button>
                       </div>
                     </div>
@@ -680,15 +738,11 @@ Registering user with
                         Encrypt
                       </button>
                       <button
-                        onClick={handleTransfer}
+                        onClick={handlePrivateTransfer}
                         className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
                         Transfer
                       </button>
-                      <button
-                        onClick={handleBuy}
-                        className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
-                        Buy
-                      </button>
+                      <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">Buy</button>
                     </div>
                   </div>
                 </div>

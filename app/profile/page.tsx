@@ -1,8 +1,11 @@
 "use client";
-import { useState } from "react";
-import { createSocialLinks, mockPosts, mockSuggestedUsers, mockSavedUsers } from "../data/mockData";
+import { useState, useMemo } from "react";
+import { createSocialLinks, mockPosts, mockSuggestedUsers, mockSavedUsers, mockProducts, productCategories, Product } from "../data/mockData";
 import { sortSocialLinksByFollowers } from "../utils/formatters";
 import SocialLinksList from "../components/social/SocialLinksList";
+import ProductCard from "../components/marketplace/ProductCard";
+import SearchAndFilter from "../components/marketplace/SearchAndFilter";
+import Cart from "../components/marketplace/Cart";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -10,11 +13,95 @@ export default function LinktreeProfile() {
   const [activeTab, setActiveTab] = useState<"FEED" | "REVIEWS" | "SHOP">("FEED");
   const [showActionButtons, setShowActionButtons] = useState(false);
 
+  // Marketplace state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("newest");
+  const [showFilters, setShowFilters] = useState(false);
+  const [cartItems, setCartItems] = useState<{ product: Product; quantity: number }[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   const socialLinks = createSocialLinks();
   const sortedSocialLinks = sortSocialLinksByFollowers(socialLinks);
   const posts = mockPosts;
   const suggestedUsers = mockSuggestedUsers;
   const savedUsers = mockSavedUsers;
+
+  // Filter and sort products
+  const filteredProducts = useMemo(() => {
+    let filtered = mockProducts;
+
+    // Filter by search query
+    if (searchQuery) {
+      filtered = filtered.filter(product => product.name.toLowerCase().includes(searchQuery.toLowerCase()) || product.description.toLowerCase().includes(searchQuery.toLowerCase()) || product.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())));
+    }
+
+    // Filter by category
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter(product => product.category === selectedCategory);
+    }
+
+    // Sort products
+    switch (sortBy) {
+      case "price-low":
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        filtered.sort((a, b) => b.price - a.price);
+        break;
+      case "rating":
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      case "popular":
+        filtered.sort((a, b) => b.reviewCount - a.reviewCount);
+        break;
+      case "newest":
+      default:
+        filtered.sort((a, b) => {
+          if (a.isNew && !b.isNew) return -1;
+          if (!a.isNew && b.isNew) return 1;
+          return 0;
+        });
+        break;
+    }
+
+    return filtered;
+  }, [searchQuery, selectedCategory, sortBy]);
+
+  // Cart handlers
+  const handleAddToCart = (product: Product) => {
+    setCartItems(prev => {
+      const existingItem = prev.find(item => item.product.id === product.id);
+      if (existingItem) {
+        return prev.map(item => (item.product.id === product.id ? { ...item, quantity: item.quantity + 1 } : item));
+      }
+      return [...prev, { product, quantity: 1 }];
+    });
+  };
+
+  const handleUpdateQuantity = (productId: string, quantity: number) => {
+    if (quantity <= 0) {
+      handleRemoveItem(productId);
+      return;
+    }
+    setCartItems(prev => prev.map(item => (item.product.id === productId ? { ...item, quantity } : item)));
+  };
+
+  const handleRemoveItem = (productId: string) => {
+    setCartItems(prev => prev.filter(item => item.product.id !== productId));
+  };
+
+  const handleCheckout = () => {
+    // Implement checkout logic here
+    alert("Checkout functionality would be implemented here!");
+    setIsCartOpen(false);
+    setCartItems([]);
+  };
+
+  const handleViewDetails = (product: Product) => {
+    // Implement product details modal or navigation
+    alert(`View details for: ${product.name}`);
+  };
   return (
     <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 px-8">
       <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center ">
@@ -87,6 +174,26 @@ export default function LinktreeProfile() {
                         opacity=".5"></path>
                     </svg>
                   </span>
+                </button>
+                {/* Cart Button */}
+                <button
+                  onClick={() => setIsCartOpen(true)}
+                  className="relative p-3 text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all duration-300 cursor-pointer group">
+                  <span className="text-lg group-hover:scale-110 transition-transform">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round">
+                      <path d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
+                    </svg>
+                  </span>
+                  {cartItems.length > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{cartItems.reduce((total, item) => total + item.quantity, 0)}</span>}
                 </button>
               </div>
 
@@ -234,6 +341,26 @@ export default function LinktreeProfile() {
                         opacity=".5"></path>
                     </svg>
                   </span>
+                </button>
+                {/* Cart Button */}
+                <button
+                  onClick={() => setIsCartOpen(true)}
+                  className="relative p-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all duration-300 cursor-pointer group">
+                  <span className="text-xl group-hover:scale-110 transition-transform">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round">
+                      <path d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
+                    </svg>
+                  </span>
+                  {cartItems.length > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{cartItems.reduce((total, item) => total + item.quantity, 0)}</span>}
                 </button>
               </div>
 
@@ -593,12 +720,95 @@ export default function LinktreeProfile() {
                     )}
                   </div>
                 )}
-                {/* acaaaaa */}
+
+                {activeTab === "SHOP" && (
+                  <div className="w-full">
+                    {/* Mobile Shop Layout */}
+                    <div className="block md:hidden">
+                      <div className="space-y-4">
+                        {/* Search and Filter */}
+                        <SearchAndFilter
+                          searchQuery={searchQuery}
+                          onSearchChange={setSearchQuery}
+                          selectedCategory={selectedCategory}
+                          onCategoryChange={setSelectedCategory}
+                          sortBy={sortBy}
+                          onSortChange={setSortBy}
+                          categories={productCategories}
+                          showFilters={showFilters}
+                          onToggleFilters={() => setShowFilters(!showFilters)}
+                        />
+
+                        {/* Products Grid */}
+                        <div className="grid grid-cols-1 gap-4">
+                          {filteredProducts.map(product => (
+                            <ProductCard
+                              key={product.id}
+                              product={product}
+                              onAddToCart={handleAddToCart}
+                              onViewDetails={handleViewDetails}
+                            />
+                          ))}
+                        </div>
+
+                        {/* Load More Button */}
+                        <div className="text-center py-4">
+                          <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors">Load More Products</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Desktop Shop Layout */}
+                    <div className="hidden md:block">
+                      <div className="space-y-6">
+                        {/* Search and Filter */}
+                        <SearchAndFilter
+                          searchQuery={searchQuery}
+                          onSearchChange={setSearchQuery}
+                          selectedCategory={selectedCategory}
+                          onCategoryChange={setSelectedCategory}
+                          sortBy={sortBy}
+                          onSortChange={setSortBy}
+                          categories={productCategories}
+                          showFilters={showFilters}
+                          onToggleFilters={() => setShowFilters(!showFilters)}
+                        />
+
+                        {/* Products Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                          {filteredProducts.map(product => (
+                            <ProductCard
+                              key={product.id}
+                              product={product}
+                              onAddToCart={handleAddToCart}
+                              onViewDetails={handleViewDetails}
+                            />
+                          ))}
+                        </div>
+
+                        {/* Load More Button */}
+                        <div className="text-center py-8">
+                          <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg">Load More Products</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Cart Component */}
+      <Cart
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        items={cartItems}
+        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={handleRemoveItem}
+        onCheckout={handleCheckout}
+      />
     </div>
   );
 }
