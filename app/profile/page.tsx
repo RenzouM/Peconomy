@@ -397,6 +397,10 @@ export default function LinktreeProfile() {
                 {/* Expandable Action Buttons - Absolute Position */}
                 <div className="relative">
                   <div className={`absolute bg-white rounded-2xl bottom-20 left-0 right-0 mb-2 space-y-2 transition-all duration-500 ease-in-out ${showActionButtons ? "opacity-100 transform translate-y-0 pointer-events-auto" : "opacity-0 transform translate-y-2 pointer-events-none"}`}>
+                    <button className="w-full bg-gradient-to-r from-blue-800 to-blue-700 text-white py-3 px-6 rounded-xl font-semibold text-sm flex items-center justify-center space-x-2 hover:from-blue-700 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer">
+                      <span>My Profile</span>
+                      <span>⚙️</span>
+                    </button>
                     <button className="w-full bg-gradient-to-r from-green-800 to-green-700 text-white py-3 px-6 rounded-xl font-semibold text-sm flex items-center justify-center space-x-2 hover:from-green-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer">
                       <span>Touch</span>
                       <span>👆</span>

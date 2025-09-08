@@ -10,6 +10,8 @@ import { checkBalance } from "../utils/08_check_balance";
 import { transfer } from "../utils/07_transfer";
 import { withdraw } from "../utils/09_withdraw";
 import { register } from "../utils/03_register-user";
+import Link from "next/link";
+import { faucet } from "../utils/05_get_faucet";
 
 export default function PeconomyVaults() {
   const { login, logout, authenticated, user } = usePrivy();
@@ -17,6 +19,7 @@ export default function PeconomyVaults() {
   const { signMessage } = useSignMessage();
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [address, setAddress] = useState<string>("");
 
   // Form states - single amount for each section
   const [amount, setAmount] = useState<string>("");
@@ -48,6 +51,16 @@ export default function PeconomyVaults() {
     });
   };
 
+  const handleFaucet = async () => {
+    if (!authenticated || !wallets) {
+      setError("Please connect your wallet first");
+      return;
+    }
+    const userAddress = wallets[0].address;
+    const walletClient = await getWalletClient();
+    await faucet(userAddress as `0x${string}`, walletClient as WalletClient);
+  };
+
   const handleRegister = async () => {
     if (!authenticated || !wallets) {
       setError("Please connect your wallet first");
@@ -63,11 +76,6 @@ Registering user with
         address: wallets[0].address, // Optional: Specify the wallet to use for signing. If not provided, the first wallet will be used.
       }
     );
-
-    if (!amount || parseFloat(amount) <= 0) {
-      setError("Please enter a valid amount to withdraw");
-      return;
-    }
 
     try {
       setError("");
@@ -273,14 +281,35 @@ Registering user with
         <div className="border-b border-gray-200 pb-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
-              <Image
-                src="/logo.png"
-                alt="Peconomy"
-                width={48}
-                height={48}
-                className="drop-shadow-lg"
-              />
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent tracking-tight">Peconomy</h1>
+              <button
+                onClick={() => window.history.back()}
+                className="flex items-center justify-center cursor-pointer w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors duration-200 shadow-sm hover:shadow-md"
+                title="Go back">
+                <svg
+                  className="w-5 h-5 text-gray-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+              <Link
+                href="/"
+                className="flex items-center space-x-4">
+                <Image
+                  src="/logo.png"
+                  alt="Peconomy"
+                  width={48}
+                  height={48}
+                  className="drop-shadow-lg"
+                />
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent tracking-tight">Peconomy</h1>
+              </Link>
             </div>
 
             <div className="text-right">
@@ -292,8 +321,8 @@ Registering user with
                 </button>
               ) : (
                 <div className="flex  items-end space-y-3">
-                  <p className="text-gray-700 text-left my-auto absolute right-44 top-4  font-medium text-sm bg-white px-4 py-2 rounded-xl border border-gray-200 shadow-sm">
-                    Connected address:
+                  <p className="text-gray-700 text-left my-auto absolute right-38 top-3  font-medium text-sm bg-white px-4 py-2 rounded-xl border border-gray-200 shadow-sm">
+                    <span className="font-bold">Connected address:</span>
                     <br />
                     <span className="font-mono text-xs text-gray-600">{user?.wallet?.address}</span>
                   </p>
@@ -394,7 +423,7 @@ Registering user with
         </div>
 
         {/* Main Content */}
-        <div className="flex gap-4">
+        <div className="flex flex-1 gap-4">
           {error && (
             <div className="mb-8 p-6 bg-gradient-to-r from-red-50 to-red-100 rounded-2xl border-l-4 border-red-500 shadow-lg">
               <div className="flex items-start space-x-3">
@@ -438,8 +467,8 @@ Registering user with
 
           <div className="w-full h-full">
             {/* Private Vault Section */}
-            <div className={`bg-gradient-to-br from-red-50/5 to-red-100/5 p-4 rounded-3xl shadow-xl border border-red-50/5 ${activeTab === "private" ? "block" : "hidden"}`}>
-              <div className="flex items-center space-x-2 mb-3">
+            <div className={`bg-gradient-to-br h-full grid from-red-50/5 to-red-100/5 p-4 rounded-3xl shadow-sm border border-red-50/5 ${activeTab === "private" ? "block" : "hidden"}`}>
+              <div className="flex self-start items-center space-x-2 mb-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="25"
@@ -455,14 +484,13 @@ Registering user with
 
               <div className="grid gap-4">
                 {/* Asset Display */}
-                <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
                   <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Available Assets</h3>
                   <div className="grid grid-cols-4 gap-2">
                     {[
-                      { icon: "/usdc.png", name: "eUSDC", value: "100" },
+                      { icon: "/logo.png", name: "PECO", value: "100" },
                       { icon: "/peconft.png", name: "pNFT", value: "100" },
                       { icon: "/logo1.png", name: "ePECO", value: "100" },
-                      { icon: "/logo.png", name: "PECO", value: "100" },
                     ].map((asset, index) => (
                       <div
                         key={index}
@@ -483,7 +511,7 @@ Registering user with
                 </div>
 
                 {/* Tabs */}
-                <h2 className="text-2xl font-semibold text-gray-500 tracking-tight mt-4">Operations</h2>
+                {/* <h2 className="text-2xl font-semibold text-gray-500 tracking-tight mt-4">Operations</h2> */}
                 <div className="grid">
                   <div className="flex space-x-1 bg-gray-100 ms-4 z-50 ">
                     <button
@@ -515,7 +543,7 @@ Registering user with
                         <div className="bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200">
                           <div className="flex items-center space-x-2">
                             <Image
-                              src="/nft2.png"
+                              src="/logo1.png"
                               alt="From"
                               width={32}
                               height={32}
@@ -571,41 +599,42 @@ Registering user with
                     </div>
                   )}
                   {/* Operations */}
-                  <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
-                    <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Operations</h3>
+                  <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
                     <div className="space-y-2">
-                      <div className="flex gap-2 w-full">
-                        <label className="text-xs font-semibold text-gray-700 my-auto">To</label>
-                        <div className="flex items-center w-full">
-                          <input
-                            type="text"
-                            value={amount}
-                            onChange={e => handleAmountChange(e, setAmount)}
-                            className="py-1 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
-                            placeholder="0"
-                          />
+                      <div className="flex  p-4 gap-4">
+                        <div className="flex gap-2 w-full">
+                          <label className="text-xs font-semibold text-gray-700 my-auto">To</label>
+                          <div className="flex items-center w-full">
+                            <input
+                              type="text"
+                              value={address}
+                              placeholder="0x..."
+                              onChange={e => handleAmountChange(e, setAddress)}
+                              className="py-1 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex gap-2 justify-center">
-                        <label className="block text-xs font-semibold text-gray-700 my-auto">Amount</label>
-                        <div className="flex items-center space-x-1">
-                          <button
-                            onClick={() => handleDecrement(setAmount)}
-                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
-                            -
-                          </button>
-                          <input
-                            type="text"
-                            value={amount}
-                            onChange={e => handleAmountChange(e, setAmount)}
-                            className="py-1 w-20 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
-                            placeholder="0"
-                          />
-                          <button
-                            onClick={() => handleIncrement(setAmount)}
-                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
-                            +
-                          </button>
+                        <div className="flex gap-2 justify-center">
+                          <label className="block text-xs font-semibold text-gray-700 my-auto">Amount</label>
+                          <div className="flex items-center space-x-1">
+                            <button
+                              onClick={() => handleDecrement(setAmount)}
+                              className="bg-gray-500 cursor-pointer hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
+                              -
+                            </button>
+                            <input
+                              type="text"
+                              value={amount}
+                              onChange={e => handleAmountChange(e, setAmount)}
+                              className="py-1 w-20 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
+                              placeholder="0"
+                            />
+                            <button
+                              onClick={() => handleIncrement(setAmount)}
+                              className="bg-gray-500 cursor-pointer hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
+                              +
+                            </button>
+                          </div>
                         </div>
                       </div>
 
@@ -613,32 +642,38 @@ Registering user with
                         <button
                           onClick={handleRegister}
                           disabled={isLoading}
-                          className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                          className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
                           {isLoading ? "Registering..." : "Register"}
                         </button>{" "}
                         <button
                           onClick={handleEncrypt}
                           disabled={isLoading}
-                          className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                          className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
                           {isLoading ? "Depositing..." : "Deposit"}
                         </button>{" "}
                         <button
                           onClick={handleCheckEncryptedBalance}
                           disabled={isLoading}
-                          className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                          className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
                           {isLoading ? "Checking balance..." : "Check balance"}
                         </button>
                         <button
                           onClick={handlePrivateTransfer}
                           disabled={isLoading}
-                          className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                          className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
                           {isLoading ? "Transferring..." : "Transfer"}
                         </button>
                         <button
                           onClick={handleDecrypt}
                           disabled={isLoading}
-                          className={`w-full font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                          className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
                           {isLoading ? "Withdrawing..." : "Withdraw"}
+                        </button>
+                        <button
+                          onClick={handleFaucet}
+                          disabled={isLoading}
+                          className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                          {isLoading ? "Faucet..." : "Faucet"}
                         </button>
                       </div>
                     </div>
@@ -648,8 +683,8 @@ Registering user with
             </div>
 
             {/* Public Vault Section */}
-            <div className={`bg-gradient-to-br from-blue-50/5 to-blue-100/5 p-4 rounded-3xl shadow-xl border border-blue-50/5 ${activeTab === "public" ? "block" : "hidden"}`}>
-              <div className="flex items-center space-x-2 mb-3">
+            <div className={`bg-gradient-to-br grid h-full  from-blue-50/5 to-blue-100/5 p-4 rounded-3xl shadow-sm border border-blue-50/5 ${activeTab === "public" ? "block" : "hidden"}`}>
+              <div className="flex self-start items-center space-x-2 mb-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="25"
@@ -665,15 +700,12 @@ Registering user with
                 <h2 className="text-2xl font-semibold text-blue-500 tracking-tight">Public Vault</h2>
               </div>
 
-              <div className="grid gap-4">
+              <div className="grid h-full gap-4">
                 {/* Asset Display */}
-                <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
                   <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Available Assets</h3>
                   <div className="grid grid-cols-2 gap-2">
-                    {[
-                      { icon: "/nft2.png", name: "NFT", value: "100" },
-                      { icon: "/usdc.png", name: "USDC", value: "100" },
-                    ].map((asset, index) => (
+                    {[{ icon: "/usdc.png", name: "USDC", value: "100" }].map((asset, index) => (
                       <div
                         key={index}
                         className="flex flex-col items-center space-y-1 p-2 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
@@ -693,7 +725,7 @@ Registering user with
                 </div>
 
                 {/* Operations */}
-                <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
                   <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Operations</h3>
                   <div className="space-y-2">
                     <div className="flex gap-2 w-full">
@@ -749,9 +781,9 @@ Registering user with
               </div>
             </div>
           </div>
-          <div className="flex items-start w-full gap-4 text-black">
+          <div className="grid w-full gap-4 text-black self-start">
             {activeTab === "private" ? (
-              <div className="flex-1 bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6 border border-red-200 shadow-lg">
+              <div className="flex bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6 border border-red-200 shadow-sm">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0">
                     <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center shadow-lg">
@@ -770,8 +802,8 @@ Registering user with
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-red-800 mb-2">PRIVATE VAULT</h3>
-                    <div className="space-y-2 text-red-700">
+                    <h3 className="text-lg font-bold text-red-800 mb-2">PRIVATE VAULT</h3>
+                    <div className="space-y-2 text-red-700 text-sm">
                       <p className="flex items-center space-x-2">
                         <span className="w-2 h-2 bg-red-500 rounded-full"></span>
                         <span>Your balance and transactions are totally private 🔒</span>
@@ -785,7 +817,7 @@ Registering user with
                 </div>
               </div>
             ) : (
-              <div className="flex-1 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200 shadow-lg">
+              <div className="flex bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200 shadow-sm">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0">
                     <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
@@ -804,8 +836,8 @@ Registering user with
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-blue-800 mb-2">PUBLIC VAULT</h3>
-                    <div className="space-y-2 text-blue-700">
+                    <h3 className="text-lg font-bold text-blue-800 mb-2">PUBLIC VAULT</h3>
+                    <div className="space-y-2 text-blue-700 text-sm">
                       <p className="flex items-center space-x-2">
                         <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
                         <span>Your balance and transactions are public 🌐</span>
@@ -819,8 +851,8 @@ Registering user with
                 </div>
               </div>
             )}
-            <div className="flex flex-col justify-center max-w-64 text-center bg-gradient-to-br from-gray-700 to-gray-800 p-6 rounded-2xl shadow-xl border border-gray-700">
-              <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <div className="flex w-full gap-4 max-w-68 text-center bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-2xl shadow-xl border border-gray-200">
+              <div className="w-44 h-auto rounded-full m-auto">
                 <svg
                   viewBox="0 0 256 256"
                   fill="currentColor">
@@ -831,8 +863,23 @@ Registering user with
                   />
                 </svg>
               </div>
-              <h4 className="text-white font-semibold text-lg mb-2">Recommended Wallet</h4>
-              <p className="text-gray-300 text-sm leading-relaxed">We highly recommend using CORE WALLET for the best experience and security</p>
+              <div className="flex flex-col gap-2 my-auto z-50">
+                <h4 className="font-semibold text-sm">Recommended Wallet</h4>
+                <p className="text-gray-700 text-xs">We highly recommend using CORE WALLET for the best experience and security</p>
+              </div>
+            </div>
+            <div className="flex max-w-84 bg-gradient-to-br from-gray-100 to-gray-200 p-6 rounded-2xl gap-4  h-auto  shadow-xl border border-gray-200  z-50">
+              <Image
+                src="/card.png"
+                alt="Core Wallet"
+                width={100}
+                height={100}
+                className="w-32"
+              />
+              <div className="grid text-center justify-center gap-2 self-center">
+                <p className="text-gray-700">Get the full experience paying with Avalanche CARD all over the world</p>
+                <button className="text-gray-100 cursor-pointer rounded-2xl bg-gray-700 px-3 py-1 text-xs">¡Order now!</button>
+              </div>
             </div>
           </div>
         </div>

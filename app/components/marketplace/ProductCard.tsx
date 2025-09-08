@@ -13,7 +13,7 @@ export default function ProductCard({ product, onAddToCart, onViewDetails }: Pro
     if (currency === "ETH") {
       return `${price} ETH`;
     }
-    return `$${price} ${currency}`;
+    return `${price} ${currency}`;
   };
 
   const renderStars = (rating: number) => {

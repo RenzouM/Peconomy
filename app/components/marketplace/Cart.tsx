@@ -145,7 +145,7 @@ export default function Cart({ isOpen, onClose, items, onUpdateQuantity, onRemov
             <div className="border-t border-gray-200 p-4 space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-semibold text-gray-900">Total:</span>
-                <span className="text-lg font-bold text-gray-900">{formatPrice(getTotalPrice(), "USDC")}</span>
+                <span className="text-lg font-bold text-gray-900">{formatPrice(getTotalPrice(), "PECO")}</span>
               </div>
               <button
                 onClick={onCheckout}
