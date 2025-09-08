@@ -5,7 +5,12 @@ import {
 	poseidonDecrypt,
 	poseidonEncrypt,
 } from "maci-crypto";
-import { randomBytes } from "node:crypto";
+// Browser-compatible random bytes generation
+const randomBytes = (size: number): Uint8Array => {
+  const array = new Uint8Array(size);
+  crypto.getRandomValues(array);
+  return array;
+};
 import { BASE_POINT_ORDER } from "../constants";
 
 /**
@@ -14,8 +19,10 @@ import { BASE_POINT_ORDER } from "../constants";
  */
 export const randomNonce = (): bigint => {
 	const bytes = randomBytes(16);
+	// Convert Uint8Array to hex string
+	const hex = Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
 	// add 1 to make sure it's non-zero
-	return BigInt(`0x${bytes.toString("hex")}`) + 1n;
+	return BigInt(`0x${hex}`) + 1n;
 };
 
 /**
