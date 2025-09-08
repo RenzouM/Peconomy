@@ -6,13 +6,13 @@ import { groth16 } from "snarkjs";
 import { peconomyNetwork } from "../config/network";
 
 // Define basic types locally to avoid import issues
-type CircuitInput = {
-  SenderPrivateKey: bigint;
-  SenderPublicKey: [bigint, bigint];
-  SenderAddress: bigint;
-  ChainID: bigint;
-  RegistrationHash: bigint;
-};
+// type CircuitInput = {
+//   SenderPrivateKey: bigint;
+//   SenderPublicKey: [bigint, bigint];
+//   SenderAddress: bigint;
+//   ChainID: bigint;
+//   RegistrationHash: bigint;
+// };
 
 export const register = async (signature: string, userAddress: string, walletClient: WalletClient) => {
   // Read deployment addresses
@@ -98,7 +98,7 @@ export const register = async (signature: string, userAddress: string, walletCli
     // 5. Call the contract
     console.log("📝 Registering in the contract...");
     try {
-      const registerTx = await walletClient.writeContract({
+      await walletClient.writeContract({
         address: registrar as `0x${string}`,
         abi: RegistrarABI.abi,
         functionName: "register",

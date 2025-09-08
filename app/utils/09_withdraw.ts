@@ -124,7 +124,7 @@ export const withdraw = async (withdrawAmount: string, signaturee: string, userA
 
     // Get user's current encrypted balance
     console.log("🔍 Getting user's encrypted balance...");
-    const [eGCT, nonce, amountPCTs, balancePCT, transactionIndex] = (await publicClient.readContract({
+    const [eGCT] = (await publicClient.readContract({
       address: encryptedERCAddress as `0x${string}`,
       abi: EncryptedERCABI.abi,
       functionName: "balanceOf",
@@ -201,7 +201,8 @@ export const withdraw = async (withdrawAmount: string, signaturee: string, userA
     console.log("📝 Submitting withdrawal to contract...");
 
     // Call the contract's withdraw function
-    const withdrawTx = await WithdrawTransaction(tokenId, withdrawProof, userBalancePCT, walletClient);
+    const withdrawProofArray = withdrawProof as unknown as bigint[];
+    const withdrawTx = await WithdrawTransaction(tokenId, withdrawProofArray, userBalancePCT, walletClient);
 
     console.log("📝 Withdrawal transaction sent:", withdrawTx);
 

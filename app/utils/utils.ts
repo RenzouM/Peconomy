@@ -289,8 +289,13 @@ export async function getDecryptedBalance(privateKey: bigint, amountPCTs: { pct:
  * @returns User object with overridden keys
  */
 export function createUserFromPrivateKey(privateKey: bigint, signer: WalletClient): User {
+  // Create a wrapper that matches SignerWithAddress interface
+  const signerWithAddress = {
+    address: signer.account?.address || "",
+  };
+
   // Create a new user instance
-  const user = new User(signer);
+  const user = new User(signerWithAddress);
 
   // Override the generated keys with our deterministic ones
   user.privateKey = privateKey;

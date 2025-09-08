@@ -151,7 +151,7 @@ export const transfer = async (senderAddress: `0x${string}`, receiverAddress: `0
 
     // Get sender's current encrypted balance
     console.log("🔍 Getting sender's encrypted balance...");
-    const [eGCT, nonce, amountPCTs, balancePCT, transactionIndex] = (await publicClient.readContract({
+    const [eGCT] = (await publicClient.readContract({
       address: encryptedERCAddress as `0x${string}`,
       abi: EncryptedERCABI.abi,
       functionName: "balanceOf",
