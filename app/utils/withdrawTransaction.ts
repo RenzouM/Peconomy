@@ -1,6 +1,6 @@
-import { avalancheFuji } from "viem/chains";
 import { WalletClient } from "viem";
 import EncryptedERCABI from "../abis/EncryptedERC.json";
+import { peconomyNetwork } from "../config/network";
 
 export const WithdrawTransaction = async (tokenId: bigint, transferProof: bigint[], senderBalancePCT: bigint[], walletClient: WalletClient) => {
   const [address] = await walletClient.getAddresses();
@@ -12,7 +12,7 @@ export const WithdrawTransaction = async (tokenId: bigint, transferProof: bigint
     abi: EncryptedERCABI.abi, // ABI del contrato
     functionName: "withdraw",
     args: [tokenId, transferProof, senderBalancePCT],
-    chain: avalancheFuji,
+    chain: peconomyNetwork,
     account: address,
   });
   console.log("LOG TRANSFER TRANSACTION", transferTx);

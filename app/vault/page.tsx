@@ -4,8 +4,8 @@ import { usePrivy, useWallets, useSignMessage } from "@privy-io/react-auth";
 import { useState } from "react";
 import Image from "next/image";
 import { deposit } from "../utils/06_deposit";
-import { avalancheFuji } from "viem/chains";
 import { createWalletClient, custom, type Hex, type WalletClient } from "viem";
+import { peconomyNetwork } from "../config/network";
 import { checkBalance } from "../utils/08_check_balance";
 import { transfer } from "../utils/07_transfer";
 import { withdraw } from "../utils/09_withdraw";
@@ -257,12 +257,12 @@ Registering user with
     if (wallets.length > 0 && authenticated) {
       try {
         const wallet = wallets[0];
-        await wallet.switchChain(avalancheFuji.id);
+        await wallet.switchChain(peconomyNetwork.id);
         const provider = await wallet.getEthereumProvider();
 
         const walletClient = createWalletClient({
           account: wallet.address as Hex,
-          chain: avalancheFuji,
+          chain: peconomyNetwork,
           transport: custom(provider),
         });
         return walletClient;

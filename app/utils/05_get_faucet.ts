@@ -1,27 +1,12 @@
 import { Account, createPublicClient, http, type WalletClient } from "viem";
 import SimpleERC20Abi from "../abis/SimpleERC20.json";
 import { formatUnits } from "viem";
+import { peconomyNetwork } from "../config/network";
 
 export const faucet = async (userAddress: `0x${string}`, wallet: WalletClient) => {
   // Configure which wallet to use: 1 for first signer, 2 for second signer
 
   const testERC20Address = process.env.NEXT_PUBLIC_ERC20;
-
-  const peconomyNetwork = {
-    id: 46150,
-    name: "Peconomy",
-    network: "peconomy",
-    nativeCurrency: {
-      name: "AVAX",
-      symbol: "AVAX",
-      decimals: 18,
-    },
-    rpcUrls: {
-      default: {
-        http: ["https://peconomy-rpc.online/ext/bc/2ZAJXerWfkfLAyAucnAdosUsgQEvH3bWYSVeoJC9cNwwiae5be/rpc"],
-      },
-    },
-  };
 
   console.log("🔧 Claiming tokens from testERC20 faucet...");
   console.log("Token address:", testERC20Address);

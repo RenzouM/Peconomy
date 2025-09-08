@@ -5,8 +5,8 @@ import { formatPrivKeyForBabyJub } from "maci-crypto";
 import SimpleERC20ABI from "../abis/SimpleERC20.json";
 import EncryptedERCABI from "../abis/EncryptedERC.json";
 import RegistrarABI from "../abis/Registrar.json";
-import { getContract, formatUnits, createPublicClient, http } from "viem";
-import { avalancheFuji } from "viem/chains";
+import { formatUnits, createPublicClient, http } from "viem";
+import { peconomyNetwork } from "../config/network";
 
 export const checkBalance = async (userAddress: string, signature: string) => {
   const encryptedERCAddress = process.env.NEXT_PUBLIC_ENCRYPTED_ERC20;
@@ -15,7 +15,7 @@ export const checkBalance = async (userAddress: string, signature: string) => {
   const signaturee = signature;
 
   const publicClient = createPublicClient({
-    chain: avalancheFuji,
+    chain: peconomyNetwork,
     transport: http(),
   });
 
@@ -23,23 +23,6 @@ export const checkBalance = async (userAddress: string, signature: string) => {
   console.log("User address:", userAddress);
   console.log("EncryptedERC:", encryptedERCAddress);
   console.log("TestERC20:", testERC20Address);
-
-  // Connect to contracts using the clients
-  const testERC20 = await getContract({
-    address: testERC20Address as `0x${string}`,
-    abi: SimpleERC20ABI.abi,
-    client: publicClient,
-  });
-  const encryptedERC = await getContract({
-    address: encryptedERCAddress as `0x${string}`,
-    abi: EncryptedERCABI.abi,
-    client: publicClient,
-  });
-  const registrar = await getContract({
-    address: registrarAddress as `0x${string}`,
-    abi: RegistrarABI.abi,
-    client: publicClient,
-  });
 
   try {
     // Check if user is registered

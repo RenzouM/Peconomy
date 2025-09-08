@@ -1,6 +1,6 @@
-import { avalancheFuji } from "viem/chains";
 import { WalletClient } from "viem";
 import EncryptedERCABI from "../abis/EncryptedERC.json";
+import { peconomyNetwork } from "../config/network";
 
 export const DepositTransaction = async (amountPCT: bigint[], walletClient: WalletClient, depositAmount: bigint) => {
   const [address] = await walletClient.getAddresses();
@@ -13,7 +13,7 @@ export const DepositTransaction = async (amountPCT: bigint[], walletClient: Wall
     abi: EncryptedERCABI.abi, // ABI del contrato
     functionName: "deposit",
     args: [depositAmount, testERC20Address, amountPCT],
-    chain: avalancheFuji,
+    chain: peconomyNetwork,
     account: address,
   });
   console.log("LOG DEPOSIT TRANSACTION", depositTx);

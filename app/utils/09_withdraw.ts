@@ -1,7 +1,5 @@
-import { processPoseidonEncryption } from "./poseidon";
-import { deriveKeysFromUser, getDecryptedBalance, i0, createUserFromPrivateKey, decryptEGCTBalance } from "./utils";
-import { getContract, formatUnits, parseUnits, decodeEventLog, createPublicClient, http, type WalletClient } from "viem";
-import { avalancheFuji } from "viem/chains";
+import { i0, createUserFromPrivateKey, decryptEGCTBalance } from "./utils";
+import { formatUnits, createPublicClient, http, type WalletClient } from "viem";
 import SimpleERC20ABI from "../abis/SimpleERC20.json";
 import EncryptedERCABI from "../abis/EncryptedERC.json";
 import RegistrarABI from "../abis/Registrar.json";
@@ -9,13 +7,12 @@ import { WithdrawTransaction } from "./withdrawTransaction";
 import { withdraw as withdrawHelper } from "./helpers";
 import { formatPrivKeyForBabyJub } from "maci-crypto";
 import { mulPointEscalar, Base8 } from "@zk-kit/baby-jubjub";
+import { peconomyNetwork } from "../config/network";
 
 export const withdraw = async (withdrawAmount: string, signaturee: string, userAddress: string, walletClient: WalletClient) => {
   // Definir tipos al inicio del archivo
   type Point = { x: bigint; y: bigint };
   type EGCT = { c1: Point; c2: Point };
-  type AmountPCT = { pct: [bigint, bigint, bigint, bigint, bigint, bigint, bigint]; index: bigint };
-  type BalancePCT = [bigint, bigint, bigint, bigint, bigint, bigint, bigint];
 
   const withdrawAmountStr = withdrawAmount; // Amount to withdraw
 
@@ -28,7 +25,7 @@ export const withdraw = async (withdrawAmount: string, signaturee: string, userA
   const registrarAddress = process.env.NEXT_PUBLIC_REGISTRAR;
 
   const publicClient = createPublicClient({
-    chain: avalancheFuji,
+    chain: peconomyNetwork,
     transport: http(),
   });
 

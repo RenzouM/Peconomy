@@ -1,6 +1,6 @@
-import { avalancheFuji } from "viem/chains";
 import { WalletClient } from "viem";
 import SimpleERC20ABI from "../abis/SimpleERC20.json";
+import { peconomyNetwork } from "../config/network";
 
 export const ApproveTransaction = async (walletClient: WalletClient) => {
   const [address] = await walletClient.getAddresses();
@@ -14,7 +14,7 @@ export const ApproveTransaction = async (walletClient: WalletClient) => {
     abi: SimpleERC20ABI.abi, // ABI del contrato
     functionName: "approve",
     args: [encryptedERCAddress, depositAmount],
-    chain: avalancheFuji,
+    chain: peconomyNetwork,
     account: address,
   });
 

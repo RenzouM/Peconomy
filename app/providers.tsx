@@ -1,6 +1,7 @@
 "use client";
 
 import { PrivyProvider } from "@privy-io/react-auth";
+import { peconomyNetwork } from "./config/network";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -14,6 +15,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             createOnLogin: "users-without-wallets",
           },
         },
+        // Configure supported chains
+        supportedChains: [peconomyNetwork],
+        // Set default chain
+        defaultChain: peconomyNetwork,
       }}>
       {children}
     </PrivyProvider>

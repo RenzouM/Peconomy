@@ -1,11 +1,10 @@
 import { privateTransfer } from "./helpers";
 import { i0, decryptEGCTBalance, createUserFromPrivateKey } from "./utils";
-import SimpleERC20ABI from "../abis/SimpleERC20.json";
 import EncryptedERCABI from "../abis/EncryptedERC.json";
 import RegistrarABI from "../abis/Registrar.json";
-import { getContract, formatUnits, createPublicClient, http, type WalletClient } from "viem";
-import { avalancheFuji } from "viem/chains";
+import { formatUnits, createPublicClient, http, type WalletClient } from "viem";
 import { TransferTransaction } from "./transferTransaction";
+import { peconomyNetwork } from "../config/network";
 
 export const transfer = async (senderAddress: `0x${string}`, receiverAddress: `0x${string}`, transferAmountStr: number, walletClient: WalletClient, signaturee: string) => {
   // Definir tipos al inicio del archivo
@@ -29,7 +28,7 @@ export const transfer = async (senderAddress: `0x${string}`, receiverAddress: `0
   const registrarAddress = process.env.NEXT_PUBLIC_REGISTRAR;
 
   const publicClient = createPublicClient({
-    chain: avalancheFuji,
+    chain: peconomyNetwork,
     transport: http(),
   });
 

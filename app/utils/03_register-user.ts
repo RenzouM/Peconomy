@@ -1,9 +1,9 @@
 import { poseidon3 } from "poseidon-lite";
 import { deriveKeysFromUser } from "./utils";
 import { createPublicClient, http, type WalletClient } from "viem";
-import { avalancheFuji } from "viem/chains";
 import RegistrarABI from "../abis/Registrar.json";
 import { groth16 } from "snarkjs";
+import { peconomyNetwork } from "../config/network";
 
 // Define basic types locally to avoid import issues
 type CircuitInput = {
@@ -24,7 +24,7 @@ export const register = async (signature: string, userAddress: string, walletCli
   console.log("User to register:", userAddress);
 
   const publicClient = createPublicClient({
-    chain: avalancheFuji,
+    chain: peconomyNetwork,
     transport: http(),
   });
 
@@ -44,7 +44,7 @@ export const register = async (signature: string, userAddress: string, walletCli
   const { privateKey, formattedPrivateKey, publicKey } = await deriveKeysFromUser(signature);
 
   // 3. Generate registration hash using poseidon3
-  const chainId = avalancheFuji.id;
+  const chainId = peconomyNetwork.id;
   const address = userAddress;
 
   const registrationHash = poseidon3([BigInt(chainId), formattedPrivateKey, BigInt(address)]);
@@ -103,7 +103,7 @@ export const register = async (signature: string, userAddress: string, walletCli
         abi: RegistrarABI.abi,
         functionName: "register",
         args: [formattedProof],
-        chain: avalancheFuji,
+        chain: peconomyNetwork,
         account: address as `0x${string}`,
       });
 
