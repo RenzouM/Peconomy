@@ -114,7 +114,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-4xl">
       {/* Enhanced Navigation */}
       <nav className="bg-white/95 backdrop-blur-md border-b p-1 rounded-4xl border-gray-200/50 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

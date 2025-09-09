@@ -274,7 +274,7 @@ Registering user with
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 px-8">
+    <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-4xl">
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 w-full mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200 font-inter relative h-full p-4 gap-4 flex flex-col">
         {/* Main Container */}
         {/* Header Section */}
@@ -490,7 +490,6 @@ Registering user with
                     {[
                       { icon: "/logo.png", name: "PECO", value: "100" },
                       { icon: "/peconft.png", name: "pNFT", value: "100" },
-                      { icon: "/logo1.png", name: "ePECO", value: "100" },
                     ].map((asset, index) => (
                       <div
                         key={index}

@@ -56,7 +56,7 @@ export default function ProductCard({ product, onAddToCart, onViewDetails }: Pro
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer group overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer group overflow-hidden">
       {/* Product Image Container */}
       <div className="relative h-48 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
         <Image
@@ -112,7 +112,7 @@ export default function ProductCard({ product, onAddToCart, onViewDetails }: Pro
             height={20}
             className="rounded-full"
           />
-          <span className="text-sm text-gray-600">{product.creator.name}</span>
+          <span className="text-sm text-gray-600  line-clamp-1">{product.creator.name}</span>
           {product.creator.verified && <span className="text-blue-500 text-sm">✓</span>}
         </div>
 

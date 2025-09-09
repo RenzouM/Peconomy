@@ -53,6 +53,9 @@ export const mockPosts: Post[] = [
   { time: "Yesterday", content: "Have you already checked the new Avalanche eERC20? read more...", platform: SocialPlatform.TWITTER, icon: "𝕏" },
   { time: "2 days ago", content: "Mixing some chill jazz, live now!", platform: SocialPlatform.TWITCH, icon: "🎮" },
   { time: "3 days ago", content: "Trying Luisito Comunica Mezcal", platform: SocialPlatform.YOUTUBE, icon: "▶️" },
+  { time: "3 days ago", content: "Trying Luisito Comunica Mezcal", platform: SocialPlatform.YOUTUBE, icon: "▶️" },
+  { time: "3 days ago", content: "Trying Luisito Comunica Mezcal", platform: SocialPlatform.YOUTUBE, icon: "▶️" },
+  { time: "3 days ago", content: "Trying Luisito Comunica Mezcal", platform: SocialPlatform.YOUTUBE, icon: "▶️" },
 ];
 
 export const mockSuggestedUsers: SuggestedUser[] = [
@@ -211,4 +214,4 @@ export const mockProducts: Product[] = [
   },
 ];
 
-export const productCategories = ["All", "NFTs", "Services", "Cards", "Education", "Experiences", "Merchandise"];
+export const productCategories = ["All", "NFTs", "Services", "Education", "Merchandise"];
