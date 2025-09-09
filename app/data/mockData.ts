@@ -59,14 +59,11 @@ export const mockSuggestedUsers: SuggestedUser[] = [
   { handle: "@user1", followers: 50000 },
   { handle: "@user2", followers: 120000 },
   { handle: "@user3", followers: 75000 },
-  { handle: "@user4", followers: 200000 },
 ];
 
 export const mockSavedUsers: SavedUser[] = [
   { handle: "@user5", lastSeen: "2 hours ago" },
   { handle: "@user6", lastSeen: "1 day ago" },
-  { handle: "@user7", lastSeen: "3 days ago" },
-  { handle: "@user8", lastSeen: "1 week ago" },
 ];
 
 // Product types for marketplace

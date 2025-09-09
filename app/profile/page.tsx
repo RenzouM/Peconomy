@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { createSocialLinks, mockPosts, mockSuggestedUsers, mockSavedUsers, mockProducts, productCategories, Product } from "../data/mockData";
 import { sortSocialLinksByFollowers } from "../utils/formatters";
 import SocialLinksList from "../components/social/SocialLinksList";
@@ -12,6 +12,8 @@ import Image from "next/image";
 export default function LinktreeProfile() {
   const [activeTab, setActiveTab] = useState<"FEED" | "REVIEWS" | "SHOP">("FEED");
   const [showActionButtons, setShowActionButtons] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Marketplace state
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,6 +28,21 @@ export default function LinktreeProfile() {
   const posts = mockPosts;
   const suggestedUsers = mockSuggestedUsers;
   const savedUsers = mockSavedUsers;
+
+  // Simple scroll handler
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!isScrolled && scrollContainerRef.current && scrollContainerRef.current.scrollTop > 20) {
+        setIsScrolled(true);
+      }
+    };
+
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll, { passive: true });
+      return () => container.removeEventListener("scroll", handleScroll);
+    }
+  }, [isScrolled]);
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
@@ -271,7 +288,7 @@ export default function LinktreeProfile() {
           {/* Desktop Layout */}
           <div className="hidden md:flex flex-1 overflow-y-auto h-full">
             {/* Left Sidebar */}
-            <div className="w-80 bg-gradient-to-b h-full from-white to-gray-50 border-r border-gray-200 p-6 space-y-4 overflow-y-auto grid justify-center items-center">
+            <div className="lg:w-80 bg-gradient-to-b h-full from-white to-gray-50 border-r border-gray-200 p-6 space-y-4 overflow-y-auto grid justify-center items-center">
               {/* Profile Header */}
               <div className="text-center space-y-2">
                 <div className="w-52 h-52 mx-auto ">
@@ -427,11 +444,11 @@ export default function LinktreeProfile() {
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 p-6 bg-white overflow-y-auto scrollbar-thin scrollbar-transparent">
+            <div className="h-full grid flex-1 p-6 bg-white overflow-y-auto scrollbar-thin">
               {/* Top Section */}
-              <div className="mb-6">
-                <div className="h-[250px] bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl  overflow-hidden flex items-center justify-center text-center border border-blue-200 hover:shadow-lg transition-all duration-300 cursor-pointer group">
-                  <div className="text-gray-700 group-hover:scale-105 transition-transform h-full ">
+              <div className={`mb-6  ${isScrolled ? "hidden" : "block"}`}>
+                <div className="h-[250px] bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl overflow-hidden flex items-center justify-center text-center border border-blue-200 hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                  <div className="text-gray-700 group-hover:scale-105 transition-transform h-full">
                     <Image
                       src="/luisitoland.png"
                       alt="Luisito Comunica"
@@ -444,360 +461,435 @@ export default function LinktreeProfile() {
               </div>
 
               {/* Navigation Tabs */}
-              <div className="flex justify-center space-x-8 border-b-2 border-gray-200 mb-4">
+              <div className={`flex justify-center space-x-8 border-b-2 border-gray-100 mb-4 ${isScrolled ? "h-10" : "h-auto"}`}>
                 {(["FEED", "REVIEWS", "SHOP"] as const).map(tab => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`pb-2 px-2 text-sm font-semibold transition-all duration-300 cursor-pointer border-b-2  ${activeTab === tab ? "text-gray-900  border-gray-900" : "text-gray-500 hover:text-gray-700  border-white"}`}>
+                    className={`pt-2 pb-3 px-5 text-sm font-semibold cursor-pointer  ${activeTab === tab ? "text-gray-900 bg-gray-100 rounded-t-md shadow-inner" : "text-gray-500 hover:text-gray-800"}`}>
                     {tab}
                   </button>
                 ))}
               </div>
 
               {/* Main Content and Right Sidebar */}
-              <div className="grid xl:flex gap-4">
-                {activeTab === "FEED" && (
-                  <>
-                    {/* Feed Content with Timeline */}
-                    <div className="flex-1 ">
-                      <div className="relative">
-                        {/* Timeline Line */}
-                        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-400 via-purple-400 to-pink-400"></div>
+              <div
+                className="grid xl:flex h-full gap-y-8 gap-x-8  overflow-y-auto scrollbar-thin"
+                ref={scrollContainerRef}>
+                <div className="w-full h-full overflow-y-auto scrollbar-thin min-h-96">
+                  {activeTab === "FEED" && (
+                    <div className="w-full h-full">
+                      {/* Feed Content with Timeline */}
+                      <div className="flex-1 ">
+                        <div className="relative">
+                          {/* Timeline Line */}
+                          <div className="absolute left-10 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-400 via-purple-400 to-pink-400"></div>
 
-                        {/* Feed Posts */}
-                        <div className="space-y-6">
-                          {posts.slice(0, 3).map((post, index) => (
-                            <div
-                              className="relative"
-                              key={index}>
-                              {/* Timeline Dot */}
-                              <div className="absolute left-6 w-4 h-4 top-2 bg-white border-4 border-blue-500 rounded-full z-10 shadow-lg"></div>
-                              {/* Time Badge */}
-                              <div className="absolute -left-2 top-5 w-20 text-center">
-                                <div className="bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-lg shadow-md">{post.time}</div>
-                              </div>
-                              {/* Post Content */}
-                              <div className="ml-20 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-300 cursor-pointer group">
-                                <div className="flex items-start space-x-3">
-                                  <span className="text-lg group-hover:scale-110 transition-transform">{post.icon}</span>
-                                  <div className="flex-1">
-                                    <div className="text-gray-900 text-sm leading-relaxed">{post.content}</div>
+                          {/* Feed Posts */}
+                          <div className="space-y-6">
+                            {posts.slice(0, 3).map((post, index) => (
+                              <div
+                                className="relative"
+                                key={index}>
+                                {/* Timeline Dot */}
+                                <div className="absolute left-8 w-4 h-4 top-2 bg-white border-4 border-blue-500 rounded-full z-10 shadow-lg"></div>
+                                {/* Time Badge */}
+                                <div className="absolute left-0 top-5 w-20 text-center">
+                                  <div className="bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-lg shadow-md">{post.time}</div>
+                                </div>
+                                {/* Post Content */}
+                                <div className="ml-20 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-300 cursor-pointer group">
+                                  <div className="flex items-start space-x-3">
+                                    <span className="text-lg group-hover:scale-110 transition-transform">{post.icon}</span>
+                                    <div className="flex-1">
+                                      <div className="text-gray-900 text-sm leading-relaxed">{post.content}</div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          ))}
+                            ))}
 
-                          {/* More Posts Indicator */}
-                          <div className="relative hidden xl:block">
-                            <div className="absolute left-6 w-4 h-4 bg-white border-4 border-gray-400 rounded-full z-10"></div>
-                            <div className="text-center text-gray-500 text-sm py-2">...</div>
+                            {/* More Posts Indicator */}
+                            <div className="relative hidden xl:block">
+                              <div className="absolute left-8 w-4 h-4 bg-white border-4 border-gray-400 rounded-full z-10"></div>
+                              <div className="text-center text-gray-500 text-sm py-2">...</div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                  )}
 
-                    {/* Right Sidebar */}
-                    <div className="w-full xl:w-64 space-y-3 flex-1">
-                      {/* Filter Section */}
-                      <div className="bg-gradient-to-br from-gray-50/5 to-gray-100/5 rounded-2xl p-4 border border-gray-200 hover:shadow-lg transition-all duration-300 gap-2 grid">
-                        <h3 className="font-bold text-gray-900 text-sm">SUGGESTIONS BY</h3>
-                        <hr className="border-gray-200" />
-                        <div className="space-x-2 flex text-black">
-                          <button className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-2 cursor-pointer border border-gray-200 hover:shadow-md transition-all duration-300">Last post</button>
-                          <button className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-2 cursor-pointer border border-gray-200 hover:shadow-md transition-all duration-300">General interest</button>
-                          <button className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-2 cursor-pointer border border-gray-200 hover:shadow-md transition-all duration-300">Same this</button>
+                  {/* Reviews Tab Content - Mobile */}
+                  {activeTab === "REVIEWS" && (
+                    <div className="w-full h-full">
+                      {/* Filter Bar */}
+                      <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                        <div className="flex justify-between">
+                          <div className="flex space-x-2 overflow-x-auto">
+                            <button className="px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium whitespace-nowrap">All Reviews</button>
+                            <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Gaming</button>
+                            <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Tech</button>
+                            <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Lifestyle</button>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm text-gray-600">Sort by:</span>
+                            <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                              <option>Latest</option>
+                              <option>Most Popular</option>
+                              <option>Highest Rated</option>
+                            </select>
+                          </div>
                         </div>
                       </div>
 
-                      {/* Suggested Section */}
-                      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 border border-gray-200 hover:shadow-lg transition-all duration-300">
-                        <div className="space-y-2">
-                          {suggestedUsers.map((user, index) => (
-                            <div
-                              key={index}
-                              className="text-gray-700 hover:text-gray-900 transition-colors cursor-pointer font-medium text-sm">
-                              {user.handle}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Saved Section */}
-                      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 border border-gray-200 hover:shadow-lg transition-all duration-300">
-                        <div className="flex items-center justify-between mb-3">
-                          <h3 className="font-bold text-gray-900 text-sm">SAVED</h3>
-                          <span className="text-gray-500 text-lg cursor-pointer hover:text-gray-700 transition-colors">▼</span>
-                        </div>
-                        <div className="space-y-2">
-                          {savedUsers.map((user, index) => (
-                            <div
-                              key={index}
-                              className="text-gray-700 hover:text-gray-900 transition-colors cursor-pointer font-medium text-sm">
-                              {user.handle}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )}
-
-                {activeTab === "REVIEWS" && (
-                  <div>
-                    {/* Reviews Tab Content - Mobile */}
-                    {activeTab === "REVIEWS" && (
-                      <div className="space-y-4">
-                        {/* Filter Bar */}
+                      {/* Reviews Feed */}
+                      <div className="space-y-4 mt-4">
+                        {/* Review Card 1 */}
                         <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
-                          <div className="flex justify-between">
-                            <div className="flex space-x-2 overflow-x-auto">
-                              <button className="px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium whitespace-nowrap">All Reviews</button>
-                              <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Gaming</button>
-                              <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Tech</button>
-                              <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Lifestyle</button>
-                            </div>
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm text-gray-600">Sort by:</span>
-                              <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <option>Latest</option>
-                                <option>Most Popular</option>
-                                <option>Highest Rated</option>
-                              </select>
+                          <div className="flex items-start space-x-3">
+                            <Image
+                              src="/luisito.png"
+                              alt="Luisito Rey"
+                              width={40}
+                              height={40}
+                              className="rounded-full"
+                            />
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-2">
+                                <div>
+                                  <h3 className="font-semibold text-gray-800 text-sm">Luisito Rey</h3>
+                                  <p className="text-xs text-gray-600">Gaming Creator • 2M subscribers</p>
+                                </div>
+                                <div className="flex items-center space-x-1">
+                                  <span className="text-yellow-500 text-sm">★★★★★</span>
+                                  <span className="text-xs text-gray-600">5.0</span>
+                                </div>
+                              </div>
+                              <div className="bg-gray-50 p-2 rounded-xl mb-3">
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <Image
+                                    src="/nft.png"
+                                    alt="Product"
+                                    width={24}
+                                    height={24}
+                                  />
+                                  <div>
+                                    <h4 className="font-medium text-gray-800 text-sm">Peconomy NFT Collection</h4>
+                                    <p className="text-xs text-gray-600">Sponsored Review</p>
+                                  </div>
+                                </div>
+                                <p className="text-gray-700 text-xs">&ldquo;Increíble colección de NFTs que revoluciona el gaming. La integración con blockchain es perfecta y los beneficios para los creadores son reales. ¡100% recomendado!&rdquo;</p>
+                              </div>
+                              <div className="flex flex-col space-y-2">
+                                <div className="flex items-center space-x-4 text-xs text-gray-600">
+                                  <span>📺 15K views</span>
+                                  <span>👍 2.3K likes</span>
+                                  <span>💬 156 comments</span>
+                                </div>
+                                <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        {/* Reviews Feed */}
+                        {/* Review Card 2 */}
+                        <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                          <div className="flex items-start space-x-3">
+                            <Image
+                              src="/luisitoland.png"
+                              alt="Tech Reviewer"
+                              width={40}
+                              height={40}
+                              className="rounded-full"
+                            />
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-2">
+                                <div>
+                                  <h3 className="font-semibold text-gray-800 text-sm">TechMaster Pro</h3>
+                                  <p className="text-xs text-gray-600">Tech Creator • 850K subscribers</p>
+                                </div>
+                                <div className="flex items-center space-x-1">
+                                  <span className="text-yellow-500 text-sm">★★★★☆</span>
+                                  <span className="text-xs text-gray-600">4.5</span>
+                                </div>
+                              </div>
+                              <div className="bg-gray-50 p-2 rounded-xl mb-3">
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <Image
+                                    src="/vault.png"
+                                    alt="Product"
+                                    width={24}
+                                    height={24}
+                                  />
+                                  <div>
+                                    <h4 className="font-medium text-gray-800 text-sm">Peconomy Vault System</h4>
+                                    <p className="text-xs text-gray-600">Sponsored Review</p>
+                                  </div>
+                                </div>
+                                <p className="text-gray-700 text-xs">&ldquo;El sistema de vaults de Peconomy es innovador. La privacidad y transparencia que ofrece es única en el mercado. Perfecto para inversores serios.&rdquo;</p>
+                              </div>
+                              <div className="flex flex-col space-y-2">
+                                <div className="flex items-center space-x-4 text-xs text-gray-600">
+                                  <span>📺 8.2K views</span>
+                                  <span>👍 1.1K likes</span>
+                                  <span>💬 89 comments</span>
+                                </div>
+                                <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Review Card 3 */}
+                        <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                          <div className="flex items-start space-x-3">
+                            <Image
+                              src="/logo.png"
+                              alt="Crypto Expert"
+                              width={40}
+                              height={40}
+                              className="rounded-full"
+                            />
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between mb-2">
+                                <div>
+                                  <h3 className="font-semibold text-gray-800 text-sm">CryptoExpert</h3>
+                                  <p className="text-xs text-gray-600">Crypto Creator • 1.2M subscribers</p>
+                                </div>
+                                <div className="flex items-center space-x-1">
+                                  <span className="text-yellow-500 text-sm">★★★★★</span>
+                                  <span className="text-xs text-gray-600">5.0</span>
+                                </div>
+                              </div>
+                              <div className="bg-gray-50 p-2 rounded-xl mb-3">
+                                <div className="flex items-center space-x-2 mb-2">
+                                  <Image
+                                    src="/usdc.png"
+                                    alt="Product"
+                                    width={24}
+                                    height={24}
+                                  />
+                                  <div>
+                                    <h4 className="font-medium text-gray-800 text-sm">Peconomy USDC Integration</h4>
+                                    <p className="text-xs text-gray-600">Sponsored Review</p>
+                                  </div>
+                                </div>
+                                <p className="text-gray-700 text-xs">&ldquo;La integración con USDC es perfecta. Transacciones rápidas, fees bajos y total transparencia. Peconomy está cambiando el juego del DeFi.&rdquo;</p>
+                              </div>
+                              <div className="flex flex-col space-y-2">
+                                <div className="flex items-center space-x-4 text-xs text-gray-600">
+                                  <span>📺 12.7K views</span>
+                                  <span>👍 1.8K likes</span>
+                                  <span>💬 203 comments</span>
+                                </div>
+                                <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Load More Button */}
+                        {/* <div className="text-center">
+                            <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors">Load More Reviews</button>
+                          </div> */}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === "SHOP" && (
+                    <div className="w-full h-full">
+                      {/* Mobile Shop Layout */}
+                      <div className="block md:hidden">
                         <div className="space-y-4">
-                          {/* Review Card 1 */}
-                          <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
-                            <div className="flex items-start space-x-3">
-                              <Image
-                                src="/luisito.png"
-                                alt="Luisito Rey"
-                                width={40}
-                                height={40}
-                                className="rounded-full"
-                              />
-                              <div className="flex-1">
-                                <div className="flex items-center justify-between mb-2">
-                                  <div>
-                                    <h3 className="font-semibold text-gray-800 text-sm">Luisito Rey</h3>
-                                    <p className="text-xs text-gray-600">Gaming Creator • 2M subscribers</p>
-                                  </div>
-                                  <div className="flex items-center space-x-1">
-                                    <span className="text-yellow-500 text-sm">★★★★★</span>
-                                    <span className="text-xs text-gray-600">5.0</span>
-                                  </div>
-                                </div>
-                                <div className="bg-gray-50 p-2 rounded-xl mb-3">
-                                  <div className="flex items-center space-x-2 mb-2">
-                                    <Image
-                                      src="/nft.png"
-                                      alt="Product"
-                                      width={24}
-                                      height={24}
-                                    />
-                                    <div>
-                                      <h4 className="font-medium text-gray-800 text-sm">Peconomy NFT Collection</h4>
-                                      <p className="text-xs text-gray-600">Sponsored Review</p>
-                                    </div>
-                                  </div>
-                                  <p className="text-gray-700 text-xs">&ldquo;Increíble colección de NFTs que revoluciona el gaming. La integración con blockchain es perfecta y los beneficios para los creadores son reales. ¡100% recomendado!&rdquo;</p>
-                                </div>
-                                <div className="flex flex-col space-y-2">
-                                  <div className="flex items-center space-x-4 text-xs text-gray-600">
-                                    <span>📺 15K views</span>
-                                    <span>👍 2.3K likes</span>
-                                    <span>💬 156 comments</span>
-                                  </div>
-                                  <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          {/* Search and Filter */}
+                          <SearchAndFilter
+                            searchQuery={searchQuery}
+                            onSearchChange={setSearchQuery}
+                            selectedCategory={selectedCategory}
+                            onCategoryChange={setSelectedCategory}
+                            sortBy={sortBy}
+                            onSortChange={setSortBy}
+                            categories={productCategories}
+                            showFilters={showFilters}
+                            onToggleFilters={() => setShowFilters(!showFilters)}
+                          />
 
-                          {/* Review Card 2 */}
-                          <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
-                            <div className="flex items-start space-x-3">
-                              <Image
-                                src="/luisitoland.png"
-                                alt="Tech Reviewer"
-                                width={40}
-                                height={40}
-                                className="rounded-full"
+                          {/* Products Grid */}
+                          <div className="grid grid-cols-1 gap-4">
+                            {filteredProducts.map(product => (
+                              <ProductCard
+                                key={product.id}
+                                product={product}
+                                onAddToCart={handleAddToCart}
+                                onViewDetails={handleViewDetails}
                               />
-                              <div className="flex-1">
-                                <div className="flex items-center justify-between mb-2">
-                                  <div>
-                                    <h3 className="font-semibold text-gray-800 text-sm">TechMaster Pro</h3>
-                                    <p className="text-xs text-gray-600">Tech Creator • 850K subscribers</p>
-                                  </div>
-                                  <div className="flex items-center space-x-1">
-                                    <span className="text-yellow-500 text-sm">★★★★☆</span>
-                                    <span className="text-xs text-gray-600">4.5</span>
-                                  </div>
-                                </div>
-                                <div className="bg-gray-50 p-2 rounded-xl mb-3">
-                                  <div className="flex items-center space-x-2 mb-2">
-                                    <Image
-                                      src="/vault.png"
-                                      alt="Product"
-                                      width={24}
-                                      height={24}
-                                    />
-                                    <div>
-                                      <h4 className="font-medium text-gray-800 text-sm">Peconomy Vault System</h4>
-                                      <p className="text-xs text-gray-600">Sponsored Review</p>
-                                    </div>
-                                  </div>
-                                  <p className="text-gray-700 text-xs">&ldquo;El sistema de vaults de Peconomy es innovador. La privacidad y transparencia que ofrece es única en el mercado. Perfecto para inversores serios.&rdquo;</p>
-                                </div>
-                                <div className="flex flex-col space-y-2">
-                                  <div className="flex items-center space-x-4 text-xs text-gray-600">
-                                    <span>📺 8.2K views</span>
-                                    <span>👍 1.1K likes</span>
-                                    <span>💬 89 comments</span>
-                                  </div>
-                                  <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Review Card 3 */}
-                          <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
-                            <div className="flex items-start space-x-3">
-                              <Image
-                                src="/logo.png"
-                                alt="Crypto Expert"
-                                width={40}
-                                height={40}
-                                className="rounded-full"
-                              />
-                              <div className="flex-1">
-                                <div className="flex items-center justify-between mb-2">
-                                  <div>
-                                    <h3 className="font-semibold text-gray-800 text-sm">CryptoExpert</h3>
-                                    <p className="text-xs text-gray-600">Crypto Creator • 1.2M subscribers</p>
-                                  </div>
-                                  <div className="flex items-center space-x-1">
-                                    <span className="text-yellow-500 text-sm">★★★★★</span>
-                                    <span className="text-xs text-gray-600">5.0</span>
-                                  </div>
-                                </div>
-                                <div className="bg-gray-50 p-2 rounded-xl mb-3">
-                                  <div className="flex items-center space-x-2 mb-2">
-                                    <Image
-                                      src="/usdc.png"
-                                      alt="Product"
-                                      width={24}
-                                      height={24}
-                                    />
-                                    <div>
-                                      <h4 className="font-medium text-gray-800 text-sm">Peconomy USDC Integration</h4>
-                                      <p className="text-xs text-gray-600">Sponsored Review</p>
-                                    </div>
-                                  </div>
-                                  <p className="text-gray-700 text-xs">&ldquo;La integración con USDC es perfecta. Transacciones rápidas, fees bajos y total transparencia. Peconomy está cambiando el juego del DeFi.&rdquo;</p>
-                                </div>
-                                <div className="flex flex-col space-y-2">
-                                  <div className="flex items-center space-x-4 text-xs text-gray-600">
-                                    <span>📺 12.7K views</span>
-                                    <span>👍 1.8K likes</span>
-                                    <span>💬 203 comments</span>
-                                  </div>
-                                  <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
-                                </div>
-                              </div>
-                            </div>
+                            ))}
                           </div>
 
                           {/* Load More Button */}
-                          <div className="text-center">
-                            <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors">Load More Reviews</button>
+                          <div className="text-center py-4">
+                            <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors">Load More Products</button>
                           </div>
                         </div>
                       </div>
-                    )}
-                  </div>
-                )}
 
-                {activeTab === "SHOP" && (
-                  <div className="w-full">
-                    {/* Mobile Shop Layout */}
-                    <div className="block md:hidden">
-                      <div className="space-y-4">
-                        {/* Search and Filter */}
-                        <SearchAndFilter
-                          searchQuery={searchQuery}
-                          onSearchChange={setSearchQuery}
-                          selectedCategory={selectedCategory}
-                          onCategoryChange={setSelectedCategory}
-                          sortBy={sortBy}
-                          onSortChange={setSortBy}
-                          categories={productCategories}
-                          showFilters={showFilters}
-                          onToggleFilters={() => setShowFilters(!showFilters)}
-                        />
+                      {/* Desktop Shop Layout */}
+                      <div className="hidden md:block">
+                        <div className="space-y-6">
+                          {/* Search and Filter */}
+                          <SearchAndFilter
+                            searchQuery={searchQuery}
+                            onSearchChange={setSearchQuery}
+                            selectedCategory={selectedCategory}
+                            onCategoryChange={setSelectedCategory}
+                            sortBy={sortBy}
+                            onSortChange={setSortBy}
+                            categories={productCategories}
+                            showFilters={showFilters}
+                            onToggleFilters={() => setShowFilters(!showFilters)}
+                          />
 
-                        {/* Products Grid */}
-                        <div className="grid grid-cols-1 gap-4">
-                          {filteredProducts.map(product => (
-                            <ProductCard
-                              key={product.id}
-                              product={product}
-                              onAddToCart={handleAddToCart}
-                              onViewDetails={handleViewDetails}
-                            />
-                          ))}
-                        </div>
+                          {/* Products Grid */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-6">
+                            {filteredProducts.map(product => (
+                              <ProductCard
+                                key={product.id}
+                                product={product}
+                                onAddToCart={handleAddToCart}
+                                onViewDetails={handleViewDetails}
+                              />
+                            ))}
+                          </div>
 
-                        {/* Load More Button */}
-                        <div className="text-center py-4">
-                          <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium hover:bg-gray-200 transition-colors">Load More Products</button>
+                          {/* Load More Button */}
+                          <div className="text-center py-8">
+                            <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg">Load More Products</button>
+                          </div>
                         </div>
                       </div>
                     </div>
-
-                    {/* Desktop Shop Layout */}
-                    <div className="hidden md:block">
-                      <div className="space-y-6">
-                        {/* Search and Filter */}
-                        <SearchAndFilter
-                          searchQuery={searchQuery}
-                          onSearchChange={setSearchQuery}
-                          selectedCategory={selectedCategory}
-                          onCategoryChange={setSelectedCategory}
-                          sortBy={sortBy}
-                          onSortChange={setSortBy}
-                          categories={productCategories}
-                          showFilters={showFilters}
-                          onToggleFilters={() => setShowFilters(!showFilters)}
-                        />
-
-                        {/* Products Grid */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                          {filteredProducts.map(product => (
-                            <ProductCard
-                              key={product.id}
-                              product={product}
-                              onAddToCart={handleAddToCart}
-                              onViewDetails={handleViewDetails}
-                            />
-                          ))}
-                        </div>
-
-                        {/* Load More Button */}
-                        <div className="text-center py-8">
-                          <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg">Load More Products</button>
-                        </div>
+                  )}
+                </div>
+                {/* Right Sidebar */}
+                <div className="grid xl:w-[700px] space-y-4 h-full">
+                  {/* Filter Section */}
+                  <div className="bg-white rounded-lg p-4 border border-gray-200">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-gray-900 text-sm">Suggestions</h3>
+                      <span className="text-gray-400 text-xs">⚙️</span>
+                    </div>
+                    <div className="flex flex-row justify-between">
+                      <div className="flex gap-1">
+                        <button className="bg-gray-900 cursor-pointer text-white rounded-md px-2 py-1 text-xs">Latest</button>
+                        <button className="bg-gray-100 cursor-pointer text-gray-700 rounded-md px-2 py-1 text-xs hover:bg-gray-200">Interest</button>
+                        <button className="bg-gray-100 cursor-pointer text-gray-700 rounded-md px-2 py-1 text-xs hover:bg-gray-200">Similar</button>
+                      </div>
+                      <div className="flex gap-1">
+                        <button className="bg-gray-100 cursor-pointer text-gray-700 rounded-md px-2 py-1 text-xs hover:bg-gray-200">Followed</button>
+                        <button className="bg-gray-100 cursor-pointer text-gray-700 rounded-md px-2 py-1 text-xs hover:bg-gray-200">Saved</button>
                       </div>
                     </div>
                   </div>
-                )}
+
+                  {/* Suggested Section */}
+                  <div className="flex gap-4">
+                    <div className="bg-white rounded-lg p-2 border border-gray-200  w-full">
+                      <div className="space-y-2">
+                        {suggestedUsers.map((user, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md group">
+                            <div className="flex items-center space-x-2">
+                              <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-medium text-xs">{user.handle.charAt(1).toUpperCase()}</div>
+                              <div>
+                                <div className="font-medium text-gray-900 text-sm">{user.handle}</div>
+                                <div className="text-xs text-gray-500">{user.followers?.toLocaleString() || "0"} followers</div>
+                              </div>
+                            </div>
+                            <button className="bg-gray-900 cursor-pointer hover:bg-gray-800 text-white text-xs px-2 py-1 rounded-md">Follow</button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>{" "}
+                    <div className={`bg-white rounded-lg p-2 border border-gray-200 w-full ${activeTab === "SHOP" ? "hidden" : "block"}`}>
+                      <div className="space-y-2">
+                        {suggestedUsers.map((user, index) => (
+                          <div
+                            key={index}
+                            className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md group">
+                            <div className="flex items-center space-x-2">
+                              <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-medium text-xs">{user.handle.charAt(1).toUpperCase()}</div>
+                              <div>
+                                <div className="font-medium text-gray-900 text-sm">{user.handle}</div>
+                                <div className="text-xs text-gray-500">{user.followers?.toLocaleString() || "0"} followers</div>
+                              </div>
+                            </div>
+                            <button className="bg-gray-900 cursor-pointer hover:bg-gray-800 text-white text-xs px-2 py-1 rounded-md">Follow</button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Stats Section */}
+                  <div className="bg-white rounded-lg p-4 border border-gray-200">
+                    <h3 className="font-semibold text-gray-900 text-sm mb-3">Stats</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="text-center p-2 bg-gray-50 rounded-md">
+                        <div className="text-lg font-bold text-gray-900">2.1M</div>
+                        <div className="text-xs text-gray-600">Followers</div>
+                      </div>
+                      <div className="text-center p-2 bg-gray-50 rounded-md">
+                        <div className="text-lg font-bold text-gray-900">156</div>
+                        <div className="text-xs text-gray-600">Following</div>
+                      </div>
+                      <div className="text-center p-2 bg-gray-50 rounded-md">
+                        <div className="text-lg font-bold text-gray-900">89</div>
+                        <div className="text-xs text-gray-600">Saved</div>
+                      </div>
+                      <div className="text-center p-2 bg-gray-50 rounded-md">
+                        <div className="text-lg font-bold text-gray-900">24</div>
+                        <div className="text-xs text-gray-600">Posts</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Saved Section */}
+                  <div className="bg-white rounded-lg p-4 border border-gray-200">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-semibold text-gray-900 text-sm">Saved</h3>
+                      <span className="text-gray-400 text-xs">{savedUsers.length}</span>
+                    </div>
+                    <div className="space-y-2">
+                      {savedUsers.map((user, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-md cursor-pointer group">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-medium text-xs">{user.handle.charAt(1).toUpperCase()}</div>
+                            <div>
+                              <div className="font-medium text-gray-900 text-sm">{user.handle}</div>
+                              <div className="text-xs text-gray-500">{user.lastSeen}</div>
+                            </div>
+                          </div>
+                          <button className="text-gray-400 hover:text-gray-600 p-1">
+                            <svg
+                              className="w-4 h-4"
+                              fill="currentColor"
+                              viewBox="0 0 20 20">
+                              <path
+                                fillRule="evenodd"
+                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
