@@ -1,33 +1,7 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-// Custom hook for scroll-based animations
-const useScrollAnimation = () => {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  return scrollY;
-};
-
 export default function Home() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const scrollY = useScrollAnimation();
-
-  // Calculate rotation and translation based on scroll
-  const rotation = scrollY * 0.1; // Rotate 0.1 degrees per pixel scrolled
-  const translateY = scrollY * 0.3; // Move down 0.3 pixels per pixel scrolled
-
   const features = [
     {
       icon: (
@@ -159,65 +133,52 @@ export default function Home() {
 
             {/* Mobile Menu Button */}
             <div className="lg:hidden">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-gray-700 hover:text-red-600 transition-colors duration-300 p-2 rounded-lg hover:bg-gray-100">
+              <button className="text-gray-700 hover:text-red-600 transition-colors duration-300 p-2 rounded-lg hover:bg-gray-100">
                 <svg
                   className="w-6 h-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24">
-                  {isMobileMenuOpen ? (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  ) : (
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  )}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
               </button>
             </div>
           </div>
 
-          {/* Mobile Menu */}
-          {isMobileMenuOpen && (
-            <div className="lg:hidden border-t border-gray-200/50 bg-white/95 backdrop-blur-md">
-              <div className="px-2 pt-2 pb-3 space-y-1">
-                <a
-                  href="#features"
-                  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
-                  Features
-                </a>
-                <a
-                  href="#pricing"
-                  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
-                  Pricing
-                </a>
-                <a
-                  href="#roadmap"
-                  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
-                  Roadmap
-                </a>
-                <a
-                  href="#about"
-                  className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
-                  About
-                </a>
-                <div className="pt-4 space-y-2">
-                  <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-red-600 transition-colors duration-300 font-medium">Sign In</button>
-                  <button className="w-full bg-gradient-to-r from-red-600 via-red-500 to-red-700 text-white px-3 py-2 rounded-lg hover:from-red-700 hover:via-red-600 hover:to-red-800 transition-all duration-300 font-semibold">Get Started</button>
-                </div>
+          {/* Mobile Menu - CSS Only */}
+          <div className="lg:hidden border-t border-gray-200/50 bg-white/95 backdrop-blur-md">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              <a
+                href="#features"
+                className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
+                Features
+              </a>
+              <a
+                href="#pricing"
+                className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
+                Pricing
+              </a>
+              <a
+                href="#roadmap"
+                className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
+                Roadmap
+              </a>
+              <a
+                href="#about"
+                className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
+                About
+              </a>
+              <div className="pt-4 space-y-2">
+                <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-red-600 transition-colors duration-300 font-medium">Sign In</button>
+                <button className="w-full bg-gradient-to-r from-red-600 via-red-500 to-red-700 text-white px-3 py-2 rounded-lg hover:from-red-700 hover:via-red-600 hover:to-red-800 transition-all duration-300 font-semibold">Get Started</button>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </nav>
 
@@ -228,10 +189,7 @@ export default function Home() {
           alt="Peconomy Logo"
           width={580}
           height={580}
-          className="absolute -bottom-24 -left-32 transition-all duration-300 ease-out"
-          style={{
-            transform: `rotate(${rotation}deg) translateY(${translateY}px)`,
-          }}
+          className="absolute -bottom-24 -left-32 animate-float"
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
