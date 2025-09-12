@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import ProfileHeader from "./ProfileHeader";
 import ProfileContent from "./ProfileContent";
 import ProfileTabs from "./ProfileTabs";
+import RightSidebar from "./RightSidebar";
 
 export default function ProfileStateProvider() {
   const [activeTab, setActiveTab] = useState<"FEED" | "REVIEWS" | "SHOP">("FEED");
@@ -37,7 +38,7 @@ export default function ProfileStateProvider() {
   return (
     <div
       ref={scrollContainerRef}
-      className="flex flex-col w-full h-full p-4 pb-0 gap-4 overflow-y-auto scrollbar-thin">
+      className={`flex flex-col w-full h-full p-4 pb-0 gap-4 overflow-y-auto scrollbar-thin ${isHeaderVisible ? "overflow-y-auto scrollbar-thin" : "overflow-y-hidden"}`}>
       {/* Trigger invisible para detectar scroll */}
 
       {/* Header Section - Hide */}
@@ -57,11 +58,14 @@ export default function ProfileStateProvider() {
         onTabChange={setActiveTab}
       />
 
-      {/* Main Content Area */}
-      <ProfileContent
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
+      <div className={`grid xl:flex flex-row gap-4 h-full ${isHeaderVisible ? "overflow-y-visible scrollbar-thin" : "overflow-y-hidden"}`}>
+        {/* Main Content Area */}
+        <ProfileContent
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
+        <RightSidebar />
+      </div>
     </div>
   );
 }

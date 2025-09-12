@@ -56,14 +56,14 @@ export default function ProductCard({ product, onAddToCart, onViewDetails }: Pro
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer group overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300 transform hover:scale-101 cursor-pointer group overflow-hidden">
       {/* Product Image Container */}
       <div className="relative h-48 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
         <Image
           src={product.image}
           alt={product.name}
           fill
-          className="object-cover group-hover:scale-110 transition-transform duration-300"
+          className="object-cover group-hover:scale-103 transition-transform duration-300"
         />
 
         {/* Badges */}

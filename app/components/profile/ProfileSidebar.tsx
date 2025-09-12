@@ -16,7 +16,7 @@ export default function ProfileSidebar() {
   const sortedSocialLinks = sortSocialLinksByFollowers(socialLinks);
 
   return (
-    <div className="grid gap-4 w-full h-full sm:max-w-[280px] 2xl:max-w-80 px-12  bg-gradient-to-b py-12 from-white to-gray-50 border-r border-gray-200">
+    <div className="grid gap-4 w-full h-full sm:max-w-[300px] 2xl:max-w-80 px-10  bg-gradient-to-b py-12 from-white to-gray-50 border-r border-gray-200">
       {/* Profile Header */}
       <div className="grid text-center gap-2 self-top align-top items-start mb-auto">
         <Image
