@@ -37,7 +37,7 @@ export default function ProfileStateProvider() {
   return (
     <div
       ref={scrollContainerRef}
-      className={`flex flex-col w-full p-4 pb-0 gap-4 ${isHeaderVisible ? "overflow-y-auto  scrollbar-thin" : "overflow-y-hidden"}`}>
+      className="flex flex-col w-full h-full p-4 pb-0 gap-4 overflow-y-auto scrollbar-thin">
       {/* Trigger invisible para detectar scroll */}
 
       {/* Header Section - Hide */}
