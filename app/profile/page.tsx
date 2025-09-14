@@ -3,7 +3,7 @@ import ProfileStateProvider from "../components/profile/ProfileStateProvider";
 
 export default function LinktreeProfile() {
   return (
-    <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 p-3  rounded-4xl">
+    <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 p-2  rounded-4xl">
       {/* Screen Container */}
       <div className="w-full h-full flex bg-white rounded-4xl shadow-2xl overflow-hidden border border-gray-200">
         {/* Sidebar - Interactivo */}

@@ -40,9 +40,9 @@ export default function SocialLinksList({ links, variant = "desktop", maxItems }
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       {/* Grid de 4 items */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+      <div className="h-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-y-2 mb-4">
         {paginatedLinks.map((link, index) => (
           <SocialLinkItem
             key={currentPage * itemsPerPage + index}
