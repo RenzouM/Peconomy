@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { auth } from "../auth";
-import SignIn from "./components/sign-in-button";
-import SignOut from "./components/sign-out-button";
+import Navbar from "./components/Navbar";
+import { signInAction, signOutAction } from "./actions/auth";
 
 export default async function Home() {
   const session = await auth();
@@ -96,101 +96,11 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-2 rounded-4xl">
       {/* Enhanced Navigation */}
-      <nav className="bg-white/95 backdrop-blur-md border-b p-1 rounded-4xl border-gray-200/50 sticky top-0 z-50 shadow-sm">
-        <div className="flex justify-between items-center h-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Logo Section */}
-          <Link
-            href="/"
-            className="flex flex-col">
-            <span className="flex items-center space-x-4 text-2xl font-bold bg-gradient-to-r from-red-600 via-red-500 to-red-700 bg-clip-text text-transparent italic">Peconomy</span>
-            {/* <span className="text-xs text-gray-500 font-medium italic">Private Economy</span> */}
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            <a
-              href="#features"
-              className="px-4 py-2 text-gray-700 hover:text-red-600 transition-all duration-300 rounded-4xl hover:bg-red-50 font-medium">
-              Features
-            </a>
-            <a
-              href="#pricing"
-              className="px-4 py-2 text-gray-700 hover:text-red-600 transition-all duration-300 rounded-4xl hover:bg-red-50 font-medium">
-              Pricing
-            </a>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="hidden lg:flex items-center space-x-3">
-            {session?.user ? (
-              <Link
-                href="/profile"
-                className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 rounded-4xl py-1 px-3 cursor-pointer text-gray-700  hover:text-red-600 transition-colors duration-300 font-medium">
-                <Image
-                  src={session.user.image || ""}
-                  alt="User Avatar"
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 rounded-full"
-                />
-                <p className="text-sm">{session.user.name}</p>
-              </Link>
-            ) : (
-              ""
-            )}
-
-            {session?.user ? <SignOut /> : <SignIn />}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="lg:hidden">
-            <button className="text-gray-700 hover:text-red-600 transition-colors duration-300 p-2 rounded-lg hover:bg-gray-100">
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu - CSS Only */}
-        <div className="lg:hidden border-t border-gray-200/50 bg-white/95 backdrop-blur-md">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            <a
-              href="#features"
-              className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
-              Features
-            </a>
-            <a
-              href="#pricing"
-              className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
-              Pricing
-            </a>
-            <a
-              href="#roadmap"
-              className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
-              Roadmap
-            </a>
-            <a
-              href="#about"
-              className="block px-3 py-2 text-gray-700 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 font-medium">
-              About
-            </a>
-            <div className="pt-4 space-y-2">
-              <button className="w-full text-left px-3 py-2 text-gray-700 hover:text-red-600 transition-colors duration-300 font-medium">Sign In</button>
-              <button className="w-full bg-gradient-to-r from-red-600 via-red-500 to-red-700 text-white px-3 py-2 rounded-lg hover:from-red-700 hover:via-red-600 hover:to-red-800 transition-all duration-300 font-semibold">Get Started</button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar
+        session={session}
+        signInAction={signInAction}
+        signOutAction={signOutAction}
+      />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden mt-6 rounded-4xl border-t-2 border-red-600 shadow-2xl/15 border-b-1 border-b-gray-200">
@@ -199,7 +109,7 @@ export default async function Home() {
           alt="Peconomy Logo"
           width={580}
           height={580}
-          className="absolute -bottom-24 -left-32 animate-float"
+          className="absolute -bottom-24 -left-32 animate-float hidden xl:block w-[500px] 2xl:w-[640px]"
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
@@ -209,7 +119,7 @@ export default async function Home() {
               <span className="block bg-gradient-to-r from-red-400 via-red-500 to-red-600 bg-clip-text text-transparent">Coin</span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed">Unify your content, monetize with privacy, and grow with AI. Peconomy is the all-in-one platform that transforms how creators build, earn, and thrive in the digital age.</p>
+            <p className="text-xl md:text-2xl max-w-2xl 2xl:max-w-3xl text-gray-600 mb-12 mx-auto leading-relaxed">Unify your content, monetize with privacy, and grow with AI. Peconomy is the all-in-one platform that transforms how creators build, earn, and thrive in the digital age.</p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link

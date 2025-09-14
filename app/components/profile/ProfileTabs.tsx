@@ -14,7 +14,7 @@ export default function ProfileTabs({ activeTab, onTabChange }: ProfileTabsProps
         <button
           key={tab}
           onClick={() => onTabChange(tab)}
-          className={`pt-2 pb-3 px-5 text-sm font-semibold cursor-pointer transition-all duration-200 ${activeTab === tab ? "text-gray-900 bg-gray-100 rounded-t-md shadow-inner" : "text-gray-500 hover:text-gray-800 hover:bg-gray-50 rounded-t-md"}`}>
+          className={`py-3 px-5 text-sm font-semibold transition-all duration-200 ${activeTab === tab ? "text-gray-900 bg-gray-100 rounded-t-xl shadow-inner" : "text-gray-500 hover:text-gray-800 hover:bg-gray-50 rounded-t-xl"}`}>
           {tab}
         </button>
       ))}

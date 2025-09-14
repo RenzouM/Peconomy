@@ -111,7 +111,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
               <div className="flex-1">
                 <div className="relative">
                   {/* Timeline Line */}
-                  <div className="absolute left-10 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-400 via-purple-400 to-pink-400"></div>
+                  <div className="absolute left-10 top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-400 via-red-200 to-red-50"></div>
 
                   {/* Feed Posts */}
                   <div className="space-y-6">
@@ -120,18 +120,16 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
                         className="relative"
                         key={index}>
                         {/* Timeline Dot */}
-                        <div className="absolute left-8 w-4 h-4 top-2 bg-white border-4 border-blue-500 rounded-full z-10 shadow-lg"></div>
+                        <div className="absolute left-8 w-4 h-4 top-2 bg-white border-4 border-red-500 rounded-full z-10 shadow-lg"></div>
                         {/* Time Badge */}
                         <div className="absolute left-0 top-5 w-20 text-center">
-                          <div className="bg-blue-500 text-white text-xs font-semibold px-2 py-1 rounded-lg shadow-md">{post.time}</div>
+                          <div className="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-lg shadow-md">{post.time}</div>
                         </div>
                         {/* Post Content */}
-                        <div className="ml-24 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 hover:shadow-md hover:border-gray-300 transition-all duration-300 cursor-pointer group">
-                          <div className="flex items-start space-x-3">
+                        <div className="ml-24 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl border border-gray-200 hover:shadow-sm  hover:border-gray-300 transition-all duration-300  group">
+                          <div className="flex items-center space-x-3">
                             <span className="text-lg group-hover:scale-110 transition-transform">{post.icon}</span>
-                            <div className="flex-1">
-                              <div className="text-gray-900 text-sm leading-relaxed">{post.content}</div>
-                            </div>
+                            <div className="text-gray-900 text-sm leading-relaxed">{post.content}</div>
                           </div>
                         </div>
                       </div>
@@ -139,7 +137,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
 
                     {/* More Posts Indicator */}
                     <div className="relative hidden xl:block">
-                      <div className="absolute left-8 w-4 h-4 bg-white border-4 border-gray-400 rounded-full z-10"></div>
+                      <div className="absolute left-8 w-4 h-4 bg-white border-4 border-red-50 rounded-full z-10"></div>
                       <div className="text-center text-gray-500 text-sm py-2">...</div>
                     </div>
                   </div>
@@ -155,7 +153,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
               <div className="bg-white p-3 rounded-2xl shadow-xs border border-gray-200">
                 <div className="flex justify-between">
                   <div className="flex space-x-2 overflow-x-auto">
-                    <button className="px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium whitespace-nowrap">All Reviews</button>
+                    <button className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium whitespace-nowrap">All Reviews</button>
                     <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Gaming</button>
                     <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Tech</button>
                     <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Lifestyle</button>
@@ -207,7 +205,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
                             <p className="text-xs text-gray-600">Sponsored Review</p>
                           </div>
                         </div>
-                        <p className="text-gray-700 text-xs">&ldquo;Increíble colección de NFTs que revoluciona el gaming. La integración con blockchain es perfecta y los beneficios para los creadores son reales. ¡100% recomendado!&rdquo;</p>
+                        <p className="text-gray-700 text-xs">&ldquo;Incredible NFT collection that revolutionizes gaming. The blockchain integration is perfect and the benefits for creators are real. 100% recommended!&rdquo;</p>
                       </div>
                       <div className="flex flex-col space-y-2">
                         <div className="flex items-center space-x-4 text-xs text-gray-600">
@@ -215,7 +213,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
                           <span>👍 2.3K likes</span>
                           <span>💬 156 comments</span>
                         </div>
-                        <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
+                        <button className="w-full px-4 py-2 bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 text-white rounded-lg text-sm font-medium  transition-colors cursor-pointer">Watch Review</button>
                       </div>
                     </div>
                   </div>
@@ -225,7 +223,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
                 <div className="bg-white p-3 rounded-2xl shadow-xs border border-gray-200">
                   <div className="flex items-start space-x-3">
                     <Image
-                      src="/luisitoland.png"
+                      src="/logo1.png"
                       alt="Tech Reviewer"
                       width={40}
                       height={40}
@@ -255,7 +253,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
                             <p className="text-xs text-gray-600">Sponsored Review</p>
                           </div>
                         </div>
-                        <p className="text-gray-700 text-xs">&ldquo;El sistema de vaults de Peconomy es innovador. La privacidad y transparencia que ofrece es única en el mercado. Perfecto para inversores serios.&rdquo;</p>
+                        <p className="text-gray-700 text-xs">&ldquo;Peconomy&apos;s vault system is innovative. The privacy and transparency it offers is unique in the market. Perfect for serious investors.&rdquo;</p>
                       </div>
                       <div className="flex flex-col space-y-2">
                         <div className="flex items-center space-x-4 text-xs text-gray-600">
@@ -263,7 +261,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
                           <span>👍 1.1K likes</span>
                           <span>💬 89 comments</span>
                         </div>
-                        <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
+                        <button className="w-full px-4 py-2 bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 text-white rounded-lg text-sm font-medium  transition-colors cursor-pointer">Watch Review</button>
                       </div>
                     </div>
                   </div>
@@ -303,7 +301,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
                             <p className="text-xs text-gray-600">Sponsored Review</p>
                           </div>
                         </div>
-                        <p className="text-gray-700 text-xs">&ldquo;La integración con USDC es perfecta. Transacciones rápidas, fees bajos y total transparencia. Peconomy está cambiando el juego del DeFi.&rdquo;</p>
+                        <p className="text-gray-700 text-xs">&ldquo;The USDC integration is perfect. Fast transactions, low fees and total transparency. Peconomy is changing the DeFi game.&rdquo;</p>
                       </div>
                       <div className="flex flex-col space-y-2">
                         <div className="flex items-center space-x-4 text-xs text-gray-600">
@@ -311,7 +309,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
                           <span>👍 1.8K likes</span>
                           <span>💬 203 comments</span>
                         </div>
-                        <button className="w-full px-4 py-2 bg-red-600/70 text-white rounded-lg text-sm font-medium hover:bg-indigo-600 transition-colors">Watch Review</button>
+                        <button className="w-full px-4 py-2 bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 text-white rounded-lg text-sm font-medium  transition-colors cursor-pointer">Watch Review</button>
                       </div>
                     </div>
                   </div>
@@ -351,7 +349,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
 
               {/* Load More Button */}
               <div className="text-center py-8">
-                <button className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg">Load More Products</button>
+                <button className="px-8 py-4 bg-gradient-to-r from-red-400 to-red-500 text-white rounded-2xl font-semibold hover:from-red-500 hover:to-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg">Load More Products</button>
               </div>
             </div>
           )}

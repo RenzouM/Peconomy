@@ -18,7 +18,7 @@ export default function VaultStateProvider() {
       />
 
       {/* Main Content */}
-      <div className="flex flex-1 gap-4">
+      <div className="flex h-full gap-x-4 overflow-y-auto">
         {/* Operations - Interactivo */}
         <VaultOperations
           activeTab={activeTab}

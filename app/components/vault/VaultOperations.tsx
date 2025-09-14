@@ -261,7 +261,7 @@ Registering user with
   };
 
   return (
-    <div className="flex flex-1 gap-4">
+    <div className="grid gap-4 w-full h-full">
       {error && (
         <div className="mb-8 p-6 bg-gradient-to-r from-red-50 to-red-100 rounded-2xl border-l-4 border-red-500 shadow-lg">
           <div className="flex items-start space-x-3">
@@ -303,326 +303,362 @@ Registering user with
         </div>
       )}
 
-      <div className="w-full h-full">
-        {/* Private Vault Section */}
-        {activeTab === "private" && (
-          <div className="bg-gradient-to-br h-full grid from-red-50/5 to-red-100/5 p-4 rounded-3xl shadow-sm border border-red-50/5">
-            <div className="flex self-start items-center space-x-2 mb-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                viewBox="-6 -2 24 24"
-                fill="#000000">
-                <path
-                  fill="red"
-                  d="M6 18a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM2 9.528V4a4 4 0 1 1 8 0v5.528a6 6 0 1 1-8 0zM4 8.34A5.99 5.99 0 0 1 6 8c.701 0 1.374.12 2 .341V4a2 2 0 1 0-4 0v4.341zM6 16a2 2 0 1 1 0-4a2 2 0 0 1 0 4z"></path>
-              </svg>
-              <h2 className="text-2xl font-semibold text-red-400 tracking-tight">Private Vault</h2>
-            </div>
-
-            <div className="grid gap-4">
-              {/* Asset Display */}
-              <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
-                <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Available Assets</h3>
-                <div className="grid grid-cols-4 gap-2">
-                  {[
-                    { icon: "/logo.png", name: "PECO", value: "100" },
-                    { icon: "/peconft.png", name: "pNFT", value: "100" },
-                  ].map((asset, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-col items-center space-y-1 p-2 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
-                      <img
-                        src={asset.icon}
-                        alt={asset.name}
-                        width={24}
-                        height={24}
-                      />
-                      <div className="text-center">
-                        <p className="text-xs font-semibold text-gray-800">{asset.name}</p>
-                        {asset.value && <p className="text-xs text-gray-600">{asset.value}</p>}
-                      </div>
-                    </div>
-                  ))}
+      {/* Private Vault Section */}
+      {activeTab === "private" && (
+        <div className="bg-gradient-to-br gap-4 h-full flex flex-col from-red-50/5 to-red-100/5 p-4 rounded-3xl shadow-sm border border-red-50/5">
+          <div className="flex w-full self-start bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6 border border-red-200 shadow-sm">
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0">
+                <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center shadow-lg">
+                  <svg
+                    className="w-6 h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
                 </div>
               </div>
-
-              {/* Tabs */}
-              <div className="grid">
-                <div className="flex space-x-1 bg-gray-100 ms-4 z-50">
-                  <button
-                    onClick={() => onVaultTabActionChange("decrypt")}
-                    className={`px-6 py-3 rounded-t-lg border border-b-0 border-gray-50 cursor-pointer font-semibold transition-all duration-200 flex ${vaultActiveTabAction === "decrypt" ? "bg-white text-gray-600 border-gray-200 -mb-px" : "text-gray-400 hover:text-gray-800 hover:bg-gray-50"}`}>
-                    <span>Decrypt</span>
-                  </button>
-                  <button
-                    onClick={() => onVaultTabActionChange("swap")}
-                    className={`px-6 py-3 rounded-t-lg border border-b-0 border-gray-50 cursor-pointer font-semibold transition-all duration-200 flex ${vaultActiveTabAction === "swap" ? "bg-white text-gray-600 -mb-px border-gray-200" : "text-gray-400 hover:text-gray-800 hover:bg-gray-50"}`}>
-                    <span>Swap</span>
-                  </button>
-                  <button
-                    onClick={() => onVaultTabActionChange("transfer")}
-                    className={`px-6 py-3 rounded-t-lg border border-b-0 border-gray-50 cursor-pointer font-semibold transition-all duration-200 flex ${vaultActiveTabAction === "transfer" ? "bg-white text-gray-600 border-gray-200 -mb-px" : "text-gray-400 hover:text-gray-800 hover:bg-gray-50"}`}>
-                    <span>Transfer</span>
-                  </button>
-                  <button
-                    onClick={() => onVaultTabActionChange("buy")}
-                    className={`px-6 py-3 rounded-t-lg border border-b-0 border-gray-50 cursor-pointer font-semibold transition-all duration-200 flex ${vaultActiveTabAction === "buy" ? "bg-white text-gray-600 -mb-px border-gray-200" : "text-gray-400 hover:text-gray-800 hover:bg-gray-50"}`}>
-                    <span>Buy</span>
-                  </button>
-                </div>
-
-                {/* Swap Interface */}
-                {vaultActiveTabAction === "swap" && (
-                  <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
-                    <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Swap Interface</h3>
-                    <div className="space-y-2">
-                      <div className="bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200">
-                        <div className="flex items-center space-x-2">
-                          <img
-                            src="/logo1.png"
-                            alt="From"
-                            width={32}
-                            height={32}
-                          />
-                          <input
-                            type="text"
-                            value={amount}
-                            onChange={e => handleAmountChange(e, setAmount)}
-                            className="flex-1 px-2 py-1 text-black text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            placeholder="0"
-                          />
-                        </div>
-                      </div>
-                      <div className="flex justify-center">
-                        <div className="bg-blue-500 text-white p-1.5 rounded-full">
-                          <svg
-                            className="w-3 h-3"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <div className="bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200">
-                        <div className="flex items-center space-x-2">
-                          <img
-                            src="/logo.png"
-                            alt="To"
-                            width={32}
-                            height={32}
-                          />
-                          <input
-                            type="text"
-                            value={amount}
-                            onChange={e => handleAmountChange(e, setAmount)}
-                            className="flex-1 px-2 py-1 text-black text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            placeholder="0"
-                          />
-                        </div>
-                      </div>
-                      <button
-                        onClick={handlePrivateTransfer}
-                        className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
-                        Execute Swap
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Operations */}
-                <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
-                  <div className="space-y-2">
-                    <div className="flex p-4 gap-4">
-                      <div className="flex gap-2 w-full">
-                        <label className="text-xs font-semibold text-gray-700 my-auto">To</label>
-                        <div className="flex items-center w-full">
-                          <input
-                            type="text"
-                            value={address}
-                            placeholder="0x..."
-                            onChange={e => handleAmountChange(e, setAddress)}
-                            className="py-1 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
-                          />
-                        </div>
-                      </div>
-                      <div className="flex gap-2 justify-center">
-                        <label className="block text-xs font-semibold text-gray-700 my-auto">Amount</label>
-                        <div className="flex items-center space-x-1">
-                          <button
-                            onClick={() => handleDecrement(setAmount)}
-                            className="bg-gray-500 cursor-pointer hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
-                            -
-                          </button>
-                          <input
-                            type="text"
-                            value={amount}
-                            onChange={e => handleAmountChange(e, setAmount)}
-                            className="py-1 w-20 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
-                            placeholder="0"
-                          />
-                          <button
-                            onClick={() => handleIncrement(setAmount)}
-                            className="bg-gray-500 cursor-pointer hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <button
-                        onClick={handleRegister}
-                        disabled={isLoading}
-                        className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
-                        {isLoading ? "Registering..." : "Register"}
-                      </button>
-                      <button
-                        onClick={handleEncrypt}
-                        disabled={isLoading}
-                        className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
-                        {isLoading ? "Depositing..." : "Deposit"}
-                      </button>
-                      <button
-                        onClick={handleCheckEncryptedBalance}
-                        disabled={isLoading}
-                        className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
-                        {isLoading ? "Checking balance..." : "Check balance"}
-                      </button>
-                      <button
-                        onClick={handlePrivateTransfer}
-                        disabled={isLoading}
-                        className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
-                        {isLoading ? "Transferring..." : "Transfer"}
-                      </button>
-                      <button
-                        onClick={handleDecrypt}
-                        disabled={isLoading}
-                        className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
-                        {isLoading ? "Withdrawing..." : "Withdraw"}
-                      </button>
-                      <button
-                        onClick={handleFaucet}
-                        disabled={isLoading}
-                        className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
-                        {isLoading ? "Faucet..." : "Faucet"}
-                      </button>
-                    </div>
-                  </div>
+              <div className="w-full">
+                <h3 className="text-md font-bold text-red-800 mb-2">PRIVATE VAULT</h3>
+                <div className="space-y-2 text-red-700 text-sm">
+                  <p className="flex items-center space-x-2">
+                    <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                    <span>Your balance and transactions are totally private 🔒</span>
+                  </p>
+                  <p className="flex items-center space-x-2">
+                    <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                    <span>Only you can see your balance and transactions</span>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-        )}
 
-        {/* Public Vault Section */}
-        {activeTab === "public" && (
-          <div className="bg-gradient-to-br grid h-full from-blue-50/5 to-blue-100/5 p-4 rounded-3xl shadow-sm border border-blue-50/5">
-            <div className="flex self-start items-center space-x-2 mb-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                viewBox="-6 -2 24 24"
-                fill="#000000">
-                <path
-                  stroke="blue"
-                  fill="blue"
-                  strokeWidth="0"
-                  d="M6 18a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM2 9.528V4a4 4 0 1 1 8 0v1a1 1 0 1 1-2 0V4a2 2 0 1 0-4 0v4.341a6 6 0 1 1-2 1.186zM6 16a2 2 0 1 1 0-4a2 2 0 0 1 0 4z"></path>
-              </svg>
-              <h2 className="text-2xl font-semibold text-blue-500 tracking-tight">Public Vault</h2>
+          <div className="grid gap-4">
+            {/* Asset Display */}
+            <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
+              <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Available Assets</h3>
+              <div className="grid grid-cols-4 gap-2">
+                {[
+                  { icon: "/logo.png", name: "PECO", value: "100" },
+                  { icon: "/peconft.png", name: "pNFT", value: "100" },
+                ].map((asset, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col items-center space-y-1 p-2 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
+                    <img
+                      src={asset.icon}
+                      alt={asset.name}
+                      width={24}
+                      height={24}
+                    />
+                    <div className="text-center">
+                      <p className="text-xs font-semibold text-gray-800">{asset.name}</p>
+                      {asset.value && <p className="text-xs text-gray-600">{asset.value}</p>}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="grid h-full gap-4">
-              {/* Asset Display */}
-              <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
-                <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Available Assets</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  {[{ icon: "/usdc.png", name: "USDC", value: "100" }].map((asset, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-col items-center space-y-1 p-2 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
-                      <img
-                        src={asset.icon}
-                        alt={asset.name}
-                        width={24}
-                        height={24}
-                      />
-                      <div className="text-center">
-                        <p className="text-xs font-semibold text-gray-800">{asset.name}</p>
-                        {asset.value && <p className="text-xs text-gray-600">{asset.value}</p>}
+            {/* Tabs */}
+            <div className="grid">
+              <div className="flex space-x-1 bg-gray-100 ms-4 z-50">
+                <button
+                  onClick={() => onVaultTabActionChange("decrypt")}
+                  className={`px-6 py-3 rounded-t-lg border border-b-0 border-gray-50 cursor-pointer font-semibold transition-all duration-200 flex ${vaultActiveTabAction === "decrypt" ? "bg-white text-gray-600 border-gray-200 -mb-px" : "text-gray-400 hover:text-gray-800 hover:bg-gray-50"}`}>
+                  <span>Decrypt</span>
+                </button>
+                <button
+                  onClick={() => onVaultTabActionChange("swap")}
+                  className={`px-6 py-3 rounded-t-lg border border-b-0 border-gray-50 cursor-pointer font-semibold transition-all duration-200 flex ${vaultActiveTabAction === "swap" ? "bg-white text-gray-600 -mb-px border-gray-200" : "text-gray-400 hover:text-gray-800 hover:bg-gray-50"}`}>
+                  <span>Swap</span>
+                </button>
+                <button
+                  onClick={() => onVaultTabActionChange("transfer")}
+                  className={`px-6 py-3 rounded-t-lg border border-b-0 border-gray-50 cursor-pointer font-semibold transition-all duration-200 flex ${vaultActiveTabAction === "transfer" ? "bg-white text-gray-600 border-gray-200 -mb-px" : "text-gray-400 hover:text-gray-800 hover:bg-gray-50"}`}>
+                  <span>Transfer</span>
+                </button>
+                <button
+                  onClick={() => onVaultTabActionChange("buy")}
+                  className={`px-6 py-3 rounded-t-lg border border-b-0 border-gray-50 cursor-pointer font-semibold transition-all duration-200 flex ${vaultActiveTabAction === "buy" ? "bg-white text-gray-600 -mb-px border-gray-200" : "text-gray-400 hover:text-gray-800 hover:bg-gray-50"}`}>
+                  <span>Buy</span>
+                </button>
+              </div>
+
+              {/* Swap Interface */}
+              {vaultActiveTabAction === "swap" && (
+                <div className="bg-white p-3 rounded-2xl shadow-lg border border-gray-200">
+                  <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Swap Interface</h3>
+                  <div className="space-y-2">
+                    <div className="bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200">
+                      <div className="flex items-center space-x-2">
+                        <img
+                          src="/logo1.png"
+                          alt="From"
+                          width={32}
+                          height={32}
+                        />
+                        <input
+                          type="text"
+                          value={amount}
+                          onChange={e => handleAmountChange(e, setAmount)}
+                          className="flex-1 px-2 py-1 text-black text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="0"
+                        />
                       </div>
                     </div>
-                  ))}
+                    <div className="flex justify-center">
+                      <div className="bg-blue-500 text-white p-1.5 rounded-full">
+                        <svg
+                          className="w-3 h-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24">
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200">
+                      <div className="flex items-center space-x-2">
+                        <img
+                          src="/logo.png"
+                          alt="To"
+                          width={32}
+                          height={32}
+                        />
+                        <input
+                          type="text"
+                          value={amount}
+                          onChange={e => handleAmountChange(e, setAmount)}
+                          className="flex-1 px-2 py-1 text-black text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="0"
+                        />
+                      </div>
+                    </div>
+                    <button
+                      onClick={handlePrivateTransfer}
+                      className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
+                      Execute Swap
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Operations */}
               <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
-                <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Operations</h3>
                 <div className="space-y-2">
-                  <div className="flex gap-2 w-full">
-                    <label className="text-xs font-semibold text-gray-700 my-auto">To</label>
-                    <div className="flex items-center w-full">
-                      <input
-                        type="text"
-                        value={publicVaultAmount}
-                        onChange={e => handleAmountChange(e, setPublicVaultAmount)}
-                        className="py-1 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
-                        placeholder="0"
-                      />
+                  <div className="flex p-4 gap-4">
+                    <div className="flex gap-2 w-full">
+                      <label className="text-xs font-semibold text-gray-700 my-auto">To</label>
+                      <div className="flex items-center w-full">
+                        <input
+                          type="text"
+                          value={address}
+                          placeholder="0x..."
+                          onChange={e => handleAmountChange(e, setAddress)}
+                          className="py-1 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex gap-2 justify-center">
-                    <label className="block text-xs font-semibold text-gray-700 my-auto">Amount</label>
-                    <div className="flex items-center space-x-1">
-                      <button
-                        onClick={() => handleDecrement(setPublicVaultAmount)}
-                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
-                        -
-                      </button>
-                      <input
-                        type="text"
-                        value={publicVaultAmount}
-                        onChange={e => handleAmountChange(e, setPublicVaultAmount)}
-                        className="py-1 border w-20 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
-                        placeholder="0"
-                      />
-                      <button
-                        onClick={() => handleIncrement(setPublicVaultAmount)}
-                        className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
-                        +
-                      </button>
+                    <div className="flex gap-2 justify-center">
+                      <label className="block text-xs font-semibold text-gray-700 my-auto">Amount</label>
+                      <div className="flex items-center space-x-1">
+                        <button
+                          onClick={() => handleDecrement(setAmount)}
+                          className="bg-gray-500 cursor-pointer hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
+                          -
+                        </button>
+                        <input
+                          type="text"
+                          value={amount}
+                          onChange={e => handleAmountChange(e, setAmount)}
+                          className="py-1 w-20 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
+                          placeholder="0"
+                        />
+                        <button
+                          onClick={() => handleIncrement(setAmount)}
+                          className="bg-gray-500 cursor-pointer hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
+                          +
+                        </button>
+                      </div>
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <button
+                      onClick={handleRegister}
+                      disabled={isLoading}
+                      className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                      {isLoading ? "Registering..." : "Register"}
+                    </button>
+                    <button
                       onClick={handleEncrypt}
-                      className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
-                      Encrypt
+                      disabled={isLoading}
+                      className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                      {isLoading ? "Depositing..." : "Deposit"}
+                    </button>
+                    <button
+                      onClick={handleCheckEncryptedBalance}
+                      disabled={isLoading}
+                      className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                      {isLoading ? "Checking balance..." : "Check balance"}
                     </button>
                     <button
                       onClick={handlePrivateTransfer}
-                      className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
-                      Transfer
+                      disabled={isLoading}
+                      className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                      {isLoading ? "Transferring..." : "Transfer"}
                     </button>
-                    <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">Buy</button>
+                    <button
+                      onClick={handleDecrypt}
+                      disabled={isLoading}
+                      className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                      {isLoading ? "Withdrawing..." : "Withdraw"}
+                    </button>
+                    <button
+                      onClick={handleFaucet}
+                      disabled={isLoading}
+                      className={`w-full cursor-pointer font-bold py-2 px-4 rounded-xl transition-all duration-300 transform shadow-lg text-white text-sm tracking-wide ${isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:scale-105 hover:shadow-xl"}`}>
+                      {isLoading ? "Faucet..." : "Faucet"}
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Public Vault Section */}
+      {activeTab === "public" && (
+        <div className="bg-gradient-to-br h-full flex flex-col gap-4 from-red-50/5 to-red-100/5 p-4 rounded-3xl shadow-sm border border-red-50/5">
+          <div className="flex w-full self-start bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200 shadow-sm">
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0">
+                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                  <svg
+                    className="w-6 h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-md font-bold text-blue-800 mb-2">PUBLIC VAULT</h3>
+                <div className="space-y-2 text-blue-700 text-sm">
+                  <p className="flex items-center space-x-2">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                    <span>Your balance and transactions are public 🌐</span>
+                  </p>
+                  <p className="flex items-center space-x-2">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                    <span>Transparent and verifiable on the blockchain</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-4">
+            {/* Asset Display */}
+            <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
+              <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Available Assets</h3>
+              <div className="grid grid-cols-2 gap-2">
+                {[{ icon: "/usdc.png", name: "USDC", value: "100" }].map((asset, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col items-center space-y-1 p-2 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
+                    <img
+                      src={asset.icon}
+                      alt={asset.name}
+                      width={24}
+                      height={24}
+                    />
+                    <div className="text-center">
+                      <p className="text-xs font-semibold text-gray-800">{asset.name}</p>
+                      {asset.value && <p className="text-xs text-gray-600">{asset.value}</p>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Operations */}
+            <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-200">
+              <h3 className="text-base font-semibold text-gray-800 mb-2 text-center tracking-tight">Operations</h3>
+              <div className="space-y-2">
+                <div className="flex gap-2 w-full">
+                  <label className="text-xs font-semibold text-gray-700 my-auto">To</label>
+                  <div className="flex items-center w-full">
+                    <input
+                      type="text"
+                      value={publicVaultAmount}
+                      onChange={e => handleAmountChange(e, setPublicVaultAmount)}
+                      className="py-1 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
+                      placeholder="0"
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-2 justify-center">
+                  <label className="block text-xs font-semibold text-gray-700 my-auto">Amount</label>
+                  <div className="flex items-center space-x-1">
+                    <button
+                      onClick={() => handleDecrement(setPublicVaultAmount)}
+                      className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
+                      -
+                    </button>
+                    <input
+                      type="text"
+                      value={publicVaultAmount}
+                      onChange={e => handleAmountChange(e, setPublicVaultAmount)}
+                      className="py-1 border w-20 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-center text-black text-sm"
+                      placeholder="0"
+                    />
+                    <button
+                      onClick={() => handleIncrement(setPublicVaultAmount)}
+                      className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded-lg transition-colors text-xs">
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <button
+                    onClick={handleEncrypt}
+                    className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
+                    Encrypt
+                  </button>
+                  <button
+                    onClick={handlePrivateTransfer}
+                    className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">
+                    Transfer
+                  </button>
+                  <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 font-bold py-2 px-4 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-white text-sm tracking-wide">Buy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

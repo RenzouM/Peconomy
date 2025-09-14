@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 interface VaultTabsProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
@@ -98,12 +96,12 @@ export default function VaultTabs({ activeTab, onTabChange }: VaultTabsProps) {
   ];
 
   return (
-    <div className="flex space-x-1 bg-gray-100 p-1 rounded-xl">
+    <div className="flex space-x-1 bg-gray-100 p-1 rounded-2xl">
       {tabs.map(tab => (
         <button
           key={tab.id}
           onClick={() => onTabChange(tab.id)}
-          className={`px-6 py-3 rounded-lg cursor-pointer font-semibold transition-all duration-200 flex items-center ${activeTab === tab.id ? `bg-white text-${tab.id === "private" ? "red" : tab.id === "public" ? "blue" : tab.id === "defi" ? "purple" : tab.id === "metrics" ? "orange" : "green"}-400 shadow-sm` : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"}`}>
+          className={`px-6 py-3 rounded-2xl cursor-pointer font-semibold transition-all duration-200 flex items-center ${activeTab === tab.id ? `bg-white text-${tab.id === "private" ? "red" : tab.id === "public" ? "blue" : tab.id === "defi" ? "purple" : tab.id === "metrics" ? "orange" : "green"}-400 shadow-sm` : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"}`}>
           {tab.icon}
           <span className="ml-1">{tab.label}</span>
         </button>

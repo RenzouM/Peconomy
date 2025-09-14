@@ -16,7 +16,7 @@ export default function ProfileSidebar() {
   const sortedSocialLinks = sortSocialLinksByFollowers(socialLinks);
 
   return (
-    <div className="grid gap-4 w-full h-full sm:max-w-[300px] 2xl:max-w-80 px-10  bg-gradient-to-b py-12 from-white to-gray-50 border-r border-gray-200">
+    <div className="grid gap-4 w-full h-full sm:max-w-[280px] md:max-w-[300px] 2xl:max-w-80 px-10  bg-gradient-to-b py-12 from-white to-gray-50 border-r border-gray-200">
       {/* Profile Header */}
       <div className="grid text-center gap-2 self-top align-top items-start mb-auto">
         <Image
@@ -122,7 +122,7 @@ export default function ProfileSidebar() {
         <div className="flex gap-x-4 relative h-12">
           <button
             onClick={() => setShowActionButtons(!showActionButtons)}
-            className="w-full flex-1 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-900 py-4 px-6 rounded-2xl font-semibold text-sm flex items-center justify-center space-x-2 hover:from-gray-200 hover:to-gray-300 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg cursor-pointer">
+            className="w-full flex-1 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-900 py-4 px-6 rounded-3xl font-semibold text-sm flex items-center justify-center space-x-2 hover:from-gray-200 hover:to-gray-300 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg cursor-pointer">
             <span className="transition-transform duration-500 group-hover:rotate-180">{showActionButtons ? "▼" : "▶"}</span>
             <span>Actions</span>
           </button>

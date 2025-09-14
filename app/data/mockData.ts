@@ -101,7 +101,7 @@ export const mockProducts: Product[] = [
     price: 0.5,
     originalPrice: 0.8,
     currency: "ETH",
-    image: "/nft.png",
+    image: "/peconft.png",
     category: "NFTs",
     rating: 4.9,
     reviewCount: 127,
