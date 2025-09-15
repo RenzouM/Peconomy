@@ -7,7 +7,7 @@ export default function RightSidebar() {
     <div className="flex flex-col space-y-4 pb-4 overflow-hidden justify-start">
       {/* Right Sidebar */}
       {/* Filter Section */}
-      <div className="rounded-lg px-4 py-3 border border-gray-200 space-y-2">
+      <div className="rounded-2xl px-4 py-3 border border-gray-200 space-y-2">
         <div className="flex items-center justify-between">
           <h3 className="font-semibold text-gray-900 text-sm">Suggestions</h3>
           <button className="cursor-pointer text-gray-400 text-xs">⚙️</button>
@@ -26,7 +26,7 @@ export default function RightSidebar() {
       </div>
 
       {/* Suggested Section */}
-      <div className="flex gap-2 p-2 border border-gray-200 rounded-lg">
+      <div className="flex gap-2 p-2 border border-gray-200 rounded-2xl">
         <div className="space-y-2">
           {suggestedUsers.map((user, index) => (
             <div
@@ -62,7 +62,7 @@ export default function RightSidebar() {
       </div>
 
       {/* Stats Section */}
-      <div className="bg-white rounded-lg p-4 border border-gray-200">
+      <div className="bg-white rounded-2xl p-4 border border-gray-200">
         <h3 className="font-semibold text-gray-900 text-sm mb-3">Stats</h3>
         <div className="grid grid-cols-2 gap-3">
           <div className="text-center p-2 bg-gray-50 rounded-md">
@@ -84,7 +84,7 @@ export default function RightSidebar() {
         </div>
       </div>
       {/* Account Reach Thermometer */}
-      <div className="bg-white rounded-lg p-4 border border-gray-200 hidden 2xl:block">
+      <div className="bg-white rounded-2xl p-4 border border-gray-200 hidden 2xl:block">
         <h3 className="font-semibold text-gray-900 text-sm mb-3">Reach</h3>
         {/* Progress Bar */}
         <div className="mt-4">

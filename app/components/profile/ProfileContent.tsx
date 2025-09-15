@@ -120,10 +120,10 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
                         className="relative"
                         key={index}>
                         {/* Timeline Dot */}
-                        <div className="absolute left-8 w-4 h-4 top-2 bg-white border-4 border-red-500 rounded-full z-10 shadow-lg"></div>
+                        <div className="absolute left-[37px] w-2 h-2 top-[15px] bg-white border-3 border-red-500 rounded-full z-10 shadow-lg"></div>
                         {/* Time Badge */}
                         <div className="absolute left-0 top-5 w-20 text-center">
-                          <div className="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-lg shadow-md">{post.time}</div>
+                          <div className="bg-red-500 text-white text-xs font-medium  px-2 py-1 rounded-xl shadow-md">{post.time}</div>
                         </div>
                         {/* Post Content */}
                         <div className="ml-24 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl border border-gray-200 hover:shadow-sm  hover:border-gray-300 transition-all duration-300  group">
@@ -137,7 +137,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
 
                     {/* More Posts Indicator */}
                     <div className="relative hidden xl:block">
-                      <div className="absolute left-8 w-4 h-4 bg-white border-4 border-red-50 rounded-full z-10"></div>
+                      <div className="absolute left-[37px] w-2 h-2 bg-white border-3 border-red-50 rounded-full z-10"></div>
                       <div className="text-center text-gray-500 text-sm py-2">...</div>
                     </div>
                   </div>

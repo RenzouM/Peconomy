@@ -81,26 +81,6 @@ export default function ProfileSidebar() {
               </svg>
             </span>
           </button>
-          {/* Cart Button */}
-          <button
-            onClick={() => setIsCartOpen(true)}
-            className="relative p-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-xl transition-all duration-300 cursor-pointer group">
-            <span className="text-xl group-hover:scale-110 transition-transform">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round">
-                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
-              </svg>
-            </span>
-            {cartItems.length > 0 && <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{cartItems.reduce((total, item) => total + item.quantity, 0)}</span>}
-          </button>
         </div>
       </div>
 
@@ -138,10 +118,16 @@ export default function ProfileSidebar() {
           </Link>
 
           {/* Expandable Action Buttons - Absolute Position */}
-          <div className={`absolute bg-white rounded-2xl bottom-20 left-0 right-0 mb-2 space-y-2 transition-all duration-500 ease-in-out ${showActionButtons ? "opacity-100 transform translate-y-0 pointer-events-auto" : "opacity-0 transform translate-y-2 pointer-events-none"}`}>
+          <div className={`absolute bg-white rounded-2xl bottom-19 left-0 right-0 mb-2 space-y-2 transition-all duration-500 ease-in-out ${showActionButtons ? "opacity-100 transform translate-y-0 pointer-events-auto" : "opacity-0 transform translate-y-2 pointer-events-none"}`}>
             <button className="w-full bg-gradient-to-r from-blue-800 to-blue-700 text-white py-3 px-6 rounded-xl font-semibold text-sm flex items-center justify-center space-x-2 hover:from-blue-700 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer">
               <span>My Profile</span>
               <span>⚙️</span>
+            </button>
+            {/* Cart Button */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="w-full bg-gradient-to-r from-blue-800 to-blue-700 text-white py-3 px-6 rounded-xl font-semibold text-sm flex items-center justify-center space-x-2 hover:from-blue-700 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer">
+              Cart 🛒
             </button>
             <button className="w-full bg-gradient-to-r from-green-800 to-green-700 text-white py-3 px-6 rounded-xl font-semibold text-sm flex items-center justify-center space-x-2 hover:from-green-700 hover:to-green-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer">
               <span>Touch</span>

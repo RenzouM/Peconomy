@@ -1,12 +1,16 @@
 "use client";
 
+import React from "react";
+
+type TabId = "private" | "public" | "defi" | "metrics" | "dashboard";
+
 interface VaultTabsProps {
-  activeTab: string;
-  onTabChange: (tab: string) => void;
+  activeTab: TabId;
+  onTabChange: (tab: TabId) => void;
 }
 
 export default function VaultTabs({ activeTab, onTabChange }: VaultTabsProps) {
-  const tabs = [
+  const tabs: { id: TabId; label: string; icon: React.JSX.Element }[] = [
     {
       id: "private",
       label: "Private Vault",

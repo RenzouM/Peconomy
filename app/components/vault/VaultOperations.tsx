@@ -3,6 +3,7 @@
 import { usePrivy, useWallets, useSignMessage } from "@privy-io/react-auth";
 import { useState } from "react";
 import { createWalletClient, custom, type Hex, type WalletClient } from "viem";
+import Image from "next/image";
 import { peconomyNetwork } from "../../config/network";
 import { deposit } from "../../utils/06_deposit";
 import { checkBalance } from "../../utils/08_check_balance";
@@ -11,14 +12,16 @@ import { withdraw } from "../../utils/09_withdraw";
 import { register } from "../../utils/03_register-user";
 import { faucet } from "../../utils/05_get_faucet";
 
+type VaultAction = "swap" | "decrypt" | "transfer" | "encrypt" | "buy";
+
 interface VaultOperationsProps {
-  activeTab: string;
-  vaultActiveTabAction: string;
-  onVaultTabActionChange: (action: string) => void;
+  activeTab: "private" | "public" | "defi" | "metrics" | "dashboard";
+  vaultActiveTabAction: VaultAction;
+  onVaultTabActionChange: (action: VaultAction) => void;
 }
 
 export default function VaultOperations({ activeTab, vaultActiveTabAction, onVaultTabActionChange }: VaultOperationsProps) {
-  const { authenticated, user } = usePrivy();
+  const { authenticated } = usePrivy();
   const { wallets } = useWallets();
   const { signMessage } = useSignMessage();
   const [error, setError] = useState<string>("");
@@ -352,7 +355,7 @@ Registering user with
                   <div
                     key={index}
                     className="flex flex-col items-center space-y-1 p-2 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
-                    <img
+                    <Image
                       src={asset.icon}
                       alt={asset.name}
                       width={24}
@@ -399,7 +402,7 @@ Registering user with
                   <div className="space-y-2">
                     <div className="bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200">
                       <div className="flex items-center space-x-2">
-                        <img
+                        <Image
                           src="/logo1.png"
                           alt="From"
                           width={32}
@@ -432,7 +435,7 @@ Registering user with
                     </div>
                     <div className="bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-200">
                       <div className="flex items-center space-x-2">
-                        <img
+                        <Image
                           src="/logo.png"
                           alt="To"
                           width={32}
@@ -587,7 +590,7 @@ Registering user with
                   <div
                     key={index}
                     className="flex flex-col items-center space-y-1 p-2 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
-                    <img
+                    <Image
                       src={asset.icon}
                       alt={asset.name}
                       width={24}
