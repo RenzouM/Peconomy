@@ -1,4 +1,4 @@
-import { SocialPlatform, SocialLink, Post, SuggestedUser, SavedUser } from "../types/social";
+import { SocialPlatform, SocialLink, SuggestedUser, SavedUser } from "../types/social";
 import { SOCIAL_PLATFORM_CONFIG } from "../config/socialPlatforms";
 import { SOCIAL_ICONS } from "../components/icons/SocialIcons";
 
@@ -48,15 +48,8 @@ export const createSocialLinks = (): SocialLink[] => [
   },
 ];
 
-export const mockPosts: Post[] = [
-  { time: "Today", content: "All about Avalanche Card!", platform: SocialPlatform.YOUTUBE, icon: "▶️" },
-  { time: "Yesterday", content: "Have you already checked the new Avalanche eERC20? read more...", platform: SocialPlatform.TWITTER, icon: "𝕏" },
-  { time: "2 days ago", content: "Mixing some chill jazz, live now!", platform: SocialPlatform.TWITCH, icon: "🎮" },
-  { time: "3 days ago", content: "Trying Luisito Comunica Mezcal", platform: SocialPlatform.YOUTUBE, icon: "▶️" },
-  { time: "3 days ago", content: "Trying Luisito Comunica Mezcal", platform: SocialPlatform.YOUTUBE, icon: "▶️" },
-  { time: "3 days ago", content: "Trying Luisito Comunica Mezcal", platform: SocialPlatform.YOUTUBE, icon: "▶️" },
-  { time: "3 days ago", content: "Trying Luisito Comunica Mezcal", platform: SocialPlatform.YOUTUBE, icon: "▶️" },
-];
+// Note: Posts are now fetched dynamically from YouTube RSS feed
+// See fetchPosts.ts for the implementation
 
 export const mockSuggestedUsers: SuggestedUser[] = [
   { handle: "@user1", followers: 50000 },

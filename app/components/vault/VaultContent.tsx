@@ -9,8 +9,11 @@ interface VaultContentProps {
 
 export default function VaultContent({ activeTab }: VaultContentProps) {
   return (
-    <div className="w-full flex flex-col">
-      <div className="flex w-full gap-4 text-black items-start">
+    <div className="flex flex-col p-4 min-w-3/5 h-full gap-4">
+      {/* Tabla de transacciones */}
+      <TransactionsTable activeTab={activeTab as "public" | "private"} />
+
+      <div className="flex w-full gap-4 text-black justify-evenly">
         <div className="flex h-full items-center max-w-84 bg-gradient-to-br from-gray-100 to-gray-200 p-4 rounded-3xl gap-4 shadow-xl border border-gray-200 z-50">
           <Image
             src="/corewallet.png"
@@ -44,11 +47,6 @@ export default function VaultContent({ activeTab }: VaultContentProps) {
             <button className="text-gray-100 cursor-pointer rounded-2xl bg-gray-700 px-3 py-1 text-xs">¡Order now!</button>
           </div>
         </div>
-      </div>
-
-      {/* Tabla de transacciones */}
-      <div className="mt-8">
-        <TransactionsTable activeTab={activeTab as "public" | "private"} />
       </div>
     </div>
   );

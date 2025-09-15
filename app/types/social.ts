@@ -27,6 +27,11 @@ export interface Post {
   content: string;
   platform: SocialPlatform;
   icon: string;
+  videoId?: string;
+  author?: string;
+  summary?: string;
+  publishedDate?: string;
+  thumbnailUrl?: string;
 }
 
 // Interface para usuarios sugeridos
