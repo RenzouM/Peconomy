@@ -1,7 +1,9 @@
-import { mockSuggestedUsers } from "../../data/mockData";
+import { mockSuggestedUsers, mockSavedUsers } from "../../data/mockData";
+import Image from "next/image";
 
 export default function RightSidebar() {
   const suggestedUsers = mockSuggestedUsers;
+  const savedUsers = mockSavedUsers;
 
   return (
     <div className="flex flex-col space-y-4 pb-4 overflow-hidden justify-start">
@@ -26,35 +28,63 @@ export default function RightSidebar() {
       </div>
 
       {/* Suggested Section */}
-      <div className="flex gap-2 p-2 border border-gray-200 rounded-2xl">
-        <div className="space-y-2">
-          {suggestedUsers.map((user, index) => (
-            <div
-              key={index}
-              className="flex cursor-default items-center justify-between p-2 hover:bg-gray-50 rounded-lg group">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-medium text-xs">{user.handle.charAt(1).toUpperCase()}</div>
-                <div className="w-24 grid">
-                  <div className="font-medium text-gray-900 text-sm">{user.handle}</div>
-                  <div className="text-xs text-gray-500 flex flex-nowrap overflow-hidden text-ellipsis whitespace-nowrap">{user.followers?.toLocaleString() || "0"} followers</div>
-                  <button className="bg-gray-900 cursor-pointer hover:bg-gray-800 text-white text-xs px-2 py-1 rounded-md">Follow</button>
-                </div>
+      <div className="grid grid-cols-2 gap-2 p-2 border border-gray-200 rounded-2xl space-y-2 items-start">
+        {suggestedUsers.map((user, index) => (
+          <div
+            key={index}
+            className="flex cursor-default items-center justify-between p-2 hover:bg-gray-50 rounded-lg group">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                {user.avatar ? (
+                  <Image
+                    src={user.avatar}
+                    alt={user.handle}
+                    width={32}
+                    height={32}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-medium text-xs">{user.handle.charAt(1).toUpperCase()}</div>
+                )}
+              </div>
+              <div className="w-24 grid">
+                <div className="font-medium text-gray-900 text-sm">{user.handle}</div>
+                <div className="text-xs text-gray-500 flex flex-nowrap overflow-hidden text-ellipsis whitespace-nowrap">{user.followers?.toLocaleString() || "0"} followers</div>
+                <button className="bg-gray-900 cursor-pointer hover:bg-gray-800 text-white text-xs px-2 py-1 rounded-md">Follow</button>
               </div>
             </div>
-          ))}
+          </div>
+        ))}
+      </div>
+
+      {/* Saved Users Section */}
+      <div className="rounded-2xl px-4 py-3 border border-gray-200 space-y-2">
+        <div className="flex items-center justify-between">
+          <h3 className="font-semibold text-gray-900 text-sm">Saved Users</h3>
+          <button className="cursor-pointer text-gray-400 text-xs">⚙️</button>
         </div>
-        <div className="space-y-2">
-          {suggestedUsers.map((user, index) => (
+        <div className="grid grid-cols-2 gap-2 space-y-2 items-start">
+          {savedUsers.map((user, index) => (
             <div
               key={index}
-              className="flex cursor-default items-center justify-between p-2 hover:bg-gray-50 rounded-lg group">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-medium text-xs">{user.handle.charAt(1).toUpperCase()}</div>
-                <div className="w-24 grid">
-                  <div className="font-medium text-gray-900 text-sm">{user.handle}</div>
-                  <div className="text-xs text-gray-500 flex flex-nowrap overflow-hidden text-ellipsis whitespace-nowrap">{user.followers?.toLocaleString() || "0"} followers</div>
-                  <button className="bg-gray-900 cursor-pointer hover:bg-gray-800 text-white text-xs px-2 py-1 rounded-md">Follow</button>
-                </div>
+              className="flex cursor-default items-center justify-between hover:bg-gray-50 rounded-lg group">
+              <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                {user.avatar ? (
+                  <Image
+                    src={user.avatar}
+                    alt={user.handle}
+                    width={32}
+                    height={32}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-medium text-xs">{user.handle.charAt(1).toUpperCase()}</div>
+                )}
+              </div>
+              <div className="w-24 grid">
+                <div className="font-medium text-gray-900 text-sm">{user.handle}</div>
+                <div className="text-xs text-gray-500">{user.lastSeen}</div>
+                <button className="bg-gray-100 cursor-pointer hover:bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-md">View</button>
               </div>
             </div>
           ))}

@@ -235,144 +235,186 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
             {/* Reviews Feed */}
             <div className="space-y-4 overflow-y-auto scrollbar-thin">
               {/* Review Card 1 */}
-              <div className="bg-white p-3 rounded-2xl border border-gray-200 shadow-xs">
-                <div className="flex items-start space-x-3">
-                  <Image
-                    src="/luisito.png"
-                    alt="Luisito Rey"
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <div>
-                        <h3 className="font-semibold text-gray-800 text-sm">Luisito Rey</h3>
-                        <p className="text-xs text-gray-600">Gaming Creator • 2M subscribers</p>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <span className="text-yellow-500 text-sm">★★★★★</span>
-                        <span className="text-xs text-gray-600">5.0</span>
-                      </div>
-                    </div>
-                    <div className="bg-gray-50 p-2 rounded-xl mb-3">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <Image
-                          src="/nft.png"
-                          alt="Product"
-                          width={24}
-                          height={24}
-                        />
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl border border-gray-200 hover:shadow-sm hover:border-gray-300 transition-all duration-300 group">
+                <div className="p-4">
+                  <div className="flex items-start space-x-3">
+                    <Image
+                      src="/granmalo.png"
+                      alt="Luisito Rey"
+                      width={40}
+                      height={40}
+                      className="rounded-full flex-shrink-0"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-3">
                         <div>
-                          <h4 className="font-medium text-gray-800 text-sm">Peconomy NFT Collection</h4>
-                          <p className="text-xs text-gray-600">Sponsored Review</p>
+                          <h3 className="font-semibold text-gray-900 text-sm">Gran Malo</h3>
+                          <p className="text-xs text-gray-600">Premium Mezcal • 1M subscribers</p>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <span className="text-yellow-500 text-sm">★★★★★</span>
+                          <span className="text-xs text-gray-600 font-medium">5.0</span>
                         </div>
                       </div>
-                      <p className="text-gray-700 text-xs">&ldquo;Incredible NFT collection that revolutionizes gaming. The blockchain integration is perfect and the benefits for creators are real. 100% recommended!&rdquo;</p>
-                    </div>
-                    <div className="flex flex-col space-y-2">
-                      <div className="flex items-center space-x-4 text-xs text-gray-600">
-                        <span>📺 15K views</span>
-                        <span>👍 2.3K likes</span>
-                        <span>💬 156 comments</span>
+
+                      <div className="bg-white p-3 rounded-2xl border border-gray-100 mb-3">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Image
+                            src="/mezcalclassic.webp"
+                            alt="Product"
+                            width={24}
+                            height={24}
+                            className="rounded-lg"
+                          />
+                          <div>
+                            <h4 className="font-medium text-gray-900 text-sm">Mezcal Classic</h4>
+                            <p className="text-xs text-gray-500">Sponsored Review</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-700 text-sm leading-relaxed line-clamp-1">&ldquo;Gran Malo Mezcal is a bold and artisanal spirit crafted from hand-selected agave. With a smoky, rich flavor profile and a smooth finish, it embodies the true essence of traditional Mexican craftsmanship.&rdquo;</p>
                       </div>
-                      <button className="w-full px-4 py-2 bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 text-white rounded-lg text-sm font-medium  transition-colors cursor-pointer">Watch Review</button>
+
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4 text-xs text-gray-500">
+                          <span className="flex items-center space-x-1">
+                            <span>📺</span>
+                            <span>15K views</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <span>👍</span>
+                            <span>2.3K likes</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <span>💬</span>
+                            <span>156 comments</span>
+                          </span>
+                        </div>
+                        <button className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-2xl text-sm font-medium transition-colors cursor-pointer group-hover:scale-105 transform">Watch Review</button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Review Card 2 */}
-              <div className="bg-white p-3 rounded-2xl shadow-xs border border-gray-200">
-                <div className="flex items-start space-x-3">
-                  <Image
-                    src="/logo1.png"
-                    alt="Tech Reviewer"
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <div>
-                        <h3 className="font-semibold text-gray-800 text-sm">TechMaster Pro</h3>
-                        <p className="text-xs text-gray-600">Tech Creator • 850K subscribers</p>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <span className="text-yellow-500 text-sm">★★★★☆</span>
-                        <span className="text-xs text-gray-600">4.5</span>
-                      </div>
-                    </div>
-                    <div className="bg-gray-50 p-2 rounded-xl mb-3">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <Image
-                          src="/vault.png"
-                          alt="Product"
-                          width={24}
-                          height={24}
-                        />
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl border border-gray-200 hover:shadow-sm hover:border-gray-300 transition-all duration-300 group">
+                <div className="p-4">
+                  <div className="flex items-start space-x-3">
+                    <Image
+                      src="/avalanche.png"
+                      alt="Tech Reviewer"
+                      width={40}
+                      height={40}
+                      className="rounded-full flex-shrink-0"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-3">
                         <div>
-                          <h4 className="font-medium text-gray-800 text-sm">Peconomy Vault System</h4>
-                          <p className="text-xs text-gray-600">Sponsored Review</p>
+                          <h3 className="font-semibold text-gray-900 text-sm">Avalanche</h3>
+                          <p className="text-xs text-gray-600">Blockchain Ecosystem • 3M subscribers</p>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <span className="text-yellow-500 text-sm">★★★★★</span>
+                          <span className="text-xs text-gray-600 font-medium">5.0</span>
                         </div>
                       </div>
-                      <p className="text-gray-700 text-xs">&ldquo;Peconomy&apos;s vault system is innovative. The privacy and transparency it offers is unique in the market. Perfect for serious investors.&rdquo;</p>
-                    </div>
-                    <div className="flex flex-col space-y-2">
-                      <div className="flex items-center space-x-4 text-xs text-gray-600">
-                        <span>📺 8.2K views</span>
-                        <span>👍 1.1K likes</span>
-                        <span>💬 89 comments</span>
+
+                      <div className="bg-white p-3 rounded-2xl border border-gray-100 mb-3">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Image
+                            src="/avacard.svg"
+                            alt="Product"
+                            width={24}
+                            height={24}
+                            className="rounded-lg"
+                          />
+                          <div>
+                            <h4 className="font-medium text-gray-900 text-sm">Avalanche Card</h4>
+                            <p className="text-xs text-gray-500">Sponsored Review</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-700 text-sm leading-relaxed line-clamp-1">&ldquo;Avalanche is a high-performance, decentralized blockchain platform designed for building and scaling applications and custom blockchain networks. With its fast transaction finality and low fees, Avalanche aims to offer a scalable and secure infrastructure for decentralized finance (DeFi) and digital assets.&rdquo;</p>
                       </div>
-                      <button className="w-full px-4 py-2 bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 text-white rounded-lg text-sm font-medium  transition-colors cursor-pointer">Watch Review</button>
+
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4 text-xs text-gray-500">
+                          <span className="flex items-center space-x-1">
+                            <span>📺</span>
+                            <span>8.2K views</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <span>👍</span>
+                            <span>1.1K likes</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <span>💬</span>
+                            <span>89 comments</span>
+                          </span>
+                        </div>
+                        <button className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-2xl text-sm font-medium transition-colors cursor-pointer group-hover:scale-105 transform">Watch Review</button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Review Card 3 */}
-              <div className="bg-white p-3 rounded-2xl shadow-xs border border-gray-200">
-                <div className="flex items-start space-x-3">
-                  <Image
-                    src="/logo.png"
-                    alt="Crypto Expert"
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <div>
-                        <h3 className="font-semibold text-gray-800 text-sm">CryptoExpert</h3>
-                        <p className="text-xs text-gray-600">Crypto Creator • 1.2M subscribers</p>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <span className="text-yellow-500 text-sm">★★★★★</span>
-                        <span className="text-xs text-gray-600">5.0</span>
-                      </div>
-                    </div>
-                    <div className="bg-gray-50 p-2 rounded-xl mb-3">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <Image
-                          src="/usdc.png"
-                          alt="Product"
-                          width={24}
-                          height={24}
-                        />
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl border border-gray-200 hover:shadow-sm hover:border-gray-300 transition-all duration-300 group">
+                <div className="p-4">
+                  <div className="flex items-start space-x-3">
+                    <Image
+                      src="/offthegrid.png"
+                      alt="Crypto Expert"
+                      width={40}
+                      height={40}
+                      className="rounded-full flex-shrink-0"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-3">
                         <div>
-                          <h4 className="font-medium text-gray-800 text-sm">Peconomy USDC Integration</h4>
-                          <p className="text-xs text-gray-600">Sponsored Review</p>
+                          <h3 className="font-semibold text-gray-900 text-sm">OFF THE GRID</h3>
+                          <p className="text-xs text-gray-600">Web3 Game • 1.2M subscribers</p>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <span className="text-yellow-500 text-sm">★★★★★</span>
+                          <span className="text-xs text-gray-600 font-medium">5.0</span>
                         </div>
                       </div>
-                      <p className="text-gray-700 text-xs">&ldquo;The USDC integration is perfect. Fast transactions, low fees and total transparency. Peconomy is changing the DeFi game.&rdquo;</p>
-                    </div>
-                    <div className="flex flex-col space-y-2">
-                      <div className="flex items-center space-x-4 text-xs text-gray-600">
-                        <span>📺 12.7K views</span>
-                        <span>👍 1.8K likes</span>
-                        <span>💬 203 comments</span>
+
+                      <div className="bg-white p-3 rounded-2xl border border-gray-100 mb-3">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Image
+                            src="/offthegridnft.png"
+                            alt="Product"
+                            width={24}
+                            height={24}
+                            className="rounded-lg"
+                          />
+                          <div>
+                            <h4 className="font-medium text-gray-900 text-sm">NFT Marketplace</h4>
+                            <p className="text-xs text-gray-500">Sponsored Review</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-700 text-sm leading-relaxed line-clamp-1">&ldquo;Off the Grid NFT marketplace is the exclusive hub for trading unique in-game assets from the thrilling Web3 game. Players can buy, sell, and trade NFTs that represent rare items, characters, and land, enhancing their gaming experience in a fully decentralized world.&rdquo;</p>
                       </div>
-                      <button className="w-full px-4 py-2 bg-gradient-to-r from-red-400 to-red-500 hover:from-red-500 hover:to-red-600 text-white rounded-lg text-sm font-medium  transition-colors cursor-pointer">Watch Review</button>
+
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4 text-xs text-gray-500">
+                          <span className="flex items-center space-x-1">
+                            <span>📺</span>
+                            <span>12.7K views</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <span>👍</span>
+                            <span>1.8K likes</span>
+                          </span>
+                          <span className="flex items-center space-x-1">
+                            <span>💬</span>
+                            <span>203 comments</span>
+                          </span>
+                        </div>
+                        <button className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-2xl text-sm font-medium transition-colors cursor-pointer group-hover:scale-105 transform">Watch Review</button>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -152,7 +152,7 @@ export default function ProductCard({ product, onAddToCart, onViewDetails }: Pro
         {/* Add to Cart Button */}
         <button
           onClick={() => onAddToCart?.(product)}
-          className="w-full bg-gradient-to-r from-red-400 to-red-500 text-white py-2 px-4 rounded-xl font-medium text-sm hover:from-red-500 hover:to-red-600 transition-all duration-300 transform hover:scale-105">
+          className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-xl font-medium text-sm transition-all duration-300 transform hover:scale-105">
           Add to Cart
         </button>
       </div>

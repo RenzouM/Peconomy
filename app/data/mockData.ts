@@ -52,14 +52,39 @@ export const createSocialLinks = (): SocialLink[] => [
 // See fetchPosts.ts for the implementation
 
 export const mockSuggestedUsers: SuggestedUser[] = [
-  { handle: "@user1", followers: 50000 },
-  { handle: "@user2", followers: 120000 },
-  { handle: "@user3", followers: 75000 },
+  {
+    handle: "@sarah_tech",
+    followers: 120000,
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
+  },
+  {
+    handle: "@mike_crypto",
+    followers: 75000,
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+  },
+  {
+    handle: "@luna_gaming",
+    followers: 89000,
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+  },
+  {
+    handle: "@diego_music",
+    followers: 45000,
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+  },
 ];
 
 export const mockSavedUsers: SavedUser[] = [
-  { handle: "@user5", lastSeen: "2 hours ago" },
-  { handle: "@user6", lastSeen: "1 day ago" },
+  {
+    handle: "@0xjamesbond",
+    lastSeen: "1 day ago",
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face",
+  },
+  {
+    handle: "@sophia_cards",
+    lastSeen: "3 hours ago",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
+  },
 ];
 
 // Product types for marketplace
@@ -91,9 +116,9 @@ export const mockProducts: Product[] = [
     id: "1",
     name: "Peconomy NFT Collection #1",
     description: "Exclusive digital art collection featuring unique blockchain-based artwork",
-    price: 0.5,
+    price: 1,
     originalPrice: 0.8,
-    currency: "ETH",
+    currency: "PECO",
     image: "/peconft.png",
     category: "NFTs",
     rating: 4.9,
@@ -113,7 +138,7 @@ export const mockProducts: Product[] = [
     id: "2",
     name: "Peconomy Vault Access",
     description: "Premium access to the Peconomy vault system with advanced features",
-    price: 99,
+    price: 50,
     currency: "PECO",
     image: "/vault.png",
     category: "Services",
@@ -132,12 +157,12 @@ export const mockProducts: Product[] = [
     id: "3",
     name: "Avalanche Card Premium",
     description: "Exclusive Avalanche card with special benefits and rewards",
-    price: 25,
-    originalPrice: 35,
+    price: 0,
+    originalPrice: 1,
     currency: "PECO",
     image: "/card.png",
     category: "Cards",
-    rating: 4.7,
+    rating: 5,
     reviewCount: 203,
     isOnSale: true,
     stock: 12,
@@ -152,7 +177,7 @@ export const mockProducts: Product[] = [
     id: "4",
     name: "Crypto Trading Course",
     description: "Complete course on cryptocurrency trading and DeFi strategies",
-    price: 149,
+    price: 150,
     currency: "PECO",
     image: "/entrada.png",
     category: "Education",
