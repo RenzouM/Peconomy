@@ -158,7 +158,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
                       <div className="ml-24 p-2 bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl border border-gray-200 hover:shadow-sm hover:border-gray-300 transition-all duration-300 group flex items-center space-x-3">
                         {/* Thumbnail */}
                         {post.thumbnailUrl && (
-                          <div className="flex-shrink-0 items-center justify-center hidden xl:block">
+                          <div className="flex-shrink-0 items-center justify-center hidden xl:block group-hover:scale-160 z-50 transition-all duration-300">
                             <Image
                               src={post.thumbnailUrl}
                               alt={post.content}
@@ -211,19 +211,19 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
 
         {/* Reviews Tab Content - Mobile */}
         {activeTab === "REVIEWS" && (
-          <div className="grid w-full h-full gap-6">
+          <div className="grid w-full h-full gap-4">
             {/* Filter Bar */}
-            <div className="bg-white p-3 rounded-2xl shadow-xs border border-gray-200">
-              <div className="flex justify-between">
+            <div className="bg-white p-2 rounded-2xl shadow-xs border border-gray-200">
+              <div className="flex justify-between h-9">
                 <div className="flex space-x-2 overflow-x-auto">
-                  <button className="px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-medium whitespace-nowrap">All Reviews</button>
-                  <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Gaming</button>
-                  <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Tech</button>
-                  <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Lifestyle</button>
+                  <button className="px-4 bg-red-500 text-white rounded-lg text-sm font-medium whitespace-nowrap">All Reviews</button>
+                  <button className="px-4 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Gaming</button>
+                  <button className="px-4 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Tech</button>
+                  <button className="px-4 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 whitespace-nowrap">Lifestyle</button>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600"></span>
-                  <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                  <select className="px-3 h-full border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     <option>Latest</option>
                     <option>Popularity</option>
                     <option>Rating</option>
@@ -268,7 +268,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
                           />
                           <div>
                             <h4 className="font-medium text-gray-900 text-sm">Mezcal Classic</h4>
-                            <p className="text-xs text-gray-500">Sponsored Review</p>
+                            <p className="text-xs text-gray-500">Personal Brand</p>
                           </div>
                         </div>
                         <p className="text-gray-700 text-sm leading-relaxed line-clamp-1">&ldquo;Gran Malo Mezcal is a bold and artisanal spirit crafted from hand-selected agave. With a smoky, rich flavor profile and a smooth finish, it embodies the true essence of traditional Mexican craftsmanship.&rdquo;</p>
@@ -424,7 +424,7 @@ export default function ProfileContent({ activeTab }: ProfileContentProps) {
         )}
 
         {activeTab === "SHOP" && (
-          <div className="grid w-full h-full gap-6">
+          <div className="grid w-full h-full gap-4">
             {/* Desktop Shop Layout */}
             <div className="hidden md:block">
               {/* Search and Filter */}

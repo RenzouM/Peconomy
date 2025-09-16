@@ -23,55 +23,55 @@ interface TransactionsTableProps {
 const mockTransactions: Transaction[] = [
   {
     id: "1",
-    date: "2024-01-15",
+    date: "2025-09-15",
     time: "14:30:25",
     recipient: "0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6",
-    amount: "1,250.50",
-    token: "USDC",
+    amount: "?",
+    token: "ePECO",
     description: "Payment for sponsored review - Gaming Headset",
     status: "completed",
     isEncrypted: true,
   },
   {
     id: "2",
-    date: "2024-01-14",
+    date: "2025-09-14",
     time: "09:15:42",
     recipient: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
-    amount: "500.00",
-    token: "AVAX",
+    amount: "?",
+    token: "ePECO",
     description: "Referral commission - New user registration",
     status: "completed",
     isEncrypted: true,
   },
   {
     id: "3",
-    date: "2024-01-13",
+    date: "2025-09-13",
     time: "16:45:18",
     recipient: "0x1234567890123456789012345678901234567890",
-    amount: "2,100.75",
-    token: "USDC",
+    amount: "?",
+    token: "ePECO",
     description: "Shop commission - Product sales",
     status: "pending",
     isEncrypted: true,
   },
   {
     id: "4",
-    date: "2024-01-12",
+    date: "2025-08-12",
     time: "11:20:33",
     recipient: "0x9876543210987654321098765432109876543210",
-    amount: "750.25",
-    token: "AVAX",
+    amount: "5",
+    token: "ePECO",
     description: "Ad slot rental payment",
     status: "completed",
     isEncrypted: false,
   },
   {
     id: "5",
-    date: "2024-01-13",
+    date: "2025-08-13",
     time: "12:20:33",
     recipient: "0x2876543210987654321098765432109876543210",
-    amount: "150.25",
-    token: "AVAX",
+    amount: "5",
+    token: "ePECO",
     description: "Ad slot rental payment",
     status: "completed",
     isEncrypted: false,
@@ -115,8 +115,8 @@ export default function TransactionsTable({ activeTab }: TransactionsTableProps)
 
   const getTokenIcon = (token: string) => {
     switch (token) {
-      case "USDC":
-        return "/usdc.png";
+      case "ePECO":
+        return "/logo.png";
       case "AVAX":
         return "/avacard.svg";
       default:
@@ -205,7 +205,7 @@ export default function TransactionsTable({ activeTab }: TransactionsTableProps)
                   </td>
 
                   <td className="px-6 py-4">
-                    <div className="text-xs text-gray-900 max-w-xs">{activeTab === "public" || revealedTransactions.has(transaction.id) ? transaction.description : "🔒 Encrypted transaction"}</div>
+                    <div className="text-xs text-gray-900 max-w-xs">{activeTab === "public" || !transaction.isEncrypted ? transaction.description : "🔒 Encrypted transaction"}</div>
                   </td>
 
                   <td className="px-6 py-4 whitespace-nowrap">

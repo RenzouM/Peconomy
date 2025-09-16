@@ -24,10 +24,10 @@ export default function SearchAndFilter({ searchQuery, onSearchChange, selectedC
   return (
     <div className="bg-white rounded-2xl shadow-xs border border-gray-200 p-2 text-black">
       {/* Filter Toggle and Sort */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-between">
+      <div className="flex flex-col sm:flex-row gap-4 justify-end h-9">
         <button
           onClick={onToggleFilters}
-          className="flex cursor-pointer items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors">
+          className="flex cursor-pointer items-center space-x-2 me-auto px-4 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors">
           <svg
             className="w-5 h-5"
             fill="none"
@@ -65,7 +65,7 @@ export default function SearchAndFilter({ searchQuery, onSearchChange, selectedC
             placeholder="Search products..."
             value={searchQuery}
             onChange={e => onSearchChange(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-300"
+            className="w-full pl-10 pr-4 h-full border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-300"
           />
         </div>
 
@@ -73,7 +73,7 @@ export default function SearchAndFilter({ searchQuery, onSearchChange, selectedC
           <select
             value={sortBy}
             onChange={e => onSortChange(e.target.value)}
-            className="w-40 cursor-pointer text-sm px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none h-full">
+            className="w-40 cursor-pointer text-sm px-4  border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
             {sortOptions.map(option => (
               <option
                 key={option.value}
@@ -87,7 +87,7 @@ export default function SearchAndFilter({ searchQuery, onSearchChange, selectedC
 
       {/* Advanced Filters */}
       {showFilters && (
-        <div className="border-t border-gray-200 pt-4 space-y-4">
+        <div className="border-t border-gray-200 pt-3 mt-3 space-y-4">
           {/* Category Filters */}
           <div className="flex flex-wrap gap-2">
             {categories.map(category => (
