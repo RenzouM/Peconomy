@@ -3,13 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { createSocialLinks, Product } from "../../data/mockData";
+import { createSocialLinks } from "../../data/mockData";
 import { sortSocialLinksByFollowers } from "../../utils/formatters";
 import SocialLinksList from "../social/SocialLinksList";
 
 export default function ProfileSidebar() {
   const [showActionButtons, setShowActionButtons] = useState(false);
-  const [cartItems] = useState<{ product: Product; quantity: number }[]>([]);
   const [, setIsCartOpen] = useState(false);
 
   const socialLinks = createSocialLinks();

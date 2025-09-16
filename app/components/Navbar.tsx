@@ -3,8 +3,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 
+interface Session {
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+  };
+}
+
 interface NavbarProps {
-  session: any;
+  session: Session | null;
   signInAction: () => Promise<void>;
   signOutAction: () => Promise<void>;
 }
